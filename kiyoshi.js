@@ -3,7 +3,7 @@ STATS = ['speed', 'lean_mass']
 
 function Plane(attributes) {
     this.width = attributes.width
-    this.height = attributes.width
+    this.height = attributes.height
     this.squares = {}
     for (var x = 0; x < this.width; x++) {
         for (var y = 0; y < this.height; y++) {
@@ -112,6 +112,7 @@ function Being(attributes) {
 
     // highly mutable attributes
     this.square = attributes.square
+    this.inventory = new Plane({width: 2, height: 9})
 
     // setup
     this.span = document.createElement('span')
@@ -185,7 +186,29 @@ function Coordinate(attributes) {
     }
 }
 
-function Viewport(attributes) {
+function PlaneViewport(attributes) {
+    this.plane = attributes.plane
+    this.name = ('' + Math.random()).substring(3)
+    for (var y = 0; y < this.plane.height; y++) {
+        var row = $("<div />").addClass("row")
+        $("#inventory").append(row)
+        for (var x = 0; x < this.plane.width; x++) {
+            row.append($("<span />").addClass("cell").attr("id", "_" + this.name + "_" + x + "_" + y))
+        }
+    }
+    this.render = function() {
+        for (var x = 0; x < this.plane.width; x++) {
+            for (var y = 0; y < this.plane.height; y++) {
+                var square = this.plane.square(new Coordinate({x: x, y: y}))
+                $('#_' + this.name + '_' + x + '_' + y).html('').append(square.span)
+                console.log('appended some square')
+            }
+        }
+    }
+    this.render()
+}
+
+function PlayerViewport(attributes) {
     this.being = attributes.being
     $("#name").text('Peter')
     $("#title").text(this.being.species.name).addClass(this.being.species.name)
@@ -207,7 +230,6 @@ function Viewport(attributes) {
     this.right = 4
     this.top = -4
     this.bottom = 4
-    this.cells = {}
     for (var y = this.top; y <= this.bottom; y++) {
         var row = $("<div />").addClass("row")
         $("#viewport").append(row)
@@ -293,7 +315,8 @@ initialize = function() {
         )
     })
     player.controllers.push(new Controller({being: player}))
-    player.viewports.push(new Viewport({being: player, container: document.getElementById('viewport')}))
+    player.viewports.push(new PlayerViewport({being: player}))
+    new PlaneViewport({plane: player.inventory})
     var timeline = new Timeline({start_time: 0, agents: [player, jimmy]})
     timeline.simulate()
 }
