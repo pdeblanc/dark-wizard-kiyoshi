@@ -69,12 +69,12 @@ function Square(attributes) {
     }
 }
 
-function biome(attributes) {
+function Biome(attributes) {
     this.name = attributes.name
     this.symbol = attributes.symbol
 }
 
-function being(attributes) {
+function Being(attributes) {
     this.species = universe.species.human
     this.symbol = this.species.symbol
     this.div = document.createElement('div')
@@ -114,7 +114,7 @@ function being(attributes) {
     }
 }
 
-function species(attributes) {
+function Species(attributes) {
     this.name = attributes.name
     this.symbol = attributes.symbol
 }
@@ -133,7 +133,7 @@ function Coordinate(attributes) {
     }
 }
 
-function viewport(attributes) {
+function Viewport(attributes) {
     this.being = attributes.being
     this.container = attributes.container
     this.being.div.className += ' player'
@@ -167,7 +167,7 @@ function viewport(attributes) {
     }
 }
 
-function controller(attributes) {
+function Controller(attributes) {
     this.being = attributes.being;
     this.commands = []
     this.command_callbacks = []
@@ -205,15 +205,15 @@ function controller(attributes) {
 
 universe = {
     biomes: {
-        grass: new biome({name: 'grass', symbol: '草'}),
-        void: new biome({name: 'void', symbol: '無'})
+        grass: new Biome({name: 'grass', symbol: '草'}),
+        void: new Biome({name: 'void', symbol: '無'})
     },
-    species: {human: new species({name: 'human', symbol: '人'})}
+    species: {human: new Species({name: 'human', symbol: '人'})}
 }
 
 initialize = function() {
     var plane = new Plane()
-    var player = new being({
+    var player = new Being({
         species: universe.species.human,
         square: plane.square(
             new Coordinate({
@@ -222,8 +222,8 @@ initialize = function() {
             })
         )
     })
-    player.controllers.push(new controller({being: player}))
-    player.viewports.push(new viewport({being: player, container: document.getElementById('container')}))
+    player.controllers.push(new Controller({being: player}))
+    player.viewports.push(new Viewport({being: player, container: document.getElementById('container')}))
     var timeline = new Timeline({agents: [player]})
     timeline.simulate()
 }
