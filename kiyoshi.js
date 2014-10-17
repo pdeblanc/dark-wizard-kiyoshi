@@ -4,13 +4,13 @@ function Plane(attributes) {
     this.squares = {}
     for (var x = 0; x < this.width; x++) {
         for (var y = 0; y < this.height; y++) {
-            this.squares[('_' + x) + y] = new Square({biome: universe.biomes.grass, plane: this, coordinate: new Coordinate({x: x, y: y})})
+            this.squares['_' + x + '_' + y] = new Square({biome: universe.biomes.grass, plane: this, coordinate: new Coordinate({x: x, y: y})})
         }
     }
     this.square = function(coordinate) {
         if (coordinate.x < 0 || coordinate.y < 0 || coordinate.x >= this.width || coordinate.y >= this.height)
             return new Square({biome: universe.biomes.void, plane: this, coordinate: coordinate})
-        return this.squares[('_' + coordinate.x) + coordinate.y]
+        return this.squares['_' + coordinate.x + '_' + coordinate.y]
     }
 }
 
@@ -150,7 +150,7 @@ function Viewport(attributes) {
             var cell = document.createElement('div')
             cell.className = 'cell'
             row.appendChild(cell)
-            this.cells[('_' + x) + y] = cell
+            this.cells['_' + x + '_' + y] = cell
         }
     }
     this.render = function() {
@@ -159,7 +159,7 @@ function Viewport(attributes) {
         for (var x = this.left; x <= this.right; x++) {
             for (var y = this.top; y <= this.bottom; y++) {
                 var square = plane.square(new Coordinate({x: origin.coordinate.x + x, y: origin.coordinate.y + y}))
-                var cell = this.cells[('_' + x) + y]
+                var cell = this.cells['_' + x + '_' + y]
                 cell.innerHTML = ''
                 cell.appendChild(square.div)
             }
