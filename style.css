@@ -1,0 +1,52 @@
+body {
+    background-color: black;
+    text-align: center;
+}
+
+#container {
+    display: inline-block;
+}
+
+.row {
+    margin-bottom: 0;
+    height: 48px;
+    vertical-align: top;
+    background-color: white;
+}
+
+.cell {
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    font-size: 26pt;
+    text-align: center;
+    cursor: pointer;
+}
+
+.cell:hover {
+    opacity: 0.95;
+    outline: 1px dashed rgba(255, 255, 255, 0.5);
+}
+
+.biome {
+    width: 100%;
+    height: 100%;
+}
+
+.grass {
+    background: #002000;
+    color: #005000;
+}
+
+.void {
+    background: black;
+    color: #500050;
+}
+
+.human {
+    color: #00ff00;
+}
+
+.player {
+    text-shadow: -1px -1px 0px white, 1px 1px 0px black;
+}
