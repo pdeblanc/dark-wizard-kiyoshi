@@ -1,3 +1,5 @@
+STATS = ['speed']
+
 function Plane(attributes) {
     this.width = attributes.width
     this.height = attributes.width
@@ -22,15 +24,16 @@ function Timeline(attributes) {
     this.agents = attributes.agents
     this.queue = new PriorityQueue({comparator: function(a, b) { return a.next_action_time - b.next_action_time }})
     for (var i = 0; i < this.agents.length; i++) {
-        this.agents[i].next_action_time = this.time + Math.random()
+        this.agents[i].next_action_time = this.time + Math.random() * 10 / this.agents[i].speed
         this.queue.queue(this.agents[i])
     }
     this.simulate = function() {
+        console.log(this.time)
         var agent = this.queue.dequeue()
         this.time = agent.next_action_time
         var obj = this
         agent.act(function() {
-            agent.next_action_time = obj.time + Math.random()
+            agent.next_action_time = obj.time + 10 / agent.speed
             obj.queue.queue(agent)
             obj.simulate()
         })
@@ -93,10 +96,19 @@ function Being(attributes) {
         this.symbol = this.species.symbol
         this.span.className = this.species.name
         this.span.textContent = this.symbol
+        for (var i = 0; i < STATS.length; i++) {
+            var stat = STATS[i]
+            this[stat] = 10
+            for (var j = 0; j < this.aspects.length; j++) {
+                this[stat] *= (this.aspects[j][stat] || 1)
+            }
+        }
     }
 
     // basic attributes
     this.species = attributes.species
+    this.aspects = [this.species]
+    this.aspects.push.apply(attributes.aspects || [])
 
     // highly mutable attributes
     this.square = attributes.square
