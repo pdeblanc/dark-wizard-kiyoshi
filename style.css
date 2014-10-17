@@ -1,18 +1,22 @@
 body {
     background-color: black;
+    color: silver;
     text-align: center;
 }
 
-#profile {
+.panel {
     vertical-align: top;
-    text-align: left;
     display: inline-block;
-    color: silver;
-    font-family: monospace;
 }
 
-#container {
-    display: inline-block;
+#inventory {
+    font-family: monospace;
+    text-align: left;
+}
+
+#profile {
+    text-align: left;
+    font-family: monospace;
 }
 
 #name {
