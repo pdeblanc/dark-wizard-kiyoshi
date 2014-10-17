@@ -76,11 +76,15 @@ function Square(attributes) {
         this.span.innerHTML = ''
         this.span.appendChild(newcomer.span)
     }
+    this.permit_entry = function(hopeful) {
+        return this.biome.passable
+    }
 }
 
 function Biome(attributes) {
     this.name = attributes.name
     this.symbol = attributes.symbol
+    this.passable = ('passable' in attributes) ? attributes.passable : 1;
 }
 
 function Being(attributes) {
@@ -125,16 +129,25 @@ function Being(attributes) {
     this.act = function(callback) {
         this.notify()
         var obj = this
-        this.controllers[0].set_callback(function(command) {
-            obj.execute_command(command)
-            callback() 
-        })
+        if (this.controllers.length > 0) {
+            this.controllers[0].set_callback(function(command) {
+                obj.execute_command(command)
+                callback() 
+            })
+        }
+        else {
+            var actions = ['north', 'south', 'west', 'east']
+            this.execute_command(actions[Math.floor(Math.random() * 4)])
+            callback()
+        }
     }
 
     this.moveto = function(square) {
-        this.square.exit(this)
-        this.square = square
-        this.square.enter(this)
+        if (square.permit_entry(this)) {
+            this.square.exit(this)
+            this.square = square
+            this.square.enter(this)
+        }
     }
 }
 
@@ -230,8 +243,8 @@ function Controller(attributes) {
 universe = {
     biomes: {
         grass: new Biome({name: 'grass', symbol: '草'}),
-        water: new Biome({name: 'water', symbol: '水'}),
-        void: new Biome({name: 'void', symbol: '無'})
+        water: new Biome({name: 'water', symbol: '水', passable: 0}),
+        void: new Biome({name: 'void', symbol: '無', passable: 0})
     },
     species: {human: new Species({name: 'human', symbol: '人'})}
 }
@@ -247,8 +260,17 @@ initialize = function() {
             })
         )
     })
+    var jimmy = new Being({
+        species: universe.species.human,
+        square: plane.square(
+            new Coordinate({
+                x: 6,
+                y: 6
+            })
+        )
+    })
     player.controllers.push(new Controller({being: player}))
     player.viewports.push(new Viewport({being: player, container: document.getElementById('container')}))
-    var timeline = new Timeline({start_time: 0, agents: [player]})
+    var timeline = new Timeline({start_time: 0, agents: [player, jimmy]})
     timeline.simulate()
 }
