@@ -1,4 +1,5 @@
-STATS = ['speed']
+PUBLIC_STATS = ['speed']
+STATS = ['speed', 'lean_mass']
 
 function Plane(attributes) {
     this.width = attributes.width
@@ -28,7 +29,6 @@ function Timeline(attributes) {
         this.queue.queue(this.agents[i])
     }
     this.simulate = function() {
-        console.log(this.time)
         var agent = this.queue.dequeue()
         this.time = agent.next_action_time
         var obj = this
@@ -80,7 +80,7 @@ function Square(attributes) {
         this.span.appendChild(newcomer.span)
     }
     this.permit_entry = function(hopeful) {
-        return this.biome.passable
+        return this.biome.passable && (this.contents.length == 0)
     }
 }
 
@@ -164,8 +164,11 @@ function Being(attributes) {
 }
 
 function Species(attributes) {
-    this.name = attributes.name
-    this.symbol = attributes.symbol
+    this.name = 'being'
+    this.symbol = '居'
+    for (key in attributes) {
+        this[key] = attributes[key]
+    }
 }
 
 function Coordinate(attributes) {
@@ -188,14 +191,14 @@ function Viewport(attributes) {
     document.getElementById('title').textContent = this.being.species.name;
     document.getElementById('title').className = this.being.species.name;
     var stats_div = document.getElementById('stats')
-    for (var i = 0; i < STATS.length; i++) {
+    for (var i = 0; i < PUBLIC_STATS.length; i++) {
         var stat_div = document.createElement('div')
         var stat_label = document.createElement('span')
-        stat_label.textContent = STATS[i] + ': '
+        stat_label.textContent = PUBLIC_STATS[i] + ': '
         var stat_value = document.createElement('span')
         stat_value.className = 'stat-value'
-        stat_value.id = STATS[i]
-        stat_value.textContent = this.being[STATS[i]]
+        stat_value.id = PUBLIC_STATS[i]
+        stat_value.textContent = this.being[PUBLIC_STATS[i]]
         stat_div.appendChild(stat_label)
         stat_div.appendChild(stat_value)
         stats_div.appendChild(stat_div)
@@ -274,7 +277,7 @@ universe = {
         water: new Biome({name: 'water', symbol: '水', passable: 0}),
         void: new Biome({name: 'void', symbol: '無', passable: 0})
     },
-    species: {human: new Species({name: 'human', symbol: '人'})}
+    species: {human: new Species({name: 'human', symbol: '人', lean_mass: 10})}
 }
 
 initialize = function() {
@@ -302,3 +305,4 @@ initialize = function() {
     var timeline = new Timeline({start_time: 0, agents: [player, jimmy]})
     timeline.simulate()
 }
+
