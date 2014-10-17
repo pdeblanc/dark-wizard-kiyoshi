@@ -4,7 +4,10 @@ function Plane(attributes) {
     this.squares = {}
     for (var x = 0; x < this.width; x++) {
         for (var y = 0; y < this.height; y++) {
-            this.squares['_' + x + '_' + y] = new Square({biome: universe.biomes.grass, plane: this, coordinate: new Coordinate({x: x, y: y})})
+            var biome = universe.biomes.grass;
+            if (Math.random() < .2)
+                biome = universe.biomes.water
+            this.squares['_' + x + '_' + y] = new Square({biome: biome, plane: this, coordinate: new Coordinate({x: x, y: y})})
         }
     }
     this.square = function(coordinate) {
@@ -81,20 +84,33 @@ function Biome(attributes) {
 }
 
 function Being(attributes) {
-    this.species = universe.species.human
-    this.symbol = this.species.symbol
-    this.span = document.createElement('span')
-    this.span.className = this.species.name
-    this.span.textContent = this.symbol
+    this.compile_attributes = function() {
+        // appearance
+        this.symbol = this.species.symbol
+        this.span.className = this.species.name
+        this.span.textContent = this.symbol
+    }
+
+    // basic attributes
+    this.species = attributes.species
+
+    // highly mutable attributes
     this.square = attributes.square
-    this.square.contents.push(this)
-    this.square.span.innerHTML = ''
-    this.square.span.appendChild(this.span)
+
+    // setup
+    this.span = document.createElement('span')
+    this.square.enter(this)
     this.viewports = []
     this.controllers = []
+
+    // compile attributes
+    this.compile_attributes()
+
+    // methods
     this.notify = function() {
         this.viewports.forEach(function(viewport) {viewport.render()})
     }
+
     this.execute_command = function(command) {
         if (command == 'north')
             this.moveto(this.square.north())
@@ -105,6 +121,7 @@ function Being(attributes) {
         else if (command == 'east')
             this.moveto(this.square.east())
     }
+
     this.act = function(callback) {
         this.notify()
         var obj = this
@@ -113,6 +130,7 @@ function Being(attributes) {
             callback() 
         })
     }
+
     this.moveto = function(square) {
         this.square.exit(this)
         this.square = square
@@ -212,6 +230,7 @@ function Controller(attributes) {
 universe = {
     biomes: {
         grass: new Biome({name: 'grass', symbol: '草'}),
+        water: new Biome({name: 'water', symbol: '水'}),
         void: new Biome({name: 'void', symbol: '無'})
     },
     species: {human: new Species({name: 'human', symbol: '人'})}

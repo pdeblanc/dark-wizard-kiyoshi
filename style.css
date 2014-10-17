@@ -39,6 +39,11 @@ body {
     color: #005000;
 }
 
+.water {
+    background: #000040;
+    color: #000080;
+}
+
 .void {
     background: black;
     color: #500050;
