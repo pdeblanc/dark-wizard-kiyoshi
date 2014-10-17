@@ -3,8 +3,24 @@ body {
     text-align: center;
 }
 
+#profile {
+    vertical-align: top;
+    text-align: left;
+    display: inline-block;
+    color: silver;
+    font-family: monospace;
+}
+
 #container {
     display: inline-block;
+}
+
+#name {
+    color: lime;
+}
+
+.stat-value {
+    color: lime;
 }
 
 .row {

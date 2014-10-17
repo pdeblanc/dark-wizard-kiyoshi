@@ -184,6 +184,22 @@ function Coordinate(attributes) {
 
 function Viewport(attributes) {
     this.being = attributes.being
+    document.getElementById('name').textContent = 'Peter'
+    document.getElementById('title').textContent = this.being.species.name;
+    document.getElementById('title').className = this.being.species.name;
+    var stats_div = document.getElementById('stats')
+    for (var i = 0; i < STATS.length; i++) {
+        var stat_div = document.createElement('div')
+        var stat_label = document.createElement('span')
+        stat_label.textContent = STATS[i] + ': '
+        var stat_value = document.createElement('span')
+        stat_value.className = 'stat-value'
+        stat_value.id = STATS[i]
+        stat_value.textContent = this.being[STATS[i]]
+        stat_div.appendChild(stat_label)
+        stat_div.appendChild(stat_value)
+        stats_div.appendChild(stat_div)
+    }
     this.container = attributes.container
     this.being.span.className += ' player'
     this.left = -4
