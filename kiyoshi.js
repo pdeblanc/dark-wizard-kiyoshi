@@ -1,6 +1,6 @@
 function Plane(attributes) {
-    this.width = 256
-    this.height = 256
+    this.width = attributes.width
+    this.height = attributes.width
     this.squares = {}
     for (var x = 0; x < this.width; x++) {
         for (var y = 0; y < this.height; y++) {
@@ -15,24 +15,30 @@ function Plane(attributes) {
 }
 
 function Timeline(attributes) {
-    this.time = 0
+    this.time = attributes.start_time
     this.agents = attributes.agents
-    this.queue = new PriorityQueue()
-    for (var i = 0; i < this.agents.length; i++)
-        this.queue.push(this.agents[i], Math.random())
+    this.queue = new PriorityQueue({comparator: function(a, b) { return a.next_action_time - b.next_action_time }})
+    for (var i = 0; i < this.agents.length; i++) {
+        this.agents[i].next_action_time = this.time + Math.random()
+        this.queue.queue(this.agents[i])
+    }
     this.simulate = function() {
-        var event = this.queue.pop()
-        this.time = -event.priority
+        var agent = this.queue.dequeue()
+        this.time = agent.next_action_time
         var obj = this
-        event.data.act(function() {obj.simulate()})
+        agent.act(function() {
+            agent.next_action_time = obj.time + Math.random()
+            obj.queue.queue(agent)
+            obj.simulate()
+        })
     }
 }
 
 function Square(attributes) {
     this.biome = attributes.biome
-    this.div = document.createElement('div')
-    this.div.className = 'biome ' + this.biome.name
-    this.div.textContent = this.biome.symbol
+    this.span = document.createElement('span')
+    this.span.className = 'biome ' + this.biome.name
+    this.span.textContent = this.biome.symbol
     this.contents = []
     this.plane = attributes.plane
     this.coordinate = attributes.coordinate
@@ -56,16 +62,16 @@ function Square(attributes) {
         if (index > -1)
             this.contents.splice(index, 1)
         if (this.contents.length > 0) {
-            this.div.innerHTML = ''
-            this.div.appendChild(this.contents[0].div)
+            this.span.innerHTML = ''
+            this.span.appendChild(this.contents[0].span)
         }
         else
-            this.div.innerHTML = this.biome.symbol
+            this.span.innerHTML = this.biome.symbol
     }
     this.enter = function(newcomer) {
         this.contents.push(newcomer)
-        this.div.innerHTML = ''
-        this.div.appendChild(newcomer.div)
+        this.span.innerHTML = ''
+        this.span.appendChild(newcomer.span)
     }
 }
 
@@ -77,13 +83,13 @@ function Biome(attributes) {
 function Being(attributes) {
     this.species = universe.species.human
     this.symbol = this.species.symbol
-    this.div = document.createElement('div')
-    this.div.className = this.species.name
-    this.div.textContent = this.symbol
+    this.span = document.createElement('span')
+    this.span.className = this.species.name
+    this.span.textContent = this.symbol
     this.square = attributes.square
     this.square.contents.push(this)
-    this.square.div.innerHTML = ''
-    this.square.div.appendChild(this.div)
+    this.square.span.innerHTML = ''
+    this.square.span.appendChild(this.span)
     this.viewports = []
     this.controllers = []
     this.notify = function() {
@@ -136,7 +142,7 @@ function Coordinate(attributes) {
 function Viewport(attributes) {
     this.being = attributes.being
     this.container = attributes.container
-    this.being.div.className += ' player'
+    this.being.span.className += ' player'
     this.left = -4
     this.right = 4
     this.top = -4
@@ -147,7 +153,7 @@ function Viewport(attributes) {
         row.className = 'row'
         this.container.appendChild(row)
         for (var x = this.left; x <= this.right; x++) {
-            var cell = document.createElement('div')
+            var cell = document.createElement('span')
             cell.className = 'cell'
             row.appendChild(cell)
             this.cells['_' + x + '_' + y] = cell
@@ -161,7 +167,7 @@ function Viewport(attributes) {
                 var square = plane.square(new Coordinate({x: origin.coordinate.x + x, y: origin.coordinate.y + y}))
                 var cell = this.cells['_' + x + '_' + y]
                 cell.innerHTML = ''
-                cell.appendChild(square.div)
+                cell.appendChild(square.span)
             }
         }
     }
@@ -212,7 +218,7 @@ universe = {
 }
 
 initialize = function() {
-    var plane = new Plane()
+    var plane = new Plane({width: 256, height: 256})
     var player = new Being({
         species: universe.species.human,
         square: plane.square(
@@ -224,6 +230,6 @@ initialize = function() {
     })
     player.controllers.push(new Controller({being: player}))
     player.viewports.push(new Viewport({being: player, container: document.getElementById('container')}))
-    var timeline = new Timeline({agents: [player]})
+    var timeline = new Timeline({start_time: 0, agents: [player]})
     timeline.simulate()
 }
