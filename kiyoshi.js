@@ -187,9 +187,8 @@ function Coordinate(attributes) {
 
 function Viewport(attributes) {
     this.being = attributes.being
-    document.getElementById('name').textContent = 'Peter'
-    document.getElementById('title').textContent = this.being.species.name;
-    document.getElementById('title').className = this.being.species.name;
+    $("#name").text('Peter')
+    $("#title").text(this.being.species.name).addClass(this.being.species.name)
     var stats_div = document.getElementById('stats')
     for (var i = 0; i < PUBLIC_STATS.length; i++) {
         var stat_div = document.createElement('div')
@@ -203,7 +202,6 @@ function Viewport(attributes) {
         stat_div.appendChild(stat_value)
         stats_div.appendChild(stat_div)
     }
-    this.container = attributes.container
     this.being.span.className += ' player'
     this.left = -4
     this.right = 4
@@ -211,14 +209,10 @@ function Viewport(attributes) {
     this.bottom = 4
     this.cells = {}
     for (var y = this.top; y <= this.bottom; y++) {
-        var row = document.createElement('div')
-        row.className = 'row'
-        this.container.appendChild(row)
+        var row = $("<div />").addClass("row")
+        $("#viewport").append(row)
         for (var x = this.left; x <= this.right; x++) {
-            var cell = document.createElement('span')
-            cell.className = 'cell'
-            row.appendChild(cell)
-            this.cells['_' + x + '_' + y] = cell
+            row.append($("<span />").addClass("cell").attr("id", "_" + x + "_" + y))
         }
     }
     this.render = function() {
@@ -227,9 +221,7 @@ function Viewport(attributes) {
         for (var x = this.left; x <= this.right; x++) {
             for (var y = this.top; y <= this.bottom; y++) {
                 var square = plane.square(new Coordinate({x: origin.coordinate.x + x, y: origin.coordinate.y + y}))
-                var cell = this.cells['_' + x + '_' + y]
-                cell.innerHTML = ''
-                cell.appendChild(square.span)
+                $('#_' + x + '_' + y).html('').append(square.span)
             }
         }
     }
@@ -301,7 +293,7 @@ initialize = function() {
         )
     })
     player.controllers.push(new Controller({being: player}))
-    player.viewports.push(new Viewport({being: player, container: document.getElementById('container')}))
+    player.viewports.push(new Viewport({being: player, container: document.getElementById('viewport')}))
     var timeline = new Timeline({start_time: 0, agents: [player, jimmy]})
     timeline.simulate()
 }
