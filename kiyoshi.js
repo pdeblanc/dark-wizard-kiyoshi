@@ -72,6 +72,7 @@ function Square(attributes) {
     this.span = document.createElement('span')
     this.span.className = 'biome ' + this.biome.name
     this.span.textContent = this.biome.symbol
+    this.span.square = this
     this.contents = []
     this.plane = attributes.plane
     this.coordinate = attributes.coordinate
@@ -223,6 +224,7 @@ function Item(attributes) {
         this.symbol = this.product.symbol
         this.span.className = 'item ' + this.product.name
         this.span.textContent = this.symbol
+        this.span.item = this
         for (var i = 0; i < ITEM_STATS.length; i++) {
             var stat = ITEM_STATS[i]
             this[stat] = 1
@@ -242,6 +244,7 @@ function Item(attributes) {
 
     // setup
     this.span = document.createElement('span')
+    $(this.span).draggable({ opacity: 0.7, helper: "clone"})
     this.square.enter(this)
 
     // compile attributes
@@ -285,7 +288,7 @@ function PlaneViewport(attributes) {
         var row = $("<div />").addClass("row")
         $("#inventory").append(row)
         for (var x = 0; x < this.plane.width; x++) {
-            row.append($("<span />").addClass("cell").attr("id", "_" + this.name + "_" + x + "_" + y))
+            row.append(viewportCell("_" + this.name + "_" + x + "_" + y))
         }
     }
     this.render = function() {
@@ -325,7 +328,7 @@ function PlayerViewport(attributes) {
         var row = $("<div />").addClass("row")
         $("#viewport").append(row)
         for (var x = this.left; x <= this.right; x++) {
-            row.append($("<span />").addClass("cell").attr("id", "_" + x + "_" + y))
+            row.append(viewportCell("_" + x + "_" + y))
         }
     }
     this.render = function() {
@@ -338,6 +341,23 @@ function PlayerViewport(attributes) {
             }
         }
     }
+}
+
+function viewportCell(id) {
+    return $("<span />")
+        .addClass("cell")
+        .attr("id", id)
+        .droppable({
+            accept: ".item",
+            hoverClass: "drag-target",
+            drop: function(event, ui) {
+                console.log('drop')
+                var item = ui.draggable[0].item
+                var square = this.childNodes[0].square
+                item.moveto(square)
+                console.log(item)
+            }
+        })
 }
 
 function Controller(attributes) {
