@@ -1,5 +1,5 @@
-PUBLIC_STATS = ['speed']
-STATS = ['speed', 'lean_mass']
+PUBLIC_STATS = ['power', 'speed', 'vigor']
+STATS = ['power', 'speed', 'vigor', 'lean_mass']
 
 ITEM_STATS = ['mass']
 
@@ -59,11 +59,16 @@ function Timeline(attributes) {
         var agent = this.queue.dequeue()
         this.time = agent.next_action_time
         var obj = this
-        agent.act(function() {
-            agent.next_action_time = obj.time + 10 / agent.speed
-            obj.queue.queue(agent)
+        if (agent.dead)
             obj.simulate()
-        })
+        else {
+            agent.act(function() {
+                agent.next_action_time = obj.time + 10 / agent.speed
+                if (agent.dead == 0)
+                    obj.queue.queue(agent)
+                obj.simulate()
+            })
+        }
     }
 }
 
@@ -126,6 +131,8 @@ function Biome(attributes) {
 }
 
 function Being(attributes) {
+    this.dead = 0
+
     this.compile_attributes = function() {
         // appearance
         this.symbol = this.species.symbol
@@ -164,9 +171,8 @@ function Being(attributes) {
     }
 
     this.execute_command = function(command) {
-        if (command == 'north') {
+        if (command == 'north')
             this.moveto(this.square.north())
-        }
         else if (command == 'south')
             this.moveto(this.square.south())
         else if (command == 'west')
@@ -182,6 +188,17 @@ function Being(attributes) {
                         item.moveto(vacancy)
                         this.tell("You got a " + item.product.name + ".")
                     }
+                }
+            }
+        }
+        else if (command[0] == 'attack') {
+            var target_square = command[1]
+            for (var i = 0; i < target_square.contents.length; i++) {
+                var item = target_square.contents[i]
+                this.tell('You attack the ' + item.species.name + '.')
+                this.tell('It dies.')
+                if (item instanceof Being) {
+                    item.receive_damage(100)
                 }
             }
         }
@@ -208,7 +225,21 @@ function Being(attributes) {
             this.square.exit(this)
             this.square = square
             this.square.enter(this)
+            for (var i = 0; i < this.square.contents.length; i++) {
+                var item = this.square.contents[i]
+                if (item != this)
+                    this.tell("You find a " + item.product.name + ".")
+            }
         }
+    }
+
+    this.receive_damage = function(damage_amount) {
+        this.die()
+    }
+
+    this.die = function() {
+        this.square.exit(this)
+        this.dead = 1
     }
 
     this.tell = function(message) {
@@ -350,7 +381,9 @@ function PlayerViewport(attributes) {
         $(".item").draggable({ opacity: 0.7, helper: "clone"})
     }
     this.tell = function(message) {
-        document.getElementById("messages").textContent += message + '\n'
+        var textArea = document.getElementById("messages")
+        textArea.textContent += message + '\n'
+        textArea.scrollTop = textArea.scrollHeight;
     }
 }
 
@@ -393,23 +426,36 @@ function Controller(attributes) {
     document.body.addEventListener(
         'keydown',
         function(event) {
+            var being = controller.being
             if (event.keyCode == 37) {
-                controller.push_command('west')
+                if (controller.being.square.west().permit_entry(being))
+                    controller.push_command('west')
+                else
+                    controller.push_command(['attack', controller.being.square.west()])
                 event.preventDefault()
                 return false;
             }
             if (event.keyCode == 38) {
-                controller.push_command('north')
+                if (controller.being.square.north().permit_entry(being))
+                    controller.push_command('north')
+                else
+                    controller.push_command(['attack', controller.being.square.north()])
                 event.preventDefault()
                 return false;
             }
             if (event.keyCode == 39) {
-                controller.push_command('east')
+                if (controller.being.square.east().permit_entry(being))
+                    controller.push_command('east')
+                else
+                    controller.push_command(['attack', controller.being.square.east()])
                 event.preventDefault()
                 return false;
             }
             if (event.keyCode == 40) {
-                controller.push_command('south')
+                if (controller.being.square.south().permit_entry(being))
+                    controller.push_command('south')
+                else
+                    controller.push_command(['attack', controller.being.square.south()])
                 event.preventDefault()
                 return false;
             }
