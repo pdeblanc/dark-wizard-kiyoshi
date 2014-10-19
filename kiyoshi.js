@@ -164,8 +164,10 @@ function Being(attributes) {
     }
 
     this.execute_command = function(command) {
-        if (command == 'north')
+        if (command == 'north') {
             this.moveto(this.square.north())
+            this.tell('moved north')
+        }
         else if (command == 'south')
             this.moveto(this.square.south())
         else if (command == 'west')
@@ -207,6 +209,12 @@ function Being(attributes) {
             this.square = square
             this.square.enter(this)
         }
+    }
+
+    this.tell = function(message) {
+        this.viewports.forEach(function(viewport) {
+            viewport.tell(message)
+        })
     }
 }
 
@@ -341,6 +349,9 @@ function PlayerViewport(attributes) {
             }
         }
     }
+    this.tell = function(message) {
+        document.getElementById("messages").textContent += message + '\n'
+    }
 }
 
 function viewportCell(id) {
@@ -351,13 +362,12 @@ function viewportCell(id) {
             accept: ".item",
             hoverClass: "drag-target",
             drop: function(event, ui) {
-                console.log('drop')
                 var item = ui.draggable[0].item
                 var square = this.childNodes[0].square
                 item.moveto(square)
-                console.log(item)
             }
         })
+        .disableSelection()
 }
 
 function Controller(attributes) {
@@ -383,14 +393,26 @@ function Controller(attributes) {
     document.body.addEventListener(
         'keydown',
         function(event) {
-            if (event.keyCode == 37)
+            if (event.keyCode == 37) {
                 controller.push_command('west')
-            if (event.keyCode == 38)
+                event.preventDefault()
+                return false;
+            }
+            if (event.keyCode == 38) {
                 controller.push_command('north')
-            if (event.keyCode == 39)
+                event.preventDefault()
+                return false;
+            }
+            if (event.keyCode == 39) {
                 controller.push_command('east')
-            if (event.keyCode == 40)
+                event.preventDefault()
+                return false;
+            }
+            if (event.keyCode == 40) {
                 controller.push_command('south')
+                event.preventDefault()
+                return false;
+            }
         },
         false
     )
