@@ -10,7 +10,6 @@ body {
 }
 
 #inventory {
-    font-family: monospace;
     text-align: left;
 }
 
@@ -69,10 +68,23 @@ body {
     color: #500050;
 }
 
+.empty {
+    background: #404040;
+    color: #808080;
+}
+
 .human {
     color: #00ff00;
 }
 
-.player {
+.being {
     text-shadow: -1px -1px 0px white, 1px 1px 0px black;
+}
+
+.player {
+    font-weight: bold;
+}
+
+.katana {
+    color: silver;
 }

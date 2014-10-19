@@ -1,10 +1,32 @@
 PUBLIC_STATS = ['speed']
 STATS = ['speed', 'lean_mass']
 
+ITEM_STATS = ['mass']
+
 function Plane(attributes) {
     this.width = attributes.width
     this.height = attributes.height
     this.squares = {}
+    this.square = function(coordinate) {
+        if (coordinate.x < 0 || coordinate.y < 0 || coordinate.x >= this.width || coordinate.y >= this.height)
+            return new Square({biome: universe.biomes.void, plane: this, coordinate: coordinate})
+        return this.squares['_' + coordinate.x + '_' + coordinate.y]
+    }
+    this.vacancy = function(hopeful) {
+        var coordinate = new Coordinate({x: 0, y: 0})
+        for (coordinate.x = 0; coordinate.x < this.width; coordinate.x++) {
+            for (coordinate.y = 0; coordinate.y < this.height; coordinate.y++) {
+                var square = this.square(coordinate)
+                if (square.permit_entry(hopeful)) {
+                    return square;
+                }
+            }
+        }
+    }
+}
+
+function WildernessPlane(attributes) {
+    Plane.apply(this, arguments)
     for (var x = 0; x < this.width; x++) {
         for (var y = 0; y < this.height; y++) {
             var biome = universe.biomes.grass;
@@ -13,10 +35,15 @@ function Plane(attributes) {
             this.squares['_' + x + '_' + y] = new Square({biome: biome, plane: this, coordinate: new Coordinate({x: x, y: y})})
         }
     }
-    this.square = function(coordinate) {
-        if (coordinate.x < 0 || coordinate.y < 0 || coordinate.x >= this.width || coordinate.y >= this.height)
-            return new Square({biome: universe.biomes.void, plane: this, coordinate: coordinate})
-        return this.squares['_' + coordinate.x + '_' + coordinate.y]
+}
+
+function InventoryPlane(attributes) {
+    Plane.apply(this, arguments)
+    for (var x = 0; x < this.width; x++) {
+        for (var y = 0; y < this.height; y++) {
+            var biome = universe.biomes.empty;
+            this.squares['_' + x + '_' + y] = new Square({biome: biome, plane: this, coordinate: new Coordinate({x: x, y: y})})
+        }
     }
 }
 
@@ -80,7 +107,14 @@ function Square(attributes) {
         this.span.appendChild(newcomer.span)
     }
     this.permit_entry = function(hopeful) {
-        return this.biome.passable && (this.contents.length == 0)
+        if (hopeful instanceof Being) {
+            for (var i = 0; i < this.contents.length; i++) {
+                if (this.contents[i] instanceof Being) {
+                    return false;
+                }
+            }
+        }
+        return this.biome.passable
     }
 }
 
@@ -94,7 +128,7 @@ function Being(attributes) {
     this.compile_attributes = function() {
         // appearance
         this.symbol = this.species.symbol
-        this.span.className = this.species.name
+        this.span.className = 'being ' + this.species.name
         this.span.textContent = this.symbol
         for (var i = 0; i < STATS.length; i++) {
             var stat = STATS[i]
@@ -112,7 +146,7 @@ function Being(attributes) {
 
     // highly mutable attributes
     this.square = attributes.square
-    this.inventory = new Plane({width: 2, height: 9})
+    this.inventory = new InventoryPlane({width: 2, height: 9})
 
     // setup
     this.span = document.createElement('span')
@@ -137,6 +171,17 @@ function Being(attributes) {
             this.moveto(this.square.west())
         else if (command == 'east')
             this.moveto(this.square.east())
+        else if (command == 'get') {
+            for (var i = 0; i < this.square.contents.length; i++) {
+                var item = this.square.contents[i]
+                if (item instanceof Item) {
+                    var vacancy = this.inventory.vacancy(item)
+                    if (vacancy) {
+                        item.moveto(vacancy)
+                    }
+                }
+            }
+        }
     }
 
     this.act = function(callback) {
@@ -172,6 +217,53 @@ function Species(attributes) {
     }
 }
 
+function Item(attributes) {
+    this.compile_attributes = function() {
+        // appearance
+        this.symbol = this.product.symbol
+        this.span.className = 'item ' + this.product.name
+        this.span.textContent = this.symbol
+        for (var i = 0; i < ITEM_STATS.length; i++) {
+            var stat = ITEM_STATS[i]
+            this[stat] = 1
+            for (var j = 0; j < this.aspects.length; j++) {
+                this[stat] *= (this.aspects[j][stat] || 1)
+            }
+        }
+    }
+
+    // basic attributes
+    this.product = attributes.product
+    this.aspects = [this.product]
+    this.aspects.push.apply(attributes.aspects || [])
+
+    // highly mutable attributes
+    this.square = attributes.square
+
+    // setup
+    this.span = document.createElement('span')
+    this.square.enter(this)
+
+    // compile attributes
+    this.compile_attributes()
+
+    this.moveto = function(square) {
+        if (square.permit_entry(this)) {
+            this.square.exit(this)
+            this.square = square
+            this.square.enter(this)
+        }
+    }
+}
+
+function Product(attributes) {
+    this.name = 'item'
+    this.symbol = '品'
+    for (key in attributes) {
+        this[key] = attributes[key]
+    }
+}
+
 function Coordinate(attributes) {
     this.x = attributes.x
     this.y = attributes.y
@@ -201,7 +293,6 @@ function PlaneViewport(attributes) {
             for (var y = 0; y < this.plane.height; y++) {
                 var square = this.plane.square(new Coordinate({x: x, y: y}))
                 $('#_' + this.name + '_' + x + '_' + y).html('').append(square.span)
-                console.log('appended some square')
             }
         }
     }
@@ -283,19 +374,30 @@ function Controller(attributes) {
         },
         false
     )
+    document.body.addEventListener(
+        'keypress',
+        function(event) {
+            var charStr = String.fromCharCode(event.which || event.keyCode)
+            if (charStr == 'g')
+                controller.push_command('get')
+        },
+        false
+    )
 }
 
 universe = {
     biomes: {
         grass: new Biome({name: 'grass', symbol: '草'}),
         water: new Biome({name: 'water', symbol: '水', passable: 0}),
-        void: new Biome({name: 'void', symbol: '無', passable: 0})
+        void: new Biome({name: 'void', symbol: '無', passable: 0}),
+        empty: new Biome({name: 'empty', symbol: '無'})
     },
-    species: {human: new Species({name: 'human', symbol: '人', lean_mass: 10})}
+    species: {human: new Species({name: 'human', symbol: '人', lean_mass: 10})},
+    products: {katana: new Product({name: 'katana', symbol: '刀'})}
 }
 
 initialize = function() {
-    var plane = new Plane({width: 256, height: 256})
+    var plane = new WildernessPlane({width: 256, height: 256})
     var player = new Being({
         species: universe.species.human,
         square: plane.square(
@@ -311,6 +413,15 @@ initialize = function() {
             new Coordinate({
                 x: 6,
                 y: 6
+            })
+        )
+    })
+    var katana = new Item({
+        product: universe.products.katana,
+        square: plane.square(
+            new Coordinate({
+                x: 4,
+                y: 4
             })
         )
     })
