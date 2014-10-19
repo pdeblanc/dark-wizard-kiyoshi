@@ -206,7 +206,7 @@ function Being(attributes) {
             var target_square = command[1]
             for (var i = 0; i < target_square.contents.length; i++) {
                 var item = target_square.contents[i]
-                this.tell('You attack the ' + item.title() + '.')
+                this.tell('You attack ' + item.title() + '.')
                 this.tell('It dies.')
                 if (item instanceof Being) {
                     item.receive_damage(100)
