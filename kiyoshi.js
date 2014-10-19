@@ -14,8 +14,8 @@ function Plane(attributes) {
     }
     this.vacancy = function(hopeful) {
         var coordinate = new Coordinate({x: 0, y: 0})
-        for (coordinate.x = 0; coordinate.x < this.width; coordinate.x++) {
-            for (coordinate.y = 0; coordinate.y < this.height; coordinate.y++) {
+        for (coordinate.y = 0; coordinate.y < this.height; coordinate.y++) {
+            for (coordinate.x = 0; coordinate.x < this.width; coordinate.x++) {
                 var square = this.square(coordinate)
                 if (square.permit_entry(hopeful)) {
                     return square;
@@ -119,6 +119,16 @@ function Square(attributes) {
                     return false;
                 }
             }
+        } else {
+            var total_items = 0;
+            for (var i = 0; i < this.contents.length; i++) {
+                if (this.contents[i] instanceof Item) {
+                    total_items += 1;
+                    if (total_items >= this.biome.max_items) {
+                        return false;
+                    }
+                }
+            }
         }
         return this.biome.passable
     }
@@ -127,6 +137,7 @@ function Square(attributes) {
 function Biome(attributes) {
     this.name = attributes.name
     this.symbol = attributes.symbol
+    this.max_items = ('max_items' in attributes) ? attributes.max_items : 16;
     this.passable = ('passable' in attributes) ? attributes.passable : 1;
 }
 
@@ -490,7 +501,7 @@ universe = {
         grass: new Biome({name: 'grass', symbol: '草'}),
         water: new Biome({name: 'water', symbol: '水', passable: 0}),
         void: new Biome({name: 'void', symbol: '無', passable: 0}),
-        empty: new Biome({name: 'empty', symbol: '無'})
+        empty: new Biome({name: 'empty', symbol: '無', max_items: 1})
     },
     species: {human: new Species({name: 'human', symbol: '人', lean_mass: 10})},
     products: {
