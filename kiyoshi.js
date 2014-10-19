@@ -238,6 +238,10 @@ function Being(attributes) {
     }
 
     this.die = function() {
+        new Item({
+            product: universe.products.meat,
+            square: this.square
+        })
         this.square.exit(this)
         this.dead = 1
     }
@@ -489,7 +493,10 @@ universe = {
         empty: new Biome({name: 'empty', symbol: '無'})
     },
     species: {human: new Species({name: 'human', symbol: '人', lean_mass: 10})},
-    products: {katana: new Product({name: 'katana', symbol: '刀'})}
+    products: {
+        katana: new Product({name: 'katana', symbol: '刀'}),
+        meat: new Product({name: 'meat', symbol: '肉'})
+    }
 }
 
 initialize = function() {
