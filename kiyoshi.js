@@ -186,7 +186,7 @@ function Being(attributes) {
                     var vacancy = this.inventory.vacancy(item)
                     if (vacancy) {
                         item.moveto(vacancy)
-                        this.tell("You got a " + item.product.name + ".")
+                        this.tell("You get " + item.title() + ".")
                     }
                 }
             }
@@ -195,7 +195,7 @@ function Being(attributes) {
             var target_square = command[1]
             for (var i = 0; i < target_square.contents.length; i++) {
                 var item = target_square.contents[i]
-                this.tell('You attack the ' + item.species.name + '.')
+                this.tell('You attack the ' + item.title() + '.')
                 this.tell('It dies.')
                 if (item instanceof Being) {
                     item.receive_damage(100)
@@ -228,7 +228,7 @@ function Being(attributes) {
             for (var i = 0; i < this.square.contents.length; i++) {
                 var item = this.square.contents[i]
                 if (item != this)
-                    this.tell("You find a " + item.product.name + ".")
+                    this.tell("You find " + item.title() + ".")
             }
         }
     }
@@ -246,6 +246,10 @@ function Being(attributes) {
         this.viewports.forEach(function(viewport) {
             viewport.tell(message)
         })
+    }
+
+    this.title = function() {
+        return "the " + this.species.name
     }
 }
 
@@ -294,6 +298,10 @@ function Item(attributes) {
             this.square = square
             this.square.enter(this)
         }
+    }
+
+    this.title = function() {
+        return "a " + this.product.name
     }
 }
 
