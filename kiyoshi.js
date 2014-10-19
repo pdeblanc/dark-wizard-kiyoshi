@@ -166,7 +166,6 @@ function Being(attributes) {
     this.execute_command = function(command) {
         if (command == 'north') {
             this.moveto(this.square.north())
-            this.tell('moved north')
         }
         else if (command == 'south')
             this.moveto(this.square.south())
@@ -181,6 +180,7 @@ function Being(attributes) {
                     var vacancy = this.inventory.vacancy(item)
                     if (vacancy) {
                         item.moveto(vacancy)
+                        this.tell("You got a " + item.product.name + ".")
                     }
                 }
             }
@@ -252,7 +252,6 @@ function Item(attributes) {
 
     // setup
     this.span = document.createElement('span')
-    $(this.span).draggable({ opacity: 0.7, helper: "clone"})
     this.square.enter(this)
 
     // compile attributes
@@ -348,6 +347,7 @@ function PlayerViewport(attributes) {
                 $('#_' + x + '_' + y).html('').append(square.span)
             }
         }
+        $(".item").draggable({ opacity: 0.7, helper: "clone"})
     }
     this.tell = function(message) {
         document.getElementById("messages").textContent += message + '\n'
