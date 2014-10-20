@@ -132,6 +132,19 @@ function Square(attributes) {
         }
         return this.biome.passable
     }
+    this.announce = function(message) {
+        var radius = 4;
+        var coordinate = new Coordinate({x: this.coordinate.x - radius, y: this.coordinate.y - radius});
+        for (; coordinate.x <= this.coordinate.x + radius; coordinate.x++) {
+            for (coordinate.y = this.coordinate.y - radius; coordinate.y <= this.coordinate.y + radius; coordinate.y++) {
+                var other_square = this.plane.square(coordinate)
+                for (var i = 0; i < other_square.contents.length; i++) {
+                    if (other_square.contents[i] instanceof Being)
+                        other_square.contents[i].tell(message)
+                }
+            }
+        }
+    }
 }
 
 function Biome(attributes) {
@@ -142,8 +155,6 @@ function Biome(attributes) {
 }
 
 function Being(attributes) {
-    this.dead = 0
-
     this.compile_attributes = function() {
         // appearance
         this.symbol = this.species.symbol
@@ -166,6 +177,8 @@ function Being(attributes) {
     // highly mutable attributes
     this.square = attributes.square
     this.inventory = new InventoryPlane({width: 2, height: 9})
+    this.dead = 0
+    this.health = 1
 
     // setup
     this.span = document.createElement('span')
@@ -211,9 +224,8 @@ function Being(attributes) {
                 if (target_square.contents[i] instanceof Being) {
                     var item = target_square.contents[i]
                     this.tell('You attack ' + item.title() + '.')
-                    this.tell('It dies.')
                     if (item instanceof Being) {
-                        item.receive_damage(100)
+                        item.receive_damage({stab: 1})
                     }
                     return true;
                 }
@@ -255,11 +267,18 @@ function Being(attributes) {
         return false;
     }
 
-    this.receive_damage = function(damage_amount) {
-        this.die()
+    this.receive_damage = function(damage_package) {
+        for (var damage_type in damage_package) {
+            var amount = damage_package[damage_type]
+            this.health -= amount / this.vigor
+        }
+        if (this.health <= 0) {
+            this.die()
+        }
     }
 
     this.die = function() {
+        this.square.announce(this.titlec() + ' dies.')
         new Item({
             product: universe.products.meat,
             square: this.square
@@ -272,6 +291,11 @@ function Being(attributes) {
         this.viewports.forEach(function(viewport) {
             viewport.tell(message)
         })
+    }
+
+    this.titlec = function() {
+        var title = this.title()
+        return title.charAt(0).toUpperCase() + title.slice(1)
     }
 
     this.title = function() {
