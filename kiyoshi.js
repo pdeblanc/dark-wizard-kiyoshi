@@ -183,13 +183,13 @@ function Being(attributes) {
 
     this.execute_command = function(command) {
         if (command == 'north')
-            this.moveto(this.square.north())
+            return this.moveto(this.square.north())
         else if (command == 'south')
-            this.moveto(this.square.south())
+            return this.moveto(this.square.south())
         else if (command == 'west')
-            this.moveto(this.square.west())
+            return this.moveto(this.square.west())
         else if (command == 'east')
-            this.moveto(this.square.east())
+            return this.moveto(this.square.east())
         else if (command == 'get') {
             for (var i = 0; i < this.square.contents.length; i++) {
                 var item = this.square.contents[i]
@@ -198,18 +198,24 @@ function Being(attributes) {
                     if (vacancy) {
                         item.moveto(vacancy)
                         this.tell("You get " + item.title() + ".")
+                        return true;
                     }
                 }
             }
+            this.tell("You do not have space for " + item.title() + ".")
+            return false;
         }
         else if (command[0] == 'attack') {
             var target_square = command[1]
             for (var i = 0; i < target_square.contents.length; i++) {
-                var item = target_square.contents[i]
-                this.tell('You attack ' + item.title() + '.')
-                this.tell('It dies.')
-                if (item instanceof Being) {
-                    item.receive_damage(100)
+                if (target_square.contents[i] instanceof Being) {
+                    var item = target_square.contents[i]
+                    this.tell('You attack ' + item.title() + '.')
+                    this.tell('It dies.')
+                    if (item instanceof Being) {
+                        item.receive_damage(100)
+                    }
+                    return true;
                 }
             }
         }
@@ -220,8 +226,11 @@ function Being(attributes) {
         var obj = this
         if (this.controllers.length > 0) {
             this.controllers[0].set_callback(function(command) {
-                obj.execute_command(command)
-                callback() 
+                var success = obj.execute_command(command)
+                if (success)
+                    callback() 
+                else
+                    obj.act(callback)
             })
         }
         else {
@@ -241,7 +250,9 @@ function Being(attributes) {
                 if (item != this)
                     this.tell("You find " + item.title() + ".")
             }
+            return true;
         }
+        return false;
     }
 
     this.receive_damage = function(damage_amount) {
