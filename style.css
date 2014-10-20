@@ -108,6 +108,21 @@ body {
     color: red;
 }
 
+.blood {
+    color: red;
+    position: relative;
+}
+
+.being_fg {
+    display: block;
+    z-index: 2;
+    position: absolute;
+    top: -8px;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+}
+
 .drag-target .biome {
     color: rgba(255, 255, 255, 0);
     text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);

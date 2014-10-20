@@ -158,8 +158,11 @@ function Being(attributes) {
     this.compile_attributes = function() {
         // appearance
         this.symbol = this.species.symbol
-        this.span.className = 'being ' + this.species.name
+        this.span.className = 'being blood'
         this.span.textContent = this.symbol
+        this.innerSpan.className = this.species.name + ' being_fg'
+        this.innerSpan.textContent = this.symbol
+        this.span.appendChild(this.innerSpan)
         for (var i = 0; i < STATS.length; i++) {
             var stat = STATS[i]
             this[stat] = 10
@@ -182,6 +185,7 @@ function Being(attributes) {
 
     // setup
     this.span = document.createElement('span')
+    this.innerSpan = document.createElement('span')
     this.square.enter(this)
     this.viewports = []
     this.controllers = []
@@ -275,6 +279,8 @@ function Being(attributes) {
         if (this.health <= 0) {
             this.die()
         }
+        var percent_alive = Math.round(28 + 72 * this.health) + '%'
+        this.innerSpan.style.height = percent_alive
     }
 
     this.die = function() {
