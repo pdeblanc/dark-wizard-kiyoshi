@@ -111,13 +111,14 @@ body {
 .blood {
     color: red;
     position: relative;
+    display: inline-block;
 }
 
 .being_fg {
     display: block;
     z-index: 2;
     position: absolute;
-    top: -8px;
+    top: 0pt;
     height: 100%;
     overflow: hidden;
     pointer-events: none;

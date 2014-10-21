@@ -184,8 +184,8 @@ function Being(attributes) {
     this.health = 1
 
     // setup
-    this.span = document.createElement('span')
-    this.innerSpan = document.createElement('span')
+    this.span = document.createElement('div')
+    this.innerSpan = document.createElement('div')
     this.square.enter(this)
     this.viewports = []
     this.controllers = []
@@ -279,8 +279,7 @@ function Being(attributes) {
         if (this.health <= 0) {
             this.die()
         }
-        var percent_alive = Math.round(28 + 72 * this.health) + '%'
-        this.innerSpan.style.height = percent_alive
+        this.innerSpan.style.height = Math.round(this.health * this.span.offsetHeight * .8) + 'px'
     }
 
     this.die = function() {
