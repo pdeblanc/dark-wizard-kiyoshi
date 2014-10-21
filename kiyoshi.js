@@ -74,7 +74,7 @@ function Timeline(attributes) {
 
 function Square(attributes) {
     this.biome = attributes.biome
-    this.span = document.createElement('span')
+    this.span = document.createElement('div')
     this.span.className = 'biome ' + this.biome.name
     this.span.textContent = this.biome.symbol
     this.span.square = this
@@ -452,18 +452,22 @@ function PlayerViewport(attributes) {
 
 function viewportCell(id) {
     return $("<span />")
-        .addClass("cell")
-        .attr("id", id)
-        .droppable({
-            accept: ".item",
-            hoverClass: "drag-target",
-            drop: function(event, ui) {
-                var item = ui.draggable[0].item
-                var square = this.childNodes[0].square
-                item.moveto(square)
-            }
-        })
-        .disableSelection()
+        .addClass("cell-container")
+        .append(
+            $("<div />")
+            .addClass("cell")
+            .attr("id", id)
+            .droppable({
+                accept: ".item",
+                hoverClass: "drag-target",
+                drop: function(event, ui) {
+                    var item = ui.draggable[0].item
+                    var square = this.childNodes[0].square
+                    item.moveto(square)
+                }
+            })
+            .disableSelection()
+        )
 }
 
 function Controller(attributes) {
