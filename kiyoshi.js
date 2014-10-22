@@ -182,6 +182,7 @@ function Being(attributes) {
     this.inventory = new InventoryPlane({width: 2, height: 9})
     this.dead = 0
     this.health = 1
+    this.wielding = false
 
     // setup
     this.span = document.createElement('div')
@@ -227,13 +228,40 @@ function Being(attributes) {
             for (var i = 0; i < target_square.contents.length; i++) {
                 if (target_square.contents[i] instanceof Being) {
                     var item = target_square.contents[i]
-                    this.tell('You attack ' + item.title() + '.')
+                    if (this.wielding)
+                        this.tell('You attack ' + item.title() + ' with ' + this.wielding.title() + '.')
+                    else
+                        this.tell('You attack ' + item.title() + '.')
                     if (item instanceof Being) {
-                        item.receive_damage({stab: 1})
+                        if (this.wielding) {
+                            item.receive_damage({cut: 5})
+                        }
+                        else {
+                            item.receive_damage({punch: 1})
+                        }
                     }
                     return true;
                 }
             }
+        }
+        else if (command[0] == 'toggle_wield') {
+            var item = command[1]
+            if (this.wielding == item)
+                command[0] = 'unwield'
+            else
+                command[0] = 'wield'
+        }
+        if (command[0] == 'wield') {
+            var item = command[1]
+            this.wielding = item
+            item.span.className += ' wielded'
+            this.tell('Now wielding ' + item.title() + '.')
+        }
+        if (command[0] == 'unwield') {
+            var item = command[1]
+            this.wielding = false
+            $(item.span).removeClass('wielded')
+            this.tell('Now wielding nothing.')
         }
     }
 
@@ -358,6 +386,10 @@ function Item(attributes) {
     this.title = function() {
         return "a " + this.product.name
     }
+
+    this.default_action = function() {
+        return this.product.action
+    }
 }
 
 function Product(attributes) {
@@ -383,13 +415,14 @@ function Coordinate(attributes) {
 }
 
 function PlaneViewport(attributes) {
+    this.being = attributes.being
     this.plane = attributes.plane
     this.name = ('' + Math.random()).substring(3)
     for (var y = 0; y < this.plane.height; y++) {
         var row = $("<div />").addClass("row")
         $("#inventory").append(row)
         for (var x = 0; x < this.plane.width; x++) {
-            row.append(viewportCell("_" + this.name + "_" + x + "_" + y))
+            row.append(viewportCell("_" + this.name + "_" + x + "_" + y, this.being))
         }
     }
     this.render = function() {
@@ -429,7 +462,7 @@ function PlayerViewport(attributes) {
         var row = $("<div />").addClass("row")
         $("#viewport").append(row)
         for (var x = this.left; x <= this.right; x++) {
-            row.append(viewportCell("_" + x + "_" + y))
+            row.append(viewportCell("_" + x + "_" + y, this.being))
         }
     }
     this.render = function() {
@@ -450,7 +483,7 @@ function PlayerViewport(attributes) {
     }
 }
 
-function viewportCell(id) {
+function viewportCell(id, being) {
     return $("<span />")
         .addClass("cell-container")
         .append(
@@ -468,6 +501,15 @@ function viewportCell(id) {
             })
             .disableSelection()
         )
+        .dblclick(function() {
+            var children = this.getElementsByClassName('item');
+            var action, item
+            for (var i = 0; i < children.length; i++) {
+                if ((item = children[i].item) && (action = item.default_action())) {
+                    return being.controllers[0].push_command([action, children[i].item])
+                }
+            }
+        })
 }
 
 function Controller(attributes) {
@@ -549,7 +591,7 @@ universe = {
     },
     species: {human: new Species({name: 'human', symbol: '人', lean_mass: 10})},
     products: {
-        katana: new Product({name: 'katana', symbol: '刀'}),
+        katana: new Product({name: 'katana', symbol: '刀', action: 'toggle_wield'}),
         meat: new Product({name: 'meat', symbol: '肉'})
     }
 }
@@ -585,7 +627,7 @@ initialize = function() {
     })
     player.controllers.push(new Controller({being: player}))
     player.viewports.push(new PlayerViewport({being: player}))
-    new PlaneViewport({plane: player.inventory})
+    new PlaneViewport({plane: player.inventory, being: player})
     var timeline = new Timeline({start_time: 0, agents: [player, jimmy]})
     timeline.simulate()
 }
