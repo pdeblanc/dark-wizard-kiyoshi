@@ -1,6 +1,6 @@
 function Plane(attributes) {
-    this.width = attributes.width
-    this.height = attributes.height
+    this.width = attributes.width || 9
+    this.height = attributes.height || 9
     this.squares = {}
     this.square = function(coordinate) {
         if (coordinate.x < 0 || coordinate.y < 0 || coordinate.x >= this.width || coordinate.y >= this.height)
