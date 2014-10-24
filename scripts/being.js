@@ -126,19 +126,23 @@ function Being(attributes) {
     }
 
     this.act = function(callback) {
-        // lose a bit over one pound per day due to very active lifestyle
-        this.body_fat -= (this.body_fat + this.lean_mass) / (86400 * 100)
-        if (this.body_fat < 0) {
-            this.dead = 1
-            this.tell('You have starved.')
-        }
         this.notify()
         var obj = this
         if (this.controllers.length > 0) {
             this.controllers[0].set_callback(function(command) {
                 var success = obj[command[0]].apply(obj, command.slice(1))
-                if (success)
+                console.log('success', success)
+                if (success) {
+                    // lose a bit over one pound per day due to very active lifestyle
+                    // remove leading 10000 when done testing
+                    obj.body_fat -= 10000 * (obj.body_fat + obj.lean_mass) / (86400 * 100)
+                    if (obj.body_fat < 0) {
+                        obj.tell('You have starved.')
+                        obj.notify()
+                        obj.die()
+                    }
                     callback() 
+                }
                 else
                     obj.act(callback)
             })
