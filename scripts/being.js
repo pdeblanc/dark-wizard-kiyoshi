@@ -38,6 +38,79 @@ function Being(attributes) {
     // compile attributes
     this.compile_attributes()
 
+    // actions
+    this.north = function() {
+        return this.moveto(this.square.north())
+    }
+
+    this.south = function() {
+        return this.moveto(this.square.south())
+    }
+
+    this.east = function() {
+        return this.moveto(this.square.east())
+    }
+
+    this.west = function() {
+        return this.moveto(this.square.west())
+    }
+
+    this.get = function() {
+        for (var i = 0; i < this.square.contents.length; i++) {
+            var item = this.square.contents[i]
+            if (item instanceof Item) {
+                var vacancy = this.inventory.vacancy(item)
+                if (vacancy) {
+                    item.moveto(vacancy)
+                    this.tell("You get " + item.title() + ".")
+                    return true;
+                }
+            }
+        }
+        this.tell("You do not have space for " + item.title() + ".")
+        return false;
+    }
+
+    this.attack = function(target_square) {
+        for (var i = 0; i < target_square.contents.length; i++) {
+            if (target_square.contents[i] instanceof Being) {
+                var item = target_square.contents[i]
+                if (this.wielding)
+                    this.tell('You attack ' + item.title() + ' with ' + this.wielding.title() + '.')
+                else
+                    this.tell('You attack ' + item.title() + '.')
+                if (item instanceof Being) {
+                    if (this.wielding) {
+                        item.receive_damage({cut: 5})
+                    }
+                    else {
+                        item.receive_damage({punch: 1})
+                    }
+                }
+                return true;
+            }
+        }
+    }
+
+    this.toggle_wield = function(item) {
+        if (this.wielding == item)
+            this.unwield(item)
+        else
+            this.wield(item)
+    }
+
+    this.wield = function(item) {
+        this.wielding = item
+        item.span.className += ' wielded'
+        this.tell('Now wielding ' + item.title() + '.')
+    }
+
+    this.unwield = function(item) {
+        this.wielding = false
+        $(item.span).removeClass('wielded')
+        this.tell('Now wielding nothing.')
+    }
+
     // methods
     this.notify = function() {
         this.viewports.forEach(function(viewport) {viewport.render()})
@@ -45,67 +118,27 @@ function Being(attributes) {
 
     this.execute_command = function(command) {
         if (command == 'north')
-            return this.moveto(this.square.north())
+            return this.north()
         else if (command == 'south')
-            return this.moveto(this.square.south())
+            return this.south()
         else if (command == 'west')
-            return this.moveto(this.square.west())
+            return this.west()
         else if (command == 'east')
-            return this.moveto(this.square.east())
+            return this.east()
         else if (command == 'get') {
-            for (var i = 0; i < this.square.contents.length; i++) {
-                var item = this.square.contents[i]
-                if (item instanceof Item) {
-                    var vacancy = this.inventory.vacancy(item)
-                    if (vacancy) {
-                        item.moveto(vacancy)
-                        this.tell("You get " + item.title() + ".")
-                        return true;
-                    }
-                }
-            }
-            this.tell("You do not have space for " + item.title() + ".")
-            return false;
+            return this.get()
         }
         else if (command[0] == 'attack') {
-            var target_square = command[1]
-            for (var i = 0; i < target_square.contents.length; i++) {
-                if (target_square.contents[i] instanceof Being) {
-                    var item = target_square.contents[i]
-                    if (this.wielding)
-                        this.tell('You attack ' + item.title() + ' with ' + this.wielding.title() + '.')
-                    else
-                        this.tell('You attack ' + item.title() + '.')
-                    if (item instanceof Being) {
-                        if (this.wielding) {
-                            item.receive_damage({cut: 5})
-                        }
-                        else {
-                            item.receive_damage({punch: 1})
-                        }
-                    }
-                    return true;
-                }
-            }
+            return this.attack(command[1])
         }
         else if (command[0] == 'toggle_wield') {
-            var item = command[1]
-            if (this.wielding == item)
-                command[0] = 'unwield'
-            else
-                command[0] = 'wield'
+            return this.toggle_wield(command[1])
         }
         if (command[0] == 'wield') {
-            var item = command[1]
-            this.wielding = item
-            item.span.className += ' wielded'
-            this.tell('Now wielding ' + item.title() + '.')
+            return this.wield(command[1])
         }
         if (command[0] == 'unwield') {
-            var item = command[1]
-            this.wielding = false
-            $(item.span).removeClass('wielded')
-            this.tell('Now wielding nothing.')
+            return this.unwield(command[1])
         }
     }
 
