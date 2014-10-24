@@ -100,6 +100,8 @@ function Being(attributes) {
     }
 
     this.wield = function(item) {
+        if (this.wielding)
+            $(this.wielding.span).removeClass('wielded')
         this.wielding = item
         item.span.className += ' wielded'
         this.tell('Now wielding ' + item.title() + '.')
@@ -116,38 +118,12 @@ function Being(attributes) {
         this.viewports.forEach(function(viewport) {viewport.render()})
     }
 
-    this.execute_command = function(command) {
-        if (command == 'north')
-            return this.north()
-        else if (command == 'south')
-            return this.south()
-        else if (command == 'west')
-            return this.west()
-        else if (command == 'east')
-            return this.east()
-        else if (command == 'get') {
-            return this.get()
-        }
-        else if (command[0] == 'attack') {
-            return this.attack(command[1])
-        }
-        else if (command[0] == 'toggle_wield') {
-            return this.toggle_wield(command[1])
-        }
-        if (command[0] == 'wield') {
-            return this.wield(command[1])
-        }
-        if (command[0] == 'unwield') {
-            return this.unwield(command[1])
-        }
-    }
-
     this.act = function(callback) {
         this.notify()
         var obj = this
         if (this.controllers.length > 0) {
             this.controllers[0].set_callback(function(command) {
-                var success = obj.execute_command(command)
+                var success = obj[command[0]].apply(obj, command.slice(1))
                 if (success)
                     callback() 
                 else
@@ -156,7 +132,8 @@ function Being(attributes) {
         }
         else {
             var actions = ['north', 'south', 'west', 'east']
-            this.execute_command(actions[Math.floor(Math.random() * 4)])
+            action = actions[Math.floor(Math.random() * 4)]
+            this[action]()
             callback()
         }
     }

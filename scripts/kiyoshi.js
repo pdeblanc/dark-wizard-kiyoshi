@@ -13,6 +13,7 @@ universe = {
     species: {human: new Species({name: 'human', symbol: '人', lean_mass: 10})},
     products: {
         katana: new Product({name: 'katana', symbol: '刀', action: 'toggle_wield'}),
+        longsword: new Product({name: 'longsword', symbol: '剣', action: 'toggle_wield'}),
         meat: new Product({name: 'meat', symbol: '肉'})
     }
 }
@@ -42,6 +43,15 @@ initialize = function() {
         square: plane.square(
             new Coordinate({
                 x: 4,
+                y: 4
+            })
+        )
+    })
+    var longsword = new Item({
+        product: universe.products.longsword,
+        square: plane.square(
+            new Coordinate({
+                x: 5,
                 y: 4
             })
         )
