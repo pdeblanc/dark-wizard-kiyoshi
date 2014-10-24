@@ -75,16 +75,12 @@ function Being(attributes) {
         for (var i = 0; i < target_square.contents.length; i++) {
             if (target_square.contents[i] instanceof Being) {
                 var item = target_square.contents[i]
-                if (this.wielding)
-                    this.tell('You attack ' + item.title() + ' with ' + this.wielding.title() + '.')
-                else
-                    this.tell('You attack ' + item.title() + '.')
                 if (item instanceof Being) {
                     if (this.wielding) {
-                        item.receive_damage({cut: 5})
+                        item.receive_damage(this.wielding.damage(), this)
                     }
                     else {
-                        item.receive_damage({punch: 1})
+                        item.receive_damage({punch: 1}, this)
                     }
                 }
                 return true;
@@ -153,11 +149,16 @@ function Being(attributes) {
         return false;
     }
 
-    this.receive_damage = function(damage_package) {
+    this.receive_damage = function(damage_package, attacker) {
+        var damage_taken = []
         for (var damage_type in damage_package) {
             var amount = damage_package[damage_type]
+            damage_taken.push([damage_type, amount])
             this.health -= amount / this.vigor
         }
+        damage_taken.sort(function(a, b) { return b[1] - a[1] })
+        var primary_damage_type = damage_taken[0][0]
+        attacker.tell("You " + primary_damage_type + " " + this.title() + ".")
         if (this.health <= 0) {
             this.die()
         }

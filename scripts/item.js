@@ -29,6 +29,7 @@ function Item(attributes) {
     // compile attributes
     this.compile_attributes()
 
+    // methods with effects
     this.moveto = function(square) {
         if (square.permit_entry(this)) {
             this.square.exit(this)
@@ -37,12 +38,19 @@ function Item(attributes) {
         }
     }
 
+    // methods that return information
     this.title = function() {
         return "a " + this.product.name
     }
 
     this.default_action = function() {
         return this.product.action
+    }
+
+    this.damage = function() {
+        if (this.product.damage)
+            return this.product.damage()
+        return {'bash': 1}
     }
 }
 
