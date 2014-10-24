@@ -1,8 +1,6 @@
 PUBLIC_STATS = ['power', 'speed', 'vigor']
 STATS = ['power', 'speed', 'vigor', 'lean_mass']
 
-ITEM_STATS = ['mass']
-
 universe = {
     biomes: {
         grass: new Biome({name: 'grass', symbol: '草'}),
@@ -14,7 +12,7 @@ universe = {
     products: {
         katana: new Product({name: 'katana', symbol: '刀', action: 'toggle_wield', damage: function() { return {'cut': 5} }}),
         longsword: new Product({name: 'longsword', symbol: '剣', action: 'toggle_wield', damage: function() { return {'cut': 5} }}),
-        meat: new Product({name: 'meat', symbol: '肉'})
+        meat: new Product({name: 'meat', symbol: '肉', fat: 2, action: 'eat'})
     }
 }
 

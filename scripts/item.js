@@ -1,3 +1,5 @@
+ITEM_STATS = ['mass', 'fat']
+
 function Item(attributes) {
     this.compile_attributes = function() {
         // appearance
@@ -38,7 +40,16 @@ function Item(attributes) {
         }
     }
 
+    this.destroy = function() {
+        this.square.exit(this)
+    }
+
     // methods that return information
+    this.titlec = function() {
+        var title = this.title()
+        return title.charAt(0).toUpperCase() + title.slice(1)
+    }
+
     this.title = function() {
         return "a " + this.product.name
     }

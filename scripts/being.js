@@ -21,14 +21,8 @@ function Being(attributes) {
     this.aspects = [this.species]
     this.aspects.push.apply(attributes.aspects || [])
 
-    // highly mutable attributes
-    this.square = attributes.square
-    this.inventory = new InventoryPlane({width: 2, height: 9})
-    this.dead = 0
-    this.health = 1
-    this.wielding = false
-
     // setup
+    this.square = attributes.square
     this.span = document.createElement('div')
     this.innerSpan = document.createElement('div')
     this.square.enter(this)
@@ -37,6 +31,13 @@ function Being(attributes) {
 
     // compile attributes
     this.compile_attributes()
+
+    // highly mutable attributes
+    this.inventory = new InventoryPlane({width: 2, height: 9})
+    this.dead = 0
+    this.health = 1
+    this.body_fat = this.lean_mass * .3
+    this.wielding = false
 
     // actions
     this.north = function() {
@@ -69,6 +70,16 @@ function Being(attributes) {
         }
         this.tell("You do not have space for " + item.title() + ".")
         return false;
+    }
+
+    this.eat = function(item) {
+        if (!("fat" in item)) {
+            this.tell(item.titlec() + " does not appear to be edible.")
+            return false;
+        }
+        this.tell("You eat " + item.title() + ".")
+        this.body_fat += item.fat
+        item.destroy()
     }
 
     this.attack = function(target_square) {
@@ -115,6 +126,12 @@ function Being(attributes) {
     }
 
     this.act = function(callback) {
+        // lose a bit over one pound per day due to very active lifestyle
+        this.body_fat -= (this.body_fat + this.lean_mass) / (86400 * 100)
+        if (this.body_fat < 0) {
+            this.dead = 1
+            this.tell('You have starved.')
+        }
         this.notify()
         var obj = this
         if (this.controllers.length > 0) {

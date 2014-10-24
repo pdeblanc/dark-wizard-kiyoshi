@@ -2,19 +2,6 @@ function PlayerViewport(attributes) {
     this.being = attributes.being
     $("#name").text('Peter')
     $("#title").text(this.being.species.name).addClass(this.being.species.name)
-    var stats_div = document.getElementById('stats')
-    for (var i = 0; i < PUBLIC_STATS.length; i++) {
-        var stat_div = document.createElement('div')
-        var stat_label = document.createElement('span')
-        stat_label.textContent = PUBLIC_STATS[i] + ': '
-        var stat_value = document.createElement('span')
-        stat_value.className = 'stat-value'
-        stat_value.id = PUBLIC_STATS[i]
-        stat_value.textContent = this.being[PUBLIC_STATS[i]]
-        stat_div.appendChild(stat_label)
-        stat_div.appendChild(stat_value)
-        stats_div.appendChild(stat_div)
-    }
     this.being.span.className += ' player'
     this.left = -4
     this.right = 4
@@ -28,6 +15,23 @@ function PlayerViewport(attributes) {
         }
     }
     this.render = function() {
+        var stats_div = document.getElementById('stats')
+        stats_div.innerHTML = ''
+        for (var i = 0; i < PUBLIC_STATS.length; i++) {
+            var stat_div = document.createElement('div')
+            var stat_label = document.createElement('span')
+            stat_label.textContent = PUBLIC_STATS[i] + ': '
+            var stat_value = document.createElement('span')
+            stat_value.className = 'stat-value'
+            stat_value.id = PUBLIC_STATS[i]
+            stat_value.textContent = this.being[PUBLIC_STATS[i]]
+            stat_div.appendChild(stat_label)
+            stat_div.appendChild(stat_value)
+            stats_div.appendChild(stat_div)
+        }
+        $(stats_div).append(
+            $("<div />").text("Body fat: " + (''+this.being.body_fat).substring(0,5))
+        )
         var origin = this.being.square
         var plane = origin.plane
         for (var x = this.left; x <= this.right; x++) {
