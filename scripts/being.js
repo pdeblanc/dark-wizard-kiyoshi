@@ -65,21 +65,21 @@ function Being(attributes) {
                 var vacancy = this.inventory.vacancy(item)
                 if (vacancy) {
                     item.moveto(vacancy)
-                    this.tell("You get " + item.title() + ".")
+                    this.tell("You get " + item.a() + ".")
                     return true;
                 }
             }
         }
-        this.tell("You do not have space for " + item.title() + ".")
+        this.tell("You do not have space for " + item.a() + ".")
         return false;
     }
 
     this.eat = function(item) {
         if (!("fat" in item)) {
-            this.tell(item.titlec() + " does not appear to be edible.")
+            this.tell(item.The() + " does not appear to be edible.")
             return false;
         }
-        this.tell("You eat " + item.title() + ".")
+        this.tell("You eat " + item.the() + ".")
         this.body_fat += item.fat
         item.destroy()
     }
@@ -113,7 +113,7 @@ function Being(attributes) {
             $(this.wielding.span).removeClass('wielded')
         this.wielding = item
         item.span.className += ' wielded'
-        this.tell('Now wielding ' + item.title() + '.')
+        this.tell('Now wielding ' + item.the() + '.')
     }
 
     this.unwield = function(item) {
@@ -165,7 +165,7 @@ function Being(attributes) {
             for (var i = 0; i < this.square.contents.length; i++) {
                 var item = this.square.contents[i]
                 if (item != this)
-                    this.tell("You find " + item.title() + ".")
+                    this.tell("You find " + item.a() + ".")
             }
             return true;
         }
@@ -181,7 +181,7 @@ function Being(attributes) {
         }
         damage_taken.sort(function(a, b) { return b[1] - a[1] })
         var primary_damage_type = damage_taken[0][0]
-        attacker.tell("You " + primary_damage_type + " " + this.title() + ".")
+        attacker.tell("You " + primary_damage_type + " " + this.the() + ".")
         if (this.health <= 0) {
             this.die()
         }
@@ -189,7 +189,7 @@ function Being(attributes) {
     }
 
     this.die = function() {
-        this.square.announce(this.titlec() + ' dies.')
+        this.square.announce(this.The() + ' dies.')
         new Item({
             family: universe.products.meat,
             square: this.square
