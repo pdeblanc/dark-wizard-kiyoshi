@@ -4,18 +4,10 @@ STATS = ['power', 'speed', 'vigor', 'lean_mass']
 
 initialize = function() {
     var plane = new WildernessPlane({width: 64, height: 64})
-    var player = new Being({
-        family: universe.species.human
-    })
-    var jimmy = new Being({
-        family: universe.species.human
-    })
-    var katana = new Item({
-        family: universe.products.katana
-    })
-    var longsword = new Item({
-        family: universe.products.longsword
-    })
+    var player = universe.species.human.create()
+    var jimmy = universe.species.human.create()
+    var katana = universe.products.katana.create()
+    var longsword = universe.products.longsword.create()
     plane.place_randomly(player)
     plane.place_randomly(jimmy)
     plane.place_randomly(katana)

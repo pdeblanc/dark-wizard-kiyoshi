@@ -4,5 +4,9 @@ function Product(attributes) {
     for (key in attributes) {
         this[key] = attributes[key]
     }
+
+    this.create = function() {
+        return new Item({family: this})
+    }
 }
 
