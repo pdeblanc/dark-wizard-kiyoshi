@@ -25,7 +25,8 @@ function Being(attributes) {
     this.square = attributes.square
     this.span = document.createElement('div')
     this.innerSpan = document.createElement('div')
-    this.square.enter(this)
+    if (this.square)
+        this.square.enter(this)
     this.viewports = []
     this.controllers = []
 
@@ -131,7 +132,6 @@ function Being(attributes) {
         if (this.controllers.length > 0) {
             this.controllers[0].set_callback(function(command) {
                 var success = obj[command[0]].apply(obj, command.slice(1))
-                console.log('success', success)
                 if (success) {
                     // lose a bit over one pound per day due to very active lifestyle
                     // remove leading 10000 when done testing
@@ -157,7 +157,8 @@ function Being(attributes) {
 
     this.moveto = function(square) {
         if (square.permit_entry(this)) {
-            this.square.exit(this)
+            if (this.square)
+                this.square.exit(this)
             this.square = square
             this.square.enter(this)
             for (var i = 0; i < this.square.contents.length; i++) {

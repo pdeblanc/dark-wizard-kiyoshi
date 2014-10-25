@@ -26,7 +26,8 @@ function Item(attributes) {
 
     // setup
     this.span = document.createElement('span')
-    this.square.enter(this)
+    if (this.square)
+        this.square.enter(this)
 
     // compile attributes
     this.compile_attributes()
@@ -34,7 +35,8 @@ function Item(attributes) {
     // methods with effects
     this.moveto = function(square) {
         if (square.permit_entry(this)) {
-            this.square.exit(this)
+            if (this.square)
+                this.square.exit(this)
             this.square = square
             this.square.enter(this)
         }

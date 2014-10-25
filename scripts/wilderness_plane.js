@@ -45,6 +45,5 @@ function WildernessPlane(attributes) {
         }
         console.log(JSON.stringify(biome_counts))
     }
-
 }
 

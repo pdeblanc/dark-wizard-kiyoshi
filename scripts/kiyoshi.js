@@ -5,41 +5,21 @@ STATS = ['power', 'speed', 'vigor', 'lean_mass']
 initialize = function() {
     var plane = new WildernessPlane({width: 64, height: 64})
     var player = new Being({
-        species: universe.species.human,
-        square: plane.square(
-            new Coordinate({
-                x: 2,
-                y: 3
-            })
-        )
+        species: universe.species.human
     })
     var jimmy = new Being({
-        species: universe.species.human,
-        square: plane.square(
-            new Coordinate({
-                x: 6,
-                y: 6
-            })
-        )
+        species: universe.species.human
     })
     var katana = new Item({
-        product: universe.products.katana,
-        square: plane.square(
-            new Coordinate({
-                x: 4,
-                y: 4
-            })
-        )
+        product: universe.products.katana
     })
     var longsword = new Item({
-        product: universe.products.longsword,
-        square: plane.square(
-            new Coordinate({
-                x: 5,
-                y: 4
-            })
-        )
+        product: universe.products.longsword
     })
+    plane.place_randomly(player)
+    plane.place_randomly(jimmy)
+    plane.place_randomly(katana)
+    plane.place_randomly(longsword)
     player.controllers.push(new Controller({being: player}))
     player.viewports.push(new PlayerViewport({being: player}))
     new PlaneViewport({plane: player.inventory, being: player})

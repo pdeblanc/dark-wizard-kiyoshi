@@ -18,5 +18,14 @@ function Plane(attributes) {
             }
         }
     }
+    this.place_randomly = function(hopeful) {
+        for (var attempt = 0; attempt < 100; attempt++) {
+            var coordinate = new Coordinate({x: Math.floor(Math.random() * this.width), y: Math.floor(Math.random() * this.height)})
+            var square = this.square(coordinate)
+            if (square.permit_entry(hopeful))
+                return hopeful.moveto(square)
+        }
+        return false
+    }
 }
 
