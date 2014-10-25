@@ -6,7 +6,8 @@ universe.biomes = {
     tree: new Biome({
         name: 'tree',
         symbol: '木',
-        passable: false
+        passable: false,
+        bias: -1
     }),
     woods: new Biome({
         name: 'woods',

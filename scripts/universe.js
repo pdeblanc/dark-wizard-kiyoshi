@@ -1,5 +1,8 @@
 var universe = {
-    species: {human: new Species({name: 'human', symbol: '人', lean_mass: 10})},
+    species: {
+        human: new Species({name: 'human', symbol: '人', lean_mass: 10}),
+        dragon: new Species({name: 'blue dragon', symbol: '龍', lean_mass: 200})
+    },
     products: {
         katana: new Product({name: 'katana', symbol: '刀', action: 'toggle_wield', damage: function() { return {'cut': 5} }}),
         longsword: new Product({name: 'longsword', symbol: '剣', action: 'toggle_wield', damage: function() { return {'cut': 5} }}),
