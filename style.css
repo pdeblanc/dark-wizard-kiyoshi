@@ -76,6 +76,21 @@ body {
     color: #005000;
 }
 
+.woods {
+    background: #002000;
+    color: #007000;
+}
+
+.forest {
+    background: #002000;
+    color: #007000;
+}
+
+.tree {
+    background: #002000;
+    color: #b0d000;
+}
+
 .water {
     background: #000040;
     color: #000080;

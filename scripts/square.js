@@ -71,5 +71,10 @@ function Square(attributes) {
             }
         }
     }
+    this.set_biome = function(biome) {
+        this.biome = biome
+        this.span.className = 'biome ' + this.biome.name
+        this.span.textContent = this.biome.symbol
+    }
 }
 
