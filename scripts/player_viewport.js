@@ -1,7 +1,7 @@
 function PlayerViewport(attributes) {
     this.being = attributes.being
     $("#name").text('Peter')
-    $("#title").text(this.being.species.name).addClass(this.being.species.name)
+    $("#title").text(this.being.family.name).addClass(this.being.family.name)
     this.being.span.className += ' player'
     this.left = -4
     this.right = 4

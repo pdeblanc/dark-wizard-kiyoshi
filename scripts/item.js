@@ -1,10 +1,11 @@
 ITEM_STATS = ['mass', 'fat']
 
 function Item(attributes) {
+    WorldObject.apply(this, arguments)
     this.compile_attributes = function() {
         // appearance
-        this.symbol = this.product.symbol
-        this.span.className = 'item ' + this.product.name
+        this.symbol = this.family.symbol
+        this.span.className = 'item ' + this.family.name
         this.span.textContent = this.symbol
         this.span.item = this
         for (var i = 0; i < ITEM_STATS.length; i++) {
@@ -17,8 +18,8 @@ function Item(attributes) {
     }
 
     // basic attributes
-    this.product = attributes.product
-    this.aspects = [this.product]
+    this.family = attributes.family
+    this.aspects = [this.family]
     this.aspects.push.apply(attributes.aspects || [])
 
     // highly mutable attributes
@@ -46,23 +47,13 @@ function Item(attributes) {
         this.square.exit(this)
     }
 
-    // methods that return information
-    this.titlec = function() {
-        var title = this.title()
-        return title.charAt(0).toUpperCase() + title.slice(1)
-    }
-
-    this.title = function() {
-        return "a " + this.product.name
-    }
-
     this.default_action = function() {
-        return this.product.action
+        return this.family.action
     }
 
     this.damage = function() {
-        if (this.product.damage)
-            return this.product.damage()
+        if (this.family.damage)
+            return this.family.damage()
         return {'bash': 1}
     }
 }

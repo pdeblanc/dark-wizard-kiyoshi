@@ -1,10 +1,11 @@
 function Being(attributes) {
+    WorldObject.apply(this, arguments)
     this.compile_attributes = function() {
         // appearance
-        this.symbol = this.species.symbol
+        this.symbol = this.family.symbol
         this.span.className = 'being blood'
         this.span.textContent = this.symbol
-        this.innerSpan.className = this.species.name + ' being_fg'
+        this.innerSpan.className = this.family.name + ' being_fg'
         this.innerSpan.textContent = this.symbol
         this.span.appendChild(this.innerSpan)
         for (var i = 0; i < STATS.length; i++) {
@@ -17,8 +18,8 @@ function Being(attributes) {
     }
 
     // basic attributes
-    this.species = attributes.species
-    this.aspects = [this.species]
+    this.family = attributes.family
+    this.aspects = [this.family]
     this.aspects.push.apply(attributes.aspects || [])
 
     // setup
@@ -190,7 +191,7 @@ function Being(attributes) {
     this.die = function() {
         this.square.announce(this.titlec() + ' dies.')
         new Item({
-            product: universe.products.meat,
+            family: universe.products.meat,
             square: this.square
         })
         this.square.exit(this)
@@ -201,15 +202,6 @@ function Being(attributes) {
         this.viewports.forEach(function(viewport) {
             viewport.tell(message)
         })
-    }
-
-    this.titlec = function() {
-        var title = this.title()
-        return title.charAt(0).toUpperCase() + title.slice(1)
-    }
-
-    this.title = function() {
-        return "the " + this.species.name
     }
 }
 

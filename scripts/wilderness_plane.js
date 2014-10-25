@@ -43,7 +43,6 @@ function WildernessPlane(attributes) {
                 this.square(coordinate).set_biome(biome)
             }
         }
-        console.log(JSON.stringify(biome_counts))
     }
 }
 
