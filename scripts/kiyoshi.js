@@ -6,12 +6,13 @@ initialize = function() {
     var plane = new WildernessPlane({width: 64, height: 64})
     var player = universe.species.human.create()
     var jimmy = universe.species.human.create()
-    var katana = universe.products.katana.create()
-    var longsword = universe.products.longsword.create()
     plane.place_randomly(player)
     plane.place_randomly(jimmy)
-    plane.place_randomly(katana)
-    plane.place_randomly(longsword)
+    plane.place_randomly(universe.products.katana.create())
+    plane.place_randomly(universe.products.longsword.create())
+    for (var i = 0; i < 10; i++) {
+        plane.place_randomly(universe.products.meat.create())
+    }
     player.controllers.push(new Controller({being: player}))
     player.viewports.push(new PlayerViewport({being: player}))
     new PlaneViewport({plane: player.inventory, being: player})
