@@ -110,6 +110,10 @@ body {
     color: #00ff00;
 }
 
+.dragon {
+    color: #0000ff;
+}
+
 .being {
     text-shadow: -1px -1px 0px white, 1px 1px 0px black;
 }
