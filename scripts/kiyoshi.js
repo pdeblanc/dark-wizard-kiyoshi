@@ -3,7 +3,7 @@ STATS = ['power', 'speed', 'vigor', 'lean_mass']
 
 
 initialize = function() {
-    var plane = new WildernessPlane({width: 256, height: 256})
+    var plane = new WildernessPlane({width: 64, height: 64})
     var player = new Being({
         species: universe.species.human,
         square: plane.square(

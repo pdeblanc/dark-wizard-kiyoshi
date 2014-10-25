@@ -7,7 +7,7 @@ function WildernessPlane(attributes) {
         }
     }
     var coordinate = new Coordinate({x: 0, y: 0})
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < 24; i++) {
         biome_counts = {}
         for (coordinate.x = 0; coordinate.x < this.width; coordinate.x++) {
             for (coordinate.y = 0; coordinate.y < this.height; coordinate.y++) {
