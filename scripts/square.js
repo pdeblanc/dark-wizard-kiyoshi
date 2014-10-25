@@ -4,7 +4,8 @@ function Square(attributes) {
     this.span.className = 'biome ' + this.biome.name
     this.span.textContent = this.biome.symbol
     this.span.square = this
-    this.contents = []
+    this.items = []
+    this.beings = []
     this.plane = attributes.plane
     this.coordinate = attributes.coordinate
     this.offset = function(attributes) {
@@ -23,32 +24,43 @@ function Square(attributes) {
         return this.offset({x: 1})
     }
     this.exit = function(departee) {
-        var index = this.contents.indexOf(departee)
+        var array = (departee instanceof Being) ? this.beings : this.items
+        var index = array.indexOf(departee)
         if (index > -1)
-            this.contents.splice(index, 1)
-        if (this.contents.length > 0) {
+            array.splice(index, 1)
+        var visible_object = this.beings[0] || this.items[0]
+        if (visible_object) {
             this.span.innerHTML = ''
-            this.span.appendChild(this.contents[0].span)
+            this.span.appendChild(visible_object.span)
         }
         else
             this.span.innerHTML = this.biome.symbol
     }
     this.enter = function(newcomer) {
-        this.contents.push(newcomer)
-        this.span.innerHTML = ''
-        this.span.appendChild(newcomer.span)
+        var array = (newcomer instanceof Being) ? this.beings : this.items
+        array.push(newcomer)
+        if (newcomer instanceof Being || this.items.length == 1) {
+            this.span.innerHTML = ''
+            this.span.appendChild(newcomer.span)
+        }
+        if (newcomer instanceof Being) {
+            for (var i = 0; i < this.items.length; i++) {
+                newcomer.tell("You find " + this.items[i].a() + ".")
+            }
+        }
     }
     this.permit_entry = function(hopeful) {
+        var array = (hopeful instanceof Being) ? this.beings : this.items
         if (hopeful instanceof Being) {
-            for (var i = 0; i < this.contents.length; i++) {
-                if (this.contents[i] instanceof Being) {
+            for (var i = 0; i < array.length; i++) {
+                if (array[i] instanceof Being) {
                     return false;
                 }
             }
         } else {
             var total_items = 0;
-            for (var i = 0; i < this.contents.length; i++) {
-                if (this.contents[i] instanceof Item) {
+            for (var i = 0; i < array.length; i++) {
+                if (array[i] instanceof Item) {
                     total_items += 1;
                     if (total_items >= this.biome.max_items) {
                         return false;
@@ -64,9 +76,9 @@ function Square(attributes) {
         for (; coordinate.x <= this.coordinate.x + radius; coordinate.x++) {
             for (coordinate.y = this.coordinate.y - radius; coordinate.y <= this.coordinate.y + radius; coordinate.y++) {
                 var other_square = this.plane.square(coordinate)
-                for (var i = 0; i < other_square.contents.length; i++) {
-                    if (other_square.contents[i] instanceof Being)
-                        other_square.contents[i].tell(message)
+                for (var i = 0; i < other_square.beings.length; i++) {
+                    if (other_square.beings[i] instanceof Being)
+                        other_square.beings[i].tell(message)
                 }
             }
         }

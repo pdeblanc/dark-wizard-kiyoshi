@@ -59,15 +59,13 @@ function Being(attributes) {
     }
 
     this.get = function() {
-        for (var i = 0; i < this.square.contents.length; i++) {
-            var item = this.square.contents[i]
-            if (item instanceof Item) {
-                var vacancy = this.inventory.vacancy(item)
-                if (vacancy) {
-                    item.moveto(vacancy)
-                    this.tell("You get " + item.a() + ".")
-                    return true;
-                }
+        for (var i = 0; i < this.square.items.length; i++) {
+            var item = this.square.items[i]
+            var vacancy = this.inventory.vacancy(item)
+            if (vacancy) {
+                item.moveto(vacancy)
+                this.tell("You get " + item.a() + ".")
+                return true;
             }
         }
         this.tell("You do not have space for " + item.a() + ".")
@@ -85,19 +83,15 @@ function Being(attributes) {
     }
 
     this.attack = function(target_square) {
-        for (var i = 0; i < target_square.contents.length; i++) {
-            if (target_square.contents[i] instanceof Being) {
-                var item = target_square.contents[i]
-                if (item instanceof Being) {
-                    if (this.wielding) {
-                        item.receive_damage(this.wielding.damage(), this)
-                    }
-                    else {
-                        item.receive_damage({punch: 1}, this)
-                    }
-                }
-                return true;
+        for (var i = 0; i < target_square.beings.length; i++) {
+            var being = target_square.beings[i]
+            if (this.wielding) {
+                being.receive_damage(this.wielding.damage(), this)
             }
+            else {
+                being.receive_damage({punch: 1}, this)
+            }
+            return true;
         }
     }
 
@@ -162,11 +156,6 @@ function Being(attributes) {
                 this.square.exit(this)
             this.square = square
             this.square.enter(this)
-            for (var i = 0; i < this.square.contents.length; i++) {
-                var item = this.square.contents[i]
-                if (item != this)
-                    this.tell("You find " + item.a() + ".")
-            }
             return true;
         }
         return false;
