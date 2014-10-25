@@ -17,6 +17,12 @@ function Controller(attributes) {
             return callback(command)
         }
     }
+    // tell player about controller
+    this.being.controllers.push(this)
+    // set up display
+    this.being.viewports.push(new PlayerViewport({being: this.being}))
+    new PlaneViewport({plane: this.being.inventory, being: this.being})
+    // set up event listeners
     var controller = this
     document.body.addEventListener(
         'keydown',

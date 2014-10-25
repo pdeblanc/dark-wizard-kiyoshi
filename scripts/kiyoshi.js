@@ -15,9 +15,7 @@ initialize = function() {
     for (var i = 0; i < 10; i++) {
         plane.place_randomly(universe.products.meat.create())
     }
-    player.controllers.push(new Controller({being: player}))
-    player.viewports.push(new PlayerViewport({being: player}))
-    new PlaneViewport({plane: player.inventory, being: player})
+    new Controller({being: player})
     var timeline = new Timeline({start_time: 0, agents: [player, jimmy, dragon]})
     timeline.simulate()
 }
