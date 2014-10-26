@@ -35,6 +35,8 @@ function Square(attributes) {
         }
         else
             this.span.innerHTML = this.biome.symbol
+        if (departee instanceof Being)
+            this.plane.tree.remove(departee)
     }
     this.enter = function(newcomer) {
         var array = (newcomer instanceof Being) ? this.beings : this.items
@@ -44,6 +46,7 @@ function Square(attributes) {
             this.span.appendChild(newcomer.span)
         }
         if (newcomer instanceof Being) {
+            this.plane.tree.insert(newcomer)
             for (var i = 0; i < this.items.length; i++) {
                 newcomer.tell("You find " + this.items[i].a() + ".")
             }

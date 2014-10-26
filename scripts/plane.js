@@ -2,6 +2,7 @@ function Plane(attributes) {
     this.width = attributes.width || 9
     this.height = attributes.height || 9
     this.squares = {}
+    this.tree = rbush(9, ['.square.coordinate.x', '.square.coordinate.y', '.square.coordinate.x', '.square.coordinate.y'])
     this.square = function(coordinate) {
         if (coordinate.x < 0 || coordinate.y < 0 || coordinate.x >= this.width || coordinate.y >= this.height)
             return new Square({biome: universe.biomes.void, plane: this, coordinate: coordinate})
