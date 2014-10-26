@@ -187,6 +187,7 @@ function Being(attributes) {
         var primary_damage_type = damage_taken[0][0]
         attacker.tell("You " + primary_damage_type + " " + this.the() + ".")
         this.tell(attacker.The() + " " + primary_damage_type + "(e)s you.")
+        attacker.square.announce_all_but([this, attacker], attacker.The() + ' ' + primary_damage_type + '(e)s ' + this.the() + '.')
         if (this.health <= 0) {
             this.die()
         }
@@ -194,7 +195,8 @@ function Being(attributes) {
     }
 
     this.die = function() {
-        this.square.announce(this.The() + ' dies.')
+        this.square.announce_all_but([this], this.The() + ' dies.')
+        this.tell("You die.")
         new Item({
             family: universe.products.meat,
             square: this.square

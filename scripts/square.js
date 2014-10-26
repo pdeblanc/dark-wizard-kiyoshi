@@ -73,18 +73,16 @@ function Square(attributes) {
         }
         return this.biome.passable
     }
-    this.announce = function(message) {
+    this.announce_all_but = function(exclude, message) {
         var radius = 4;
-        var coordinate = new Coordinate({x: this.coordinate.x - radius, y: this.coordinate.y - radius});
-        for (; coordinate.x <= this.coordinate.x + radius; coordinate.x++) {
-            for (coordinate.y = this.coordinate.y - radius; coordinate.y <= this.coordinate.y + radius; coordinate.y++) {
-                var other_square = this.plane.square(coordinate)
-                for (var i = 0; i < other_square.beings.length; i++) {
-                    if (other_square.beings[i] instanceof Being)
-                        other_square.beings[i].tell(message)
-                }
-            }
+        var beings = this.plane.tree.search([this.coordinate.x - radius, this.coordinate.y - radius, this.coordinate.x + radius, this.coordinate.y + radius])
+        for (var b = 0; b < beings.length; b++) {
+            if (exclude.indexOf(beings[b]) == -1)
+                beings[b].tell(message)
         }
+    }
+    this.announce = function(message) {
+        this.announce_all_but([], message)
     }
     this.set_biome = function(biome) {
         this.biome = biome
