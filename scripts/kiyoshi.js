@@ -4,9 +4,9 @@ STATS = ['power', 'speed', 'vigor', 'lean_mass']
 
 initialize = function() {
     var plane = new WildernessPlane({width: 64, height: 64})
-    var player = universe.specieses.human.create()
-    var jimmy = universe.specieses.human.create()
-    var dragon = universe.specieses["blue dragon"].create()
+    var player = universe.clades.human.create()
+    var jimmy = universe.clades.human.create()
+    var dragon = universe.clades["blue dragon"].create()
     plane.place_randomly(player)
     plane.place_randomly(jimmy)
     plane.place_randomly(dragon)

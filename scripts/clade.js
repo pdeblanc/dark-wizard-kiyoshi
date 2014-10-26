@@ -1,4 +1,4 @@
-function Species(attributes) {
+function Clade(attributes) {
     this.name = 'being'
     this.symbol = '居'
     for (key in attributes) {

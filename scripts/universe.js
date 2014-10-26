@@ -1,11 +1,11 @@
 function Universe(attributes) {
-    this.specieses = {}
+    this.clades = {}
     this.products = {}
     this.biomes = {}
 
-    this.species = function(attributes) {
-        var species = new Species(attributes)
-        this.specieses[species.name] = species
+    this.clade = function(attributes) {
+        var clade = new Clade(attributes)
+        this.clades[clade.name] = clade
     }
 
     this.product = function(attributes) {
@@ -21,8 +21,8 @@ function Universe(attributes) {
 
 var universe = new Universe()
 
-universe.species({name: 'human', symbol: '人', lean_mass: 10})
-universe.species({name: 'blue dragon', symbol: '龍', lean_mass: 200, vigor: 20})
+universe.clade({name: 'human', symbol: '人', lean_mass: 10})
+universe.clade({name: 'blue dragon', symbol: '龍', lean_mass: 200, vigor: 20})
 universe.product({name: 'katana', symbol: '刀', action: 'toggle_wield', damage: function() { return {'cut': 5} }})
 universe.product({name: 'longsword', symbol: '剣', action: 'toggle_wield', damage: function() { return {'cut': 5} }})
 universe.product({name: 'meat', symbol: '肉', fat: 2, action: 'eat'})
