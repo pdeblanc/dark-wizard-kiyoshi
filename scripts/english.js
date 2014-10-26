@@ -17,3 +17,6 @@ english = {
 english.verb('cut', 'cuts', 'cut')
     .verb('punch', 'punches', 'punched')
     .verb('hit', 'hits', 'hit')
+    .verb('bite', 'bites', 'bit')
+    .verb('scratch', 'scratches', 'scratched')
+    .verb('burn', 'burns', 'burned')

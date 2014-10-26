@@ -93,7 +93,9 @@ function Being(attributes) {
                 being.receive_damage(this.wielding.damage(), this)
             }
             else {
-                being.receive_damage({punch: 1}, this)
+                var attack = {}
+                attack[this.family.attack] = this.family.damage
+                being.receive_damage(attack, this)
             }
             return true;
         }

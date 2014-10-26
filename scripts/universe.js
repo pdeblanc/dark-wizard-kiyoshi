@@ -58,8 +58,10 @@ function Universe(attributes) {
 
 var universe = new Universe()
 
-universe.clade({name: 'human', symbol: '人', lean_mass: 10})
-universe.clade({name: 'blue dragon', symbol: '龍', lean_mass: 200, vigor: 20})
+universe.clade({name: 'human', symbol: '人', lean_mass: 10, attack: 'punch'})
+universe.clade({name: 'blue dragon', symbol: '龍', lean_mass: 200, vigor: 20, attack: 'burn', damage: 9})
+universe.clade({name: 'cat', symbol: '猫', lean_mass: 1, vigor: .2, attack: 'scratch'})
+universe.clade({name: 'dog', symbol: '犬', lean_mass: 3, vigor: .5, attack: 'bite'})
 universe.product({name: 'bokutō', symbol: '刀', action: 'toggle_wield', damage: function() { return {'hit': 2} }})
 universe.product({name: 'katana', symbol: '刀', action: 'toggle_wield', damage: function() { return {'cut': 5} }})
 universe.product({name: 'longsword', symbol: '剣', action: 'toggle_wield', damage: function() { return {'cut': 5} }})
