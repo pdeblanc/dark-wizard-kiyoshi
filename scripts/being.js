@@ -184,10 +184,10 @@ function Being(attributes) {
             this.health -= amount / this.vigor
         }
         damage_taken.sort(function(a, b) { return b[1] - a[1] })
-        var primary_damage_type = damage_taken[0][0]
-        attacker.tell("You " + primary_damage_type + " " + this.the() + ".")
-        this.tell(attacker.The() + " " + primary_damage_type + "(e)s you.")
-        attacker.square.announce_all_but([this, attacker], attacker.The() + ' ' + primary_damage_type + '(e)s ' + this.the() + '.')
+        var verb = english.verbs[damage_taken[0][0]]
+        attacker.tell("You " + verb + " " + this.the() + ".")
+        this.tell(attacker.The() + " " + verb.s + " you.")
+        attacker.square.announce_all_but([this, attacker], attacker.The() + ' ' + verb.s + ' ' + this.the() + '.')
         if (this.health <= 0) {
             this.die()
         }
