@@ -8,6 +8,7 @@ initialize = function() {
     plane.place_randomly(player)
     for (var i = 0; i < 30; i++)
         plane.place_randomly(universe.clades.human.create())
+        plane.place_randomly(universe.products["bokutō"].create())
     plane.place_randomly(universe.clades["blue dragon"].create())
     for (var i = 0; i < 2; i++) {
         plane.place_randomly(universe.products.katana.create())
