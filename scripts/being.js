@@ -68,7 +68,10 @@ function Being(attributes) {
                 return true;
             }
         }
-        this.tell("You do not have space for " + item.a() + ".")
+        if (item)
+            this.tell("You do not have space for " + item.a() + ".")
+        else
+            this.tell("There is nothing to get.")
         return false;
     }
 
