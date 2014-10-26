@@ -3,7 +3,8 @@ function Universe(attributes) {
     this.products = {}
     this.biomes = {}
     this.affinities = {}
-    this.timeline = new Timeline({start_time: 0})
+    this.game_over = false
+    this.timeline = new Timeline({start_time: 0, universe: this})
 
     this.simulate = function() {
         this.timeline.simulate()
@@ -44,6 +45,13 @@ function Universe(attributes) {
 
     this.foes = function(a, b) {
         this.affinity(a, b, -1)
+    }
+
+    this.delay_if_game_over = function(milliseconds, callback) {
+        if (this.game_over)
+            setTimeout(callback, milliseconds)
+        else
+            callback()
     }
 
 } 

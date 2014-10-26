@@ -189,6 +189,8 @@ function Being(attributes) {
         })
         this.square.exit(this)
         this.dead = 1
+        if (this.controllers.length > 0)
+            this.universe.game_over = true
     }
 
     this.tell = function(message) {
