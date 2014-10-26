@@ -12,7 +12,7 @@ initialize = function() {
     plane.place_randomly(dragon)
     plane.place_randomly(universe.products.katana.create())
     plane.place_randomly(universe.products.longsword.create())
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 100; i++) {
         plane.place_randomly(universe.products.meat.create())
     }
     new Controller({being: player})
