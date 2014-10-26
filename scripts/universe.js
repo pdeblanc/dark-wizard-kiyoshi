@@ -3,18 +3,26 @@ function Universe(attributes) {
     this.products = {}
     this.biomes = {}
     this.affinities = {}
+    this.timeline = new Timeline({start_time: 0})
+
+    this.simulate = function() {
+        this.timeline.simulate()
+    }
 
     this.clade = function(attributes) {
+        attributes.universe = this
         var clade = new Clade(attributes)
         this.clades[clade.name] = clade
     }
 
     this.product = function(attributes) {
+        attributes.universe = this
         var product = new Product(attributes)
         this.products[product.name] = product
     }
 
     this.biome = function(attributes) {
+        attributes.universe = this
         var biome = new Biome(attributes)
         this.biomes[biome.name] = biome
     }

@@ -1,10 +1,11 @@
 function Timeline(attributes) {
     this.time = attributes.start_time
-    this.agents = attributes.agents
+    this.agents = []
     this.queue = new PriorityQueue({comparator: function(a, b) { return a.next_action_time - b.next_action_time }})
-    for (var i = 0; i < this.agents.length; i++) {
-        this.agents[i].next_action_time = this.time + Math.random() * 10 / this.agents[i].speed
-        this.queue.queue(this.agents[i])
+    this.add_agent = function(agent) {
+        this.agents.push(agent)
+        agent.next_action_time = this.time + Math.random() * 10 / agent.speed
+        this.queue.queue(agent)
     }
     this.simulate = function() {
         var agent = this.queue.dequeue()

@@ -40,6 +40,7 @@ function Being(attributes) {
     this.health = 1
     this.body_fat = this.lean_mass * .3
     this.wielding = false
+    this.universe.timeline.add_agent(this)
 
     // actions
     this.north = function() {

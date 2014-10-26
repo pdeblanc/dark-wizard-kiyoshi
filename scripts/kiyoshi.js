@@ -16,7 +16,6 @@ initialize = function() {
         plane.place_randomly(universe.products.meat.create())
     }
     new Controller({being: player})
-    var timeline = new Timeline({start_time: 0, agents: [player, jimmy, dragon]})
-    timeline.simulate()
+    universe.simulate()
 }
 

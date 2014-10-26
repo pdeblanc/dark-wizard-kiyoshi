@@ -1,4 +1,5 @@
 function WorldObject(attributes) {
+    this.universe = attributes.universe
     this.A = function() {
         var title = this.a()
         return title.charAt(0).toUpperCase() + title.slice(1)
