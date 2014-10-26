@@ -36,6 +36,6 @@ universe.biome({
     bias: -100 
 })
 
-universe.affinity.friends('grass', 'grass')
-universe.affinity.friends('water', 'water')
+universe.friends('grass', 'grass')
+universe.friends('water', 'water')
 

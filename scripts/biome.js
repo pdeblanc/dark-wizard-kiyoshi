@@ -9,7 +9,7 @@ function Biome(attributes) {
         var total = 0;
         for (var i = 0; i < this.tags.length; i++) {
             for (var j = 0; j < other.tags.length; j++) {
-                total += universe.affinity.get(this.tags[i], other.tags[j])
+                total += universe.affinity(this.tags[i], other.tags[j])
             }
         }
         return total;

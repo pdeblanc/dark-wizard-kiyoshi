@@ -2,6 +2,7 @@ function Universe(attributes) {
     this.clades = {}
     this.products = {}
     this.biomes = {}
+    this.affinities = {}
 
     this.clade = function(attributes) {
         var clade = new Clade(attributes)
@@ -17,6 +18,26 @@ function Universe(attributes) {
         var biome = new Biome(attributes)
         this.biomes[biome.name] = biome
     }
+
+    this.affinity = function(a, b, x) {
+        if (x == undefined) {
+            if (a in this.affinities && b in this.affinities[a])
+                return this.affinities[a][b]
+            return 0
+        }
+        this.affinities[a] = this.affinities[a] || {}
+        this.affinities[b] = this.affinities[b] || {}
+        this.affinities[a][b] = this.affinities[b][a] = x
+    }
+
+    this.friends = function(a, b) {
+        this.affinity(a, b, 1)
+    }
+
+    this.foes = function(a, b) {
+        this.affinity(a, b, -1)
+    }
+
 } 
 
 var universe = new Universe()
