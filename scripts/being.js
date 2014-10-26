@@ -86,6 +86,15 @@ function Being(attributes) {
         item.destroy()
     }
 
+    this.look = function(square) {
+        var item_names = [square.biome.name]
+        for (var i = 0; i < square.beings.length; i++)
+            item_names.push(square.beings[i].a())
+        for (var i = 0; i < square.items.length; i++)
+            item_names.push(square.items[i].a())
+        this.tell('You see ' + english.list(item_names) + '.')
+    }
+
     this.attack = function(target_square) {
         for (var i = 0; i < target_square.beings.length; i++) {
             var being = target_square.beings[i]

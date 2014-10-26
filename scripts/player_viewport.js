@@ -1,5 +1,6 @@
 function PlayerViewport(attributes) {
     this.being = attributes.being
+    this.controller = attributes.controller
     $("#name").text('Peter')
     $("#title").text(this.being.family.name).addClass(this.being.family.name)
     this.being.span.className += ' player'
@@ -11,7 +12,7 @@ function PlayerViewport(attributes) {
         var row = $("<div />").addClass("row")
         $("#viewport").append(row)
         for (var x = this.left; x <= this.right; x++) {
-            row.append(viewportCell("_" + x + "_" + y, this.being))
+            row.append(viewportCell("_" + x + "_" + y, this.controller))
         }
     }
     this.render = function() {

@@ -1,4 +1,4 @@
-function viewportCell(id, being) {
+function viewportCell(id, controller) {
     return $("<span />")
         .addClass("cell-container")
         .append(
@@ -21,9 +21,12 @@ function viewportCell(id, being) {
             var action, item
             for (var i = 0; i < children.length; i++) {
                 if ((item = children[i].item) && (action = item.default_action())) {
-                    return being.controllers[0].push_command([action, children[i].item])
+                    return controller.push_command([action, children[i].item])
                 }
             }
+        })
+        .click(function() {
+            controller.click(this.childNodes[0].childNodes[0].square)
         })
 }
 

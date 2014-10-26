@@ -11,6 +11,9 @@ english = {
             ed: ed
         }
         return this
+    },
+    list: function(array) {
+        return array.join(', ')
     }
 }
 
