@@ -147,9 +147,16 @@ function Being(attributes) {
             })
         }
         else {
-            var actions = ['north', 'south', 'west', 'east']
-            action = actions[Math.floor(Math.random() * 4)]
-            this[action]()
+            // move randomly
+            var commands = [['north'], ['south'], ['west'], ['east']]
+            command = commands[Math.floor(Math.random() * 4)]
+            var squares = [this.square.north(), this.square.south(), this.square.east(), this.square.west()]
+            // attack
+            for (var i = 0; i < squares.length; i++) {
+                if (squares[i] && squares[i].beings.length && this.hostile(squares[i].beings[0]))
+                    command = ["attack", squares[i]]
+            }
+            this[command[0]].apply(this, command.slice(1))
             callback()
         }
     }
@@ -165,6 +172,10 @@ function Being(attributes) {
         return false;
     }
 
+    this.hostile = function(other) {
+        return true;
+    }
+
     this.receive_damage = function(damage_package, attacker) {
         var damage_taken = []
         for (var damage_type in damage_package) {
@@ -175,6 +186,7 @@ function Being(attributes) {
         damage_taken.sort(function(a, b) { return b[1] - a[1] })
         var primary_damage_type = damage_taken[0][0]
         attacker.tell("You " + primary_damage_type + " " + this.the() + ".")
+        this.tell(attacker.The() + " " + primary_damage_type + "(e)s you.")
         if (this.health <= 0) {
             this.die()
         }
