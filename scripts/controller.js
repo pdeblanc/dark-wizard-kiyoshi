@@ -37,7 +37,7 @@ function Controller(attributes) {
     this.being.controllers.push(this)
     // set up display
     this.being.viewports.push(new PlayerViewport({being: this.being, controller: this}))
-    new PlaneViewport({plane: this.being.inventory, controller: this.controller})
+    new PlaneViewport({plane: this.being.inventory, controller: this})
     // set up event listeners
     var controller = this
     document.body.addEventListener(
