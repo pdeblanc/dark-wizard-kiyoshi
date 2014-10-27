@@ -12,8 +12,15 @@ english = {
         }
         return this
     },
-    list: function(array) {
-        return array.join(', ')
+    list: function(array, nothing, connective) {
+        connective = connective || "and"
+        if (array.length == 0)
+            return (nothing || "nothing")
+        if (array.length == 1)
+            return array[0]
+        if (array.length == 2)
+            return [array[0], connective, array[1]].join(" ")
+        return array.slice(0, array.length - 1).join(", ") + (", " + connective + " " + array[array.length-1])
     },
     capitalize: function(string) {
         return string.charAt(0).toUpperCase() + string.slice(1)
