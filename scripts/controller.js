@@ -12,7 +12,7 @@ function Controller(attributes) {
     }
     this.set_partial_command = function(partial_command) {
         this.partial_command = partial_command
-        this.being.tell(partial_command[0] + ' <target>')
+        this.being.tell(english.capitalize(partial_command[0]) + ' <target>')
     }
     this.push_command = function(command) {
         if (this.partial_command)

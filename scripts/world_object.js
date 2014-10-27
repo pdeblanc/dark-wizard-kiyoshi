@@ -1,13 +1,11 @@
 function WorldObject(attributes) {
     this.universe = attributes.universe
     this.A = function() {
-        var title = this.a()
-        return title.charAt(0).toUpperCase() + title.slice(1)
+        return english.capitalize(this.a())
     }
 
     this.The = function() {
-        var title = this.the()
-        return title.charAt(0).toUpperCase() + title.slice(1)
+        return english.capitalize(this.the())
     }
 
     this.a = function() {
