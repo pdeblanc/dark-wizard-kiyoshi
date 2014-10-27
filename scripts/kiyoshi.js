@@ -20,7 +20,7 @@ initialize = function() {
     for (var i = 0; i < 100; i++) {
         plane.place_randomly(universe.products.meat.create())
     }
-    new Controller({being: player})
+    new Controller({being: player, container: document.getElementById('container')})
     universe.simulate()
 }
 

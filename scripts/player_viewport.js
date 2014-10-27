@@ -1,8 +1,29 @@
 function PlayerViewport(attributes) {
     this.being = attributes.being
     this.controller = attributes.controller
-    $("#name").text('Peter')
-    $("#title").text(this.being.family.name).addClass(this.being.family.name)
+    $("#profile")
+        .append(
+            $("<div />")
+                .append(
+                    $("<span />")
+                        .attr("id", "name")
+                        .text("Peter")
+                )
+                .append(
+                    $("<span />")
+                        .text(" the ")
+                )
+                .append(
+                    $("<span />")
+                        .attr("id", "title")
+                        .text(this.being.family.name)
+                        .addClass(this.being.family.name)
+                )
+        )
+        .append(
+            $("<div />")
+                .attr("id", "stats")
+        )
     this.being.span.className += ' player'
     this.left = -4
     this.right = 4
