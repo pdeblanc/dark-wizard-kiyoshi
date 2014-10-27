@@ -14,10 +14,13 @@ function Controller(attributes) {
         this.partial_command = partial_command
         this.being.tell(english.capitalize(partial_command[0]) + ' <target>')
     }
-    this.push_command = function(command) {
+    this.cancel_partial_commands = function() {
         if (this.partial_command)
             this.being.tell(' ...canceled.')
         this.partial_command = false
+    }
+    this.push_command = function(command) {
+        this.cancel_partial_commands()
         this.commands.push(command)
         if (this.command_callbacks.length > 0) {
             callback = this.command_callbacks.shift()
@@ -44,6 +47,9 @@ function Controller(attributes) {
         'keydown',
         function(event) {
             var being = controller.being
+            if (event.keyCode == 27) { // esc
+                controller.cancel_partial_commands()
+            }
             if (event.keyCode == 37) {
                 if (controller.partial_command)
                     controller.click(controller.being.square.west())
