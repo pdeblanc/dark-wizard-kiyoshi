@@ -218,7 +218,7 @@ function Being(attributes) {
     }
 
     this.redraw = function() {
-        this.innerSpan.style.height = Math.round(this.health * this.span.offsetHeight * .8) + 'px'
+        this.innerSpan.style.height = Math.round(this.health * 100) + '%'
     }
 
     this.die = function() {
