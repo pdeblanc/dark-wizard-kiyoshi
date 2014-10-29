@@ -134,9 +134,9 @@ function Being(attributes) {
         }
         var item = square.items[0]
         if (this.wielding == item)
-            this.unwield(item)
+            this.unwield(square)
         else
-            this.wield(item)
+            this.wield(square)
     }
 
     this.wield = function(square) {
