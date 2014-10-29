@@ -66,4 +66,4 @@ universe.clade({name: 'dog', symbol: '犬', lean_mass: 3, vigor: .5, attack: 'bi
 universe.product({name: 'bokutō', symbol: '刀', action: 'toggle_wield', damage: function() { return {'hit': 2} }})
 universe.product({name: 'katana', symbol: '刀', action: 'toggle_wield', damage: function() { return {'cut': 5} }})
 universe.product({name: 'longsword', symbol: '剣', action: 'toggle_wield', damage: function() { return {'cut': 5} }})
-universe.product({name: 'meat', symbol: '肉', fat: 2, action: 'eat'})
+universe.product({name: 'meat', symbol: '肉', fat: 2, action: 'eat', damage: function() { return {'slap': .5} }})
