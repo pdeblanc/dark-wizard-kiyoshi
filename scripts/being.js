@@ -60,6 +60,17 @@ function Being(attributes) {
         return this.moveto(this.square.west())
     }
 
+    this.rest = function() {
+        if (this.health >= 1) {
+            this.tell("You are already fully healed!")
+            return false;
+        }
+        this.tell('You rest...')
+        this.health = Math.min(1, this.health + 0.01)
+        this.redraw()
+        return this.health
+    }
+
     this.get = function() {
         for (var i = 0; i < this.square.items.length; i++) {
             var item = this.square.items[i]
@@ -203,6 +214,10 @@ function Being(attributes) {
         if (this.health <= 0) {
             this.die()
         }
+        this.redraw()
+    }
+
+    this.redraw = function() {
         this.innerSpan.style.height = Math.round(this.health * this.span.offsetHeight * .8) + 'px'
     }
 

@@ -102,6 +102,8 @@ function Controller(attributes) {
                 controller.push_command(['get'])
             if (charStr == 'l')
                 controller.set_partial_command(['look'])
+            if (charStr == 'p')
+                controller.push_command(['rest'])
         },
         false
     )
