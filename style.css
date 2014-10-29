@@ -4,9 +4,46 @@ body {
     text-align: center;
 }
 
+h1 {
+    font-family: monospace;
+}
+
 #container {
     display: inline-block;
+    text-align: center;
 }
+
+input#character-name {
+    color: silver;
+    background-color: #202020;
+    outline: 0;
+    border: none;
+    font-family: monospace;
+    font-size: 400%;
+    text-align: center;
+}
+
+button.continue {
+    position: relative;
+    left: 50%;
+    width: 300px;
+    margin-left: -150px;
+    margin-top: 30px;
+    font-size: 200%;
+    font-family: monospace;
+    border: 1px solid silver;
+    border-radius: 10px;
+    background-color: black;
+    color: silver;
+    display: block;
+}
+button.continue:hover {
+    color: cyan;
+    cursor: pointer;
+    border: 1px solid white;
+    box-shadow: 0px 0px 5px 1px blue;
+}
+
 
 .panel {
     vertical-align: top;

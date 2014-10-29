@@ -4,8 +4,6 @@ STATS = ['power', 'speed', 'vigor', 'lean_mass']
 
 initialize = function() {
     var plane = new WildernessPlane({width: 64, height: 64})
-    var player = universe.clades.human.create()
-    plane.place_randomly(player)
     for (var i = 0; i < 20; i++) {
         plane.place_randomly(universe.clades.human.create())
         plane.place_randomly(universe.clades.dog.create())
@@ -20,7 +18,10 @@ initialize = function() {
     for (var i = 0; i < 100; i++) {
         plane.place_randomly(universe.products.meat.create())
     }
-    new Controller({being: player, container: document.getElementById('container')})
-    universe.simulate()
+    BuildCharacter($('#container'), function(being) {
+        plane.place_randomly(being)
+        new Controller({being: being, container: document.getElementById('container')})
+        universe.simulate()
+    })
 }
 

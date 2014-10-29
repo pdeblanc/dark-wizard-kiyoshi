@@ -18,6 +18,7 @@ function Being(attributes) {
     }
 
     // basic attributes
+    this.name = attributes.name
     this.family = attributes.family
     this.aspects = [this.family]
     this.aspects.push.apply(attributes.aspects || [])
