@@ -10,6 +10,9 @@ initialize = function() {
         plane.place_randomly(universe.clades.cat.create())
         plane.place_randomly(universe.products["bokutō"].create())
     }
+    for (var i = 0; i < 10; i++) {
+        plane.place_randomly(universe.clades.samurai.create())
+    }
     plane.place_randomly(universe.clades["blue dragon"].create())
     for (var i = 0; i < 2; i++) {
         plane.place_randomly(universe.products.katana.create())
