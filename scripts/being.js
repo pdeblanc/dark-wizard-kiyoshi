@@ -88,8 +88,13 @@ function Being(attributes) {
         return false;
     }
 
-    this.eat = function(item) {
-        if (!("fat" in item)) {
+    this.eat = function(square) {
+        if (square.items.length == 0) {
+            this.tell("There is nothing there to eat.")
+            return;
+        }
+        var item = square.items[0]
+        if (!(item.fat)) {
             this.tell(item.The() + " does not appear to be edible.")
             return false;
         }
@@ -122,14 +127,24 @@ function Being(attributes) {
         }
     }
 
-    this.toggle_wield = function(item) {
+    this.toggle_wield = function(square) {
+        if (square.items.length == 0) {
+            this.tell("There is nothing there to wield.")
+            return;
+        }
+        var item = square.items[0]
         if (this.wielding == item)
             this.unwield(item)
         else
             this.wield(item)
     }
 
-    this.wield = function(item) {
+    this.wield = function(square) {
+        if (square.items.length == 0) {
+            this.tell("There is nothing there to wield.")
+            return;
+        }
+        var item = square.items[0]
         if (this.wielding)
             $(this.wielding.span).removeClass('wielded')
         this.wielding = item
@@ -137,9 +152,10 @@ function Being(attributes) {
         this.tell('Now wielding ' + item.the() + '.')
     }
 
-    this.unwield = function(item) {
+    this.unwield = function(square) {
+        if (this.wielding)
+            $(this.wielding.span).removeClass('wielded')
         this.wielding = false
-        $(item.span).removeClass('wielded')
         this.tell('Now wielding nothing.')
     }
 

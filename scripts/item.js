@@ -12,7 +12,7 @@ function Item(attributes) {
             var stat = ITEM_STATS[i]
             this[stat] = 1
             for (var j = 0; j < this.aspects.length; j++) {
-                this[stat] *= (this.aspects[j][stat] || 1)
+                this[stat] *= (stat in this.aspects[j]) ? this.aspects[j][stat] : 1
             }
         }
     }

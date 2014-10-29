@@ -101,6 +101,12 @@ function Controller(attributes) {
     this.get = function() {
         this.push_command(['get'])
     }
+    this.eat = function() {
+        this.set_partial_command(['eat'])
+    }
+    this.wield = function() {
+        this.set_partial_command(['wield'])
+    }
     this.look = function() {
         this.set_partial_command(['look'])
     }
@@ -135,21 +141,27 @@ function Controller(attributes) {
         'keypress',
         function(event) {
             var charStr = String.fromCharCode(event.which || event.keyCode)
+            if (charStr == 'e')
+                controller.eat()
             if (charStr == 'g')
-                this.get()
+                controller.get()
             if (charStr == 'l')
-                this.look()
+                controller.look()
             if (charStr == 'p')
-                this.rest()
+                controller.rest()
+            if (charStr == 'w')
+                controller.wield()
         },
         false
     )
     // set up buttons
     $(this.container).append(
         $('<div />').addClass('panel')
-        .append(this.button(this.rest, 'sleeP'))
-        .append(this.button(this.look, 'Look'))
+        .append(this.button(this.eat, 'Eat'))
         .append(this.button(this.get, 'Get'))
+        .append(this.button(this.look, 'Look'))
+        .append(this.button(this.rest, 'sleeP'))
+        .append(this.button(this.wield, 'Wield'))
     )
 
     // set up display
