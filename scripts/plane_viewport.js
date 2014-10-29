@@ -2,9 +2,10 @@ function PlaneViewport(attributes) {
     this.controller = attributes.controller
     this.plane = attributes.plane
     this.name = ('' + Math.random()).substring(3)
+    var container = attributes.container
     for (var y = 0; y < this.plane.height; y++) {
         var row = $("<div />").addClass("row")
-        $("#inventory").append(row)
+        $(container).append(row)
         for (var x = 0; x < this.plane.width; x++) {
             row.append(viewportCell("_" + this.name + "_" + x + "_" + y, this.controller))
         }

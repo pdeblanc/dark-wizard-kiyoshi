@@ -11,6 +11,7 @@ body {
 .panel {
     vertical-align: top;
     display: inline-block;
+    padding: 3px;
 }
 
 #messages {

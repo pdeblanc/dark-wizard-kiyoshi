@@ -1,5 +1,6 @@
 function Controller(attributes) {
     this.being = attributes.being;
+    this.container = attributes.container
     this.commands = []
     this.command_callbacks = []
     this.partial_command = false
@@ -39,7 +40,7 @@ function Controller(attributes) {
     // tell player about controller
     this.being.controllers.push(this)
     // set up display
-    this.being.viewports.push(new PlayerViewport({being: this.being, controller: this}))
+    this.being.viewports.push(new PlayerViewport({being: this.being, controller: this, container: this.container}))
     new PlaneViewport({plane: this.being.inventory, controller: this})
     // set up event listeners
     var controller = this
