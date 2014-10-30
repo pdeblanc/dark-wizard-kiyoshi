@@ -57,11 +57,11 @@ Universe.prototype.delay_if_game_over = function(milliseconds, callback) {
 var universe = new Universe()
 
 universe.clade({name: 'human', symbol: '人', lean_mass: 10, attack: 'punch'})
-universe.clade({name: 'samurai', symbol: '侍', lean_mass: 10, attack: 'cut', damage: 3})
+    .variant({name: 'samurai', symbol: '侍', attack: 'cut', damage: 3})
 universe.clade({name: 'blue dragon', symbol: '龍', lean_mass: 200, vigor: 20, attack: 'burn', damage: 9})
 universe.clade({name: 'cat', symbol: '猫', lean_mass: 1, vigor: .2, attack: 'scratch'})
 universe.clade({name: 'dog', symbol: '犬', lean_mass: 3, vigor: .5, attack: 'bite'})
-universe.product({name: 'bokutō', symbol: '刀', action: 'toggle_wield', damage: function() { return {'hit': 2} }})
 universe.product({name: 'katana', symbol: '刀', action: 'toggle_wield', damage: function() { return {'cut': 5} }})
+    .variant({name: 'bokutō', damage: function() { return {'hit': 2} }})
 universe.product({name: 'longsword', symbol: '剣', action: 'toggle_wield', damage: function() { return {'cut': 5} }})
 universe.product({name: 'meat', symbol: '肉', fat: 2, action: 'eat', damage: function() { return {'slap': .5} }})

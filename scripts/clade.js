@@ -1,4 +1,5 @@
 function Clade(attributes) {
+    this.attributes = Object.create(attributes)
     this.name = 'being'
     this.symbol = '居'
     this.universe = attributes.universe

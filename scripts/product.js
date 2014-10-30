@@ -1,4 +1,5 @@
 function Product(attributes) {
+    this.attributes = Object.create(attributes)
     this.name = 'item'
     this.symbol = '品'
     this.fat = 0

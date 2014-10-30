@@ -81,13 +81,15 @@ Being.prototype.get = function() {
         item.moveto(vacancy)
         gotten_items.push(item)
     }
-    if (gotten_items.length)
+    if (gotten_items.length) {
         this.tell("You get " + english.list(gotten_items) + ".")
-    else if (this.square.items[0])
+        return true
+    }
+    if (this.square.items[0])
         this.tell("You do not have space for " + this.square.items[0].a() + ".")
     else
         this.tell("There is nothing to get.")
-    return false;
+    return false
 }
 
 Being.prototype.eat = function(square) {
@@ -103,6 +105,7 @@ Being.prototype.eat = function(square) {
     this.tell("You eat " + item.the() + ".")
     this.body_fat += item.fat
     item.destroy()
+    return true;
 }
 
 Being.prototype.look = function(square) {
@@ -112,6 +115,7 @@ Being.prototype.look = function(square) {
     for (var i = 0; i < square.items.length; i++)
         item_names.push(square.items[i].a())
     this.tell('You see ' + english.list(item_names) + '.')
+    return false
 }
 
 Being.prototype.attack = function(target_square) {
@@ -125,7 +129,7 @@ Being.prototype.attack = function(target_square) {
             attack[this.family.attack] = this.family.damage
             being.receive_damage(attack, this)
         }
-        return true;
+        return true
     }
 }
 
@@ -136,9 +140,9 @@ Being.prototype.toggle_wield = function(square) {
     }
     var item = square.items[0]
     if (this.wielding == item)
-        this.unwield(square)
+        return this.unwield(square)
     else
-        this.wield(square)
+        return this.wield(square)
 }
 
 Being.prototype.wield = function(square) {
@@ -152,6 +156,7 @@ Being.prototype.wield = function(square) {
     this.wielding = item
     item.span.className += ' wielded'
     this.tell('Now wielding ' + item.the() + '.')
+    return true
 }
 
 Being.prototype.unwield = function(square) {
@@ -159,6 +164,7 @@ Being.prototype.unwield = function(square) {
         $(this.wielding.span).removeClass('wielded')
     this.wielding = false
     this.tell('Now wielding nothing.')
+    return true
 }
 
 // methods
