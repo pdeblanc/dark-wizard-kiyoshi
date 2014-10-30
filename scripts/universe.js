@@ -15,20 +15,17 @@ Universe.prototype.simulate = function() {
 
 Universe.prototype.clade = function(attributes) {
     attributes.universe = this
-    var clade = new Clade(attributes)
-    this.clades[clade.name] = clade
+    return new Clade(attributes)
 }
 
 Universe.prototype.product = function(attributes) {
     attributes.universe = this
-    var product = new Product(attributes)
-    this.products[product.name] = product
+    return new Product(attributes)
 }
 
 Universe.prototype.biome = function(attributes) {
     attributes.universe = this
-    var biome = new Biome(attributes)
-    this.biomes[biome.name] = biome
+    return new Biome(attributes)
 }
 
 Universe.prototype.affinity = function(a, b, x) {

@@ -1,4 +1,5 @@
 function Biome(attributes) {
+    this.attributes = Object.create(attributes)
     this.name = attributes.name
     this.symbol = attributes.symbol
     this.universe = attributes.universe
@@ -20,5 +21,10 @@ function Biome(attributes) {
         if (this.tags.indexOf(name_components[i]) == -1)
             this.tags.push(name_components[i])
     }
+    this.universe.biomes[this.name] = this
 }
 
+Biome.prototype.variant = function(attributes) {
+    new Biome($.extend({}, this.attributes, attributes))
+    return this
+}
