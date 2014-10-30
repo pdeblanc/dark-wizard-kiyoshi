@@ -47,9 +47,8 @@ function Square(attributes) {
         }
         if (newcomer instanceof Being) {
             this.plane.tree.insert(newcomer)
-            for (var i = 0; i < this.items.length; i++) {
-                newcomer.tell("You find " + this.items[i].a() + ".")
-            }
+            if (this.items.length)
+                newcomer.tell("You find " + english.list(this.items) + ".")
         }
     }
     this.permit_entry = function(hopeful) {

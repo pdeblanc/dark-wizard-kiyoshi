@@ -8,7 +8,7 @@ function WorldObject(attributes) {
         return english.capitalize(this.the())
     }
 
-    this.a = function() {
+    this.toString = this.a = function() {
         if (this.name)
             return this.name
         return "a " + this.family.name
