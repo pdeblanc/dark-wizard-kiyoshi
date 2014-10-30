@@ -15,7 +15,7 @@ function PlayerViewport(attributes) {
             .append(stats_element = $("<div />")))
         .append(map_element = $('<div />').addClass('panel'))
         .append(inventory_element = $('<div />').addClass('panel'))
-        .append($('<textarea></textarea>').attr('id', 'messages'))
+        .append($('<textarea></textarea>').attr('id', 'messages').attr('readonly', true))
     new PlaneViewport({plane: this.being.inventory, controller: this.controller, container: inventory_element})
     this.being.span.className += ' player'
     this.left = -4
