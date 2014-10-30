@@ -72,16 +72,15 @@ function Being(attributes) {
     }
 
     this.get = function() {
-        for (var i = 0; i < this.square.items.length; i++) {
-            var item = this.square.items[i]
-            var vacancy = this.inventory.vacancy(item)
-            if (vacancy) {
-                item.moveto(vacancy)
-                this.tell("You get " + item.a() + ".")
-                return true;
-            }
+        var gotten_items, item, vacancy
+        gotten_items = []
+        while ((item = this.square.items[0]) && (vacancy = this.inventory.vacancy(item))) {
+            item.moveto(vacancy)
+            gotten_items.push(item)
         }
-        if (item)
+        if (gotten_items.length)
+            this.tell("You get " + english.list(gotten_items) + ".")
+        else if (item)
             this.tell("You do not have space for " + item.a() + ".")
         else
             this.tell("There is nothing to get.")
