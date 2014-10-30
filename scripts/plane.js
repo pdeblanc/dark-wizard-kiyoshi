@@ -8,25 +8,25 @@ function Plane(attributes) {
             return new Square({biome: universe.biomes.void, plane: this, coordinate: coordinate})
         return this.squares['_' + coordinate.x + '_' + coordinate.y]
     }
-    this.vacancy = function(hopeful) {
-        var coordinate = new Coordinate({x: 0, y: 0})
-        for (coordinate.y = 0; coordinate.y < this.height; coordinate.y++) {
-            for (coordinate.x = 0; coordinate.x < this.width; coordinate.x++) {
-                var square = this.square(coordinate)
-                if (square.permit_entry(hopeful)) {
-                    return square;
-                }
+}
+
+Plane.prototype.vacancy = function(hopeful) {
+    var coordinate = new Coordinate({x: 0, y: 0})
+    for (coordinate.y = 0; coordinate.y < this.height; coordinate.y++) {
+        for (coordinate.x = 0; coordinate.x < this.width; coordinate.x++) {
+            var square = this.square(coordinate)
+            if (square.permit_entry(hopeful)) {
+                return square;
             }
         }
     }
-    this.place_randomly = function(hopeful) {
-        for (var attempt = 0; attempt < 100; attempt++) {
-            var coordinate = new Coordinate({x: Math.floor(Math.random() * this.width), y: Math.floor(Math.random() * this.height)})
-            var square = this.square(coordinate)
-            if (square.permit_entry(hopeful))
-                return hopeful.moveto(square)
-        }
-        return false
-    }
 }
-
+Plane.prototype.place_randomly = function(hopeful) {
+    for (var attempt = 0; attempt < 100; attempt++) {
+        var coordinate = new Coordinate({x: Math.floor(Math.random() * this.width), y: Math.floor(Math.random() * this.height)})
+        var square = this.square(coordinate)
+        if (square.permit_entry(hopeful))
+            return hopeful.moveto(square)
+    }
+    return false
+}

@@ -7,9 +7,9 @@ function Clade(attributes) {
     for (key in attributes) {
         this[key] = attributes[key]
     }
+}
 
-    this.create = function() {
-        return new Being({family: this, universe: this.universe})
-    }
+Clade.prototype.create = function() {
+    return new Being({family: this, universe: this.universe})
 }
 

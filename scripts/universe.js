@@ -6,55 +6,56 @@ function Universe(attributes) {
     this.game_over = false
     this.timeline = new Timeline({start_time: 0, universe: this})
 
-    this.simulate = function() {
-        this.timeline.simulate()
-    }
-
-    this.clade = function(attributes) {
-        attributes.universe = this
-        var clade = new Clade(attributes)
-        this.clades[clade.name] = clade
-    }
-
-    this.product = function(attributes) {
-        attributes.universe = this
-        var product = new Product(attributes)
-        this.products[product.name] = product
-    }
-
-    this.biome = function(attributes) {
-        attributes.universe = this
-        var biome = new Biome(attributes)
-        this.biomes[biome.name] = biome
-    }
-
-    this.affinity = function(a, b, x) {
-        if (x == undefined) {
-            if (a in this.affinities && b in this.affinities[a])
-                return this.affinities[a][b]
-            return 0
-        }
-        this.affinities[a] = this.affinities[a] || {}
-        this.affinities[b] = this.affinities[b] || {}
-        this.affinities[a][b] = this.affinities[b][a] = x
-    }
-
-    this.friends = function(a, b) {
-        this.affinity(a, b, 1)
-    }
-
-    this.foes = function(a, b) {
-        this.affinity(a, b, -1)
-    }
-
-    this.delay_if_game_over = function(milliseconds, callback) {
-        if (this.game_over)
-            setTimeout(callback, milliseconds)
-        else
-            callback()
-    }
 
 } 
+
+Universe.prototype.simulate = function() {
+    this.timeline.simulate()
+}
+
+Universe.prototype.clade = function(attributes) {
+    attributes.universe = this
+    var clade = new Clade(attributes)
+    this.clades[clade.name] = clade
+}
+
+Universe.prototype.product = function(attributes) {
+    attributes.universe = this
+    var product = new Product(attributes)
+    this.products[product.name] = product
+}
+
+Universe.prototype.biome = function(attributes) {
+    attributes.universe = this
+    var biome = new Biome(attributes)
+    this.biomes[biome.name] = biome
+}
+
+Universe.prototype.affinity = function(a, b, x) {
+    if (x == undefined) {
+        if (a in this.affinities && b in this.affinities[a])
+            return this.affinities[a][b]
+        return 0
+    }
+    this.affinities[a] = this.affinities[a] || {}
+    this.affinities[b] = this.affinities[b] || {}
+    this.affinities[a][b] = this.affinities[b][a] = x
+}
+
+Universe.prototype.friends = function(a, b) {
+    this.affinity(a, b, 1)
+}
+
+Universe.prototype.foes = function(a, b) {
+    this.affinity(a, b, -1)
+}
+
+Universe.prototype.delay_if_game_over = function(milliseconds, callback) {
+    if (this.game_over)
+        setTimeout(callback, milliseconds)
+    else
+        callback()
+}
 
 var universe = new Universe()
 

@@ -42,217 +42,220 @@ function Being(attributes) {
     this.body_fat = this.lean_mass * .3
     this.wielding = false
     this.universe.timeline.add_agent(this)
+}
 
-    // actions
-    this.north = function() {
-        return this.moveto(this.square.north())
-    }
+Being.prototype = Object.create(WorldObject.prototype)
 
-    this.south = function() {
-        return this.moveto(this.square.south())
-    }
+// actions
+Being.prototype.north = function() {
+    return this.moveto(this.square.north())
+}
 
-    this.east = function() {
-        return this.moveto(this.square.east())
-    }
+Being.prototype.south = function() {
+    return this.moveto(this.square.south())
+}
 
-    this.west = function() {
-        return this.moveto(this.square.west())
-    }
+Being.prototype.east = function() {
+    return this.moveto(this.square.east())
+}
 
-    this.rest = function() {
-        if (this.health >= 1) {
-            this.tell("You are already fully healed!")
-            return false;
-        }
-        this.tell('You rest...')
-        this.health = Math.min(1, this.health + 0.01)
-        this.redraw()
-        return this.health
-    }
+Being.prototype.west = function() {
+    return this.moveto(this.square.west())
+}
 
-    this.get = function() {
-        var gotten_items, item, vacancy
-        gotten_items = []
-        while ((item = this.square.items[0]) && (vacancy = this.inventory.vacancy(item))) {
-            item.moveto(vacancy)
-            gotten_items.push(item)
-        }
-        if (gotten_items.length)
-            this.tell("You get " + english.list(gotten_items) + ".")
-        else if (item)
-            this.tell("You do not have space for " + item.a() + ".")
-        else
-            this.tell("There is nothing to get.")
+Being.prototype.rest = function() {
+    if (this.health >= 1) {
+        this.tell("You are already fully healed!")
         return false;
     }
+    this.tell('You rest...')
+    this.health = Math.min(1, this.health + 0.01)
+    this.redraw()
+    return this.health
+}
 
-    this.eat = function(square) {
-        if (square.items.length == 0) {
-            this.tell("There is nothing there to eat.")
-            return;
-        }
-        var item = square.items[0]
-        if (!(item.fat)) {
-            this.tell(item.The() + " does not appear to be edible.")
-            return false;
-        }
-        this.tell("You eat " + item.the() + ".")
-        this.body_fat += item.fat
-        item.destroy()
+Being.prototype.get = function() {
+    var gotten_items, item, vacancy
+    gotten_items = []
+    while ((item = this.square.items[0]) && (vacancy = this.inventory.vacancy(item))) {
+        item.moveto(vacancy)
+        gotten_items.push(item)
     }
+    if (gotten_items.length)
+        this.tell("You get " + english.list(gotten_items) + ".")
+    else if (this.square.items[0])
+        this.tell("You do not have space for " + this.square.items[0].a() + ".")
+    else
+        this.tell("There is nothing to get.")
+    return false;
+}
 
-    this.look = function(square) {
-        var item_names = [square.biome.name]
-        for (var i = 0; i < square.beings.length; i++)
-            item_names.push(square.beings[i].a())
-        for (var i = 0; i < square.items.length; i++)
-            item_names.push(square.items[i].a())
-        this.tell('You see ' + english.list(item_names) + '.')
+Being.prototype.eat = function(square) {
+    if (square.items.length == 0) {
+        this.tell("There is nothing there to eat.")
+        return;
     }
-
-    this.attack = function(target_square) {
-        for (var i = 0; i < target_square.beings.length; i++) {
-            var being = target_square.beings[i]
-            if (this.wielding) {
-                being.receive_damage(this.wielding.damage(), this)
-            }
-            else {
-                var attack = {}
-                attack[this.family.attack] = this.family.damage
-                being.receive_damage(attack, this)
-            }
-            return true;
-        }
+    var item = square.items[0]
+    if (!(item.fat)) {
+        this.tell(item.The() + " does not appear to be edible.")
+        return false;
     }
+    this.tell("You eat " + item.the() + ".")
+    this.body_fat += item.fat
+    item.destroy()
+}
 
-    this.toggle_wield = function(square) {
-        if (square.items.length == 0) {
-            this.tell("There is nothing there to wield.")
-            return;
-        }
-        var item = square.items[0]
-        if (this.wielding == item)
-            this.unwield(square)
-        else
-            this.wield(square)
-    }
+Being.prototype.look = function(square) {
+    var item_names = [square.biome.name]
+    for (var i = 0; i < square.beings.length; i++)
+        item_names.push(square.beings[i].a())
+    for (var i = 0; i < square.items.length; i++)
+        item_names.push(square.items[i].a())
+    this.tell('You see ' + english.list(item_names) + '.')
+}
 
-    this.wield = function(square) {
-        if (square.items.length == 0) {
-            this.tell("There is nothing there to wield.")
-            return;
-        }
-        var item = square.items[0]
-        if (this.wielding)
-            $(this.wielding.span).removeClass('wielded')
-        this.wielding = item
-        item.span.className += ' wielded'
-        this.tell('Now wielding ' + item.the() + '.')
-    }
-
-    this.unwield = function(square) {
-        if (this.wielding)
-            $(this.wielding.span).removeClass('wielded')
-        this.wielding = false
-        this.tell('Now wielding nothing.')
-    }
-
-    // methods
-    this.notify = function() {
-        this.viewports.forEach(function(viewport) {viewport.render()})
-    }
-
-    this.act = function(callback) {
-        this.notify()
-        var obj = this
-        if (this.controllers.length > 0) {
-            this.controllers[0].set_callback(function(command) {
-                var success = obj[command[0]].apply(obj, command.slice(1))
-                if (success) {
-                    // lose a bit over one pound per day due to very active lifestyle
-                    // remove leading 10000 when done testing
-                    obj.body_fat -= 10000 * (obj.body_fat + obj.lean_mass) / (86400 * 100)
-                    if (obj.body_fat < 0) {
-                        obj.tell('You have starved.')
-                        obj.notify()
-                        obj.die()
-                    }
-                    callback() 
-                }
-                else
-                    obj.act(callback)
-            })
+Being.prototype.attack = function(target_square) {
+    for (var i = 0; i < target_square.beings.length; i++) {
+        var being = target_square.beings[i]
+        if (this.wielding) {
+            being.receive_damage(this.wielding.damage(), this)
         }
         else {
-            // move randomly
-            var commands = [['north'], ['south'], ['west'], ['east']]
-            command = commands[Math.floor(Math.random() * 4)]
-            var squares = [this.square.north(), this.square.south(), this.square.east(), this.square.west()]
-            // attack
-            for (var i = 0; i < squares.length; i++) {
-                if (squares[i] && squares[i].beings.length && this.hostile(squares[i].beings[0]))
-                    command = ["attack", squares[i]]
-            }
-            this[command[0]].apply(this, command.slice(1))
-            callback()
+            var attack = {}
+            attack[this.family.attack] = this.family.damage
+            being.receive_damage(attack, this)
         }
-    }
-
-    this.moveto = function(square) {
-        if (square.permit_entry(this)) {
-            if (this.square)
-                this.square.exit(this)
-            this.square = square
-            this.square.enter(this)
-            return true;
-        }
-        return false;
-    }
-
-    this.hostile = function(other) {
         return true;
     }
+}
 
-    this.receive_damage = function(damage_package, attacker) {
-        var damage_taken = []
-        for (var damage_type in damage_package) {
-            var amount = damage_package[damage_type]
-            damage_taken.push([damage_type, amount])
-            this.health -= amount / this.vigor
-        }
-        damage_taken.sort(function(a, b) { return b[1] - a[1] })
-        var verb = english.verbs[damage_taken[0][0]]
-        attacker.tell("You " + verb + " " + this.the() + ".")
-        this.tell(attacker.The() + " " + verb.s + " you.")
-        attacker.square.announce_all_but([this, attacker], attacker.The() + ' ' + verb.s + ' ' + this.the() + '.')
-        if (this.health <= 0) {
-            this.die()
-        }
-        this.redraw()
+Being.prototype.toggle_wield = function(square) {
+    if (square.items.length == 0) {
+        this.tell("There is nothing there to wield.")
+        return;
     }
+    var item = square.items[0]
+    if (this.wielding == item)
+        this.unwield(square)
+    else
+        this.wield(square)
+}
 
-    this.redraw = function() {
-        this.innerSpan.style.height = Math.round(this.health * 100) + '%'
+Being.prototype.wield = function(square) {
+    if (square.items.length == 0) {
+        this.tell("There is nothing there to wield.")
+        return;
     }
+    var item = square.items[0]
+    if (this.wielding)
+        $(this.wielding.span).removeClass('wielded')
+    this.wielding = item
+    item.span.className += ' wielded'
+    this.tell('Now wielding ' + item.the() + '.')
+}
 
-    this.die = function() {
-        this.square.announce_all_but([this], this.The() + ' dies.')
-        this.tell("You die.")
-        new Item({
-            family: universe.products.meat,
-            square: this.square
+Being.prototype.unwield = function(square) {
+    if (this.wielding)
+        $(this.wielding.span).removeClass('wielded')
+    this.wielding = false
+    this.tell('Now wielding nothing.')
+}
+
+// methods
+Being.prototype.notify = function() {
+    this.viewports.forEach(function(viewport) {viewport.render()})
+}
+
+Being.prototype.act = function(callback) {
+    this.notify()
+    var obj = this
+    if (this.controllers.length > 0) {
+        this.controllers[0].set_callback(function(command) {
+            var success = obj[command[0]].apply(obj, command.slice(1))
+            if (success) {
+                // lose a bit over one pound per day due to very active lifestyle
+                // remove leading 10000 when done testing
+                obj.body_fat -= 10000 * (obj.body_fat + obj.lean_mass) / (86400 * 100)
+                if (obj.body_fat < 0) {
+                    obj.tell('You have starved.')
+                    obj.notify()
+                    obj.die()
+                }
+                callback() 
+            }
+            else
+                obj.act(callback)
         })
-        this.square.exit(this)
-        this.dead = 1
-        if (this.controllers.length > 0)
-            this.universe.game_over = true
     }
-
-    this.tell = function(message) {
-        this.viewports.forEach(function(viewport) {
-            viewport.tell(message)
-        })
+    else {
+        // move randomly
+        var commands = [['north'], ['south'], ['west'], ['east']]
+        command = commands[Math.floor(Math.random() * 4)]
+        var squares = [this.square.north(), this.square.south(), this.square.east(), this.square.west()]
+        // attack
+        for (var i = 0; i < squares.length; i++) {
+            if (squares[i] && squares[i].beings.length && this.hostile(squares[i].beings[0]))
+                command = ["attack", squares[i]]
+        }
+        this[command[0]].apply(this, command.slice(1))
+        callback()
     }
 }
+
+Being.prototype.moveto = function(square) {
+    if (square.permit_entry(this)) {
+        if (this.square)
+            this.square.exit(this)
+        this.square = square
+        this.square.enter(this)
+        return true;
+    }
+    return false;
+}
+
+Being.prototype.hostile = function(other) {
+    return true;
+}
+
+Being.prototype.receive_damage = function(damage_package, attacker) {
+    var damage_taken = []
+    for (var damage_type in damage_package) {
+        var amount = damage_package[damage_type]
+        damage_taken.push([damage_type, amount])
+        this.health -= amount / this.vigor
+    }
+    damage_taken.sort(function(a, b) { return b[1] - a[1] })
+    var verb = english.verbs[damage_taken[0][0]]
+    attacker.tell("You " + verb + " " + this.the() + ".")
+    this.tell(attacker.The() + " " + verb.s + " you.")
+    attacker.square.announce_all_but([this, attacker], attacker.The() + ' ' + verb.s + ' ' + this.the() + '.')
+    if (this.health <= 0) {
+        this.die()
+    }
+    this.redraw()
+}
+
+Being.prototype.redraw = function() {
+    this.innerSpan.style.height = Math.round(this.health * 100) + '%'
+}
+
+Being.prototype.die = function() {
+    this.square.announce_all_but([this], this.The() + ' dies.')
+    this.tell("You die.")
+    new Item({
+        family: universe.products.meat,
+        square: this.square
+    })
+    this.square.exit(this)
+    this.dead = 1
+    if (this.controllers.length > 0)
+        this.universe.game_over = true
+}
+
+Being.prototype.tell = function(message) {
+    this.viewports.forEach(function(viewport) {
+        viewport.tell(message)
+    })
+}
+
 

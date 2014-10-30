@@ -10,14 +10,14 @@ function PlaneViewport(attributes) {
             row.append(viewportCell("_" + this.name + "_" + x + "_" + y, this.controller))
         }
     }
-    this.render = function() {
-        for (var x = 0; x < this.plane.width; x++) {
-            for (var y = 0; y < this.plane.height; y++) {
-                var square = this.plane.square(new Coordinate({x: x, y: y}))
-                $('#_' + this.name + '_' + x + '_' + y).html('').append(square.span)
-            }
-        }
-    }
     this.render()
 }
 
+PlaneViewport.prototype.render = function() {
+    for (var x = 0; x < this.plane.width; x++) {
+        for (var y = 0; y < this.plane.height; y++) {
+            var square = this.plane.square(new Coordinate({x: x, y: y}))
+            $('#_' + this.name + '_' + x + '_' + y).html('').append(square.span)
+        }
+    }
+}

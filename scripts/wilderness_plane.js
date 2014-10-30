@@ -46,3 +46,4 @@ function WildernessPlane(attributes) {
     }
 }
 
+WildernessPlane.prototype = Object.create(Plane.prototype)

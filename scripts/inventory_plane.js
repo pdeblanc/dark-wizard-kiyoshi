@@ -8,3 +8,4 @@ function InventoryPlane(attributes) {
     }
 }
 
+InventoryPlane.prototype = Object.create(Plane.prototype)

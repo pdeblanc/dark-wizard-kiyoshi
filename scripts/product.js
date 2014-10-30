@@ -8,8 +8,8 @@ function Product(attributes) {
         this[key] = attributes[key]
     }
 
-    this.create = function() {
-        return new Item({family: this, universe: this.universe})
-    }
 }
 
+Product.prototype.create = function() {
+    return new Item({family: this, universe: this.universe})
+}

@@ -32,29 +32,29 @@ function Item(attributes) {
 
     // compile attributes
     this.compile_attributes()
+}
 
-    // methods with effects
-    this.moveto = function(square) {
-        if (square.permit_entry(this)) {
-            if (this.square)
-                this.square.exit(this)
-            this.square = square
-            this.square.enter(this)
-        }
-    }
+Item.prototype = Object.create(WorldObject.prototype)
 
-    this.destroy = function() {
-        this.square.exit(this)
-    }
-
-    this.default_action = function() {
-        return this.family.action
-    }
-
-    this.damage = function() {
-        if (this.family.damage)
-            return this.family.damage()
-        return {'bash': 1}
+Item.prototype.moveto = function(square) {
+    if (square.permit_entry(this)) {
+        if (this.square)
+            this.square.exit(this)
+        this.square = square
+        this.square.enter(this)
     }
 }
 
+Item.prototype.destroy = function() {
+    this.square.exit(this)
+}
+
+Item.prototype.default_action = function() {
+    return this.family.action
+}
+
+Item.prototype.damage = function() {
+    if (this.family.damage)
+        return this.family.damage()
+    return {'bash': 1}
+}

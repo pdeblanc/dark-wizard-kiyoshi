@@ -61,10 +61,10 @@ function PlayerViewport(attributes) {
         }
         $(".item").draggable({ opacity: 0.7, helper: "clone"})
     }
-    this.tell = function(message) {
-        var textArea = document.getElementById("messages")
-        textArea.textContent += message + '\n'
-        textArea.scrollTop = textArea.scrollHeight;
-    }
 }
 
+PlayerViewport.prototype.tell = function(message) {
+    var textArea = document.getElementById("messages")
+    textArea.textContent += message + '\n'
+    textArea.scrollTop = textArea.scrollHeight;
+}
