@@ -3,6 +3,7 @@ function Biome(attributes) {
     this.name = attributes.name
     this.symbol = attributes.symbol
     this.universe = attributes.universe
+    this.continuous = ("continuous" in attributes) ? attributes.continuous : false
     this.tags = attributes.tags || []
     this.bias = attributes.bias || 0
     this.max_items = ('max_items' in attributes) ? attributes.max_items : 16;

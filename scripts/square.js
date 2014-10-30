@@ -1,5 +1,7 @@
 function Square(attributes) {
+    WorldObject.apply(this, arguments)
     this.biome = attributes.biome
+    this.family = this.biome
     this.span = document.createElement('div')
     this.span.className = 'biome ' + this.biome.name
     this.span.textContent = this.biome.symbol
@@ -9,6 +11,9 @@ function Square(attributes) {
     this.plane = attributes.plane
     this.coordinate = attributes.coordinate
 }
+
+Square.prototype = Object.create(WorldObject.prototype)
+
 Square.prototype.offset = function(attributes) {
     return this.plane.square(this.coordinate.add(attributes))
 }
@@ -86,6 +91,7 @@ Square.prototype.announce = function(message) {
 }
 Square.prototype.set_biome = function(biome) {
     this.biome = biome
+    this.family = this.biome
     this.span.className = 'biome ' + this.biome.name
     this.span.textContent = this.biome.symbol
 }

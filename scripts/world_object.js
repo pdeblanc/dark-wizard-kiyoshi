@@ -13,6 +13,8 @@ WorldObject.prototype.The = function() {
 WorldObject.prototype.toString = WorldObject.prototype.a = function() {
     if (this.name)
         return this.name
+    if (this.family.continuous)
+        return this.family.name
     return "a " + this.family.name
 }
 

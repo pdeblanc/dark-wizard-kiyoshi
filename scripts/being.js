@@ -114,7 +114,7 @@ Being.prototype.eat = function(square) {
 }
 
 Being.prototype.look = function(square) {
-    var item_names = [square.biome.name]
+    var item_names = [square.a()]
     for (var i = 0; i < square.beings.length; i++)
         item_names.push(square.beings[i].a())
     for (var i = 0; i < square.items.length; i++)
