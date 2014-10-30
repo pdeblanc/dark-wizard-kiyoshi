@@ -63,6 +63,11 @@ Being.prototype.west = function() {
     return this.moveto(this.square.west())
 }
 
+Being.prototype.wait = function() {
+    this.tell("You wait.")
+    return true
+}
+
 Being.prototype.rest = function() {
     if (this.health >= 1) {
         this.tell("You are already fully healed!")

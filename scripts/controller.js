@@ -42,6 +42,10 @@ function Controller(attributes) {
                 controller.rest()
             if (charStr == 'w')
                 controller.wield()
+            if (charStr == '.' || charStr == ' ') {
+                controller.wait()
+                event.preventDefault()
+            }
         },
         false
     )
@@ -52,6 +56,7 @@ function Controller(attributes) {
         .append(this.button(this.get, 'Get'))
         .append(this.button(this.look, 'Look'))
         .append(this.button(this.rest, 'sleeP'))
+        .append(this.button(this.wait, 'wait.'))
         .append(this.button(this.wield, 'Wield'))
     )
 
@@ -97,6 +102,7 @@ Controller.prototype.click = function(square) {
 }
 // button creation method
 Controller.prototype.button = function(f, label) {
+    var controller = this
     var button = $('<button />').addClass('action')
         .click(function() {
             f.apply(controller)
@@ -168,4 +174,7 @@ Controller.prototype.look = function() {
 }
 Controller.prototype.rest = function() {
     this.push_command(['rest'])
+}
+Controller.prototype.wait = function() {
+    this.push_command(['wait'])
 }
