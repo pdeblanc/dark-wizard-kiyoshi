@@ -15,6 +15,8 @@ WorldObject.prototype.toString = WorldObject.prototype.a = function() {
         return this.name
     if (this.family.continuous)
         return this.family.name
+    if ("aeiouAEIOU".indexOf(this.family.name.charAt(0)) > -1)
+        return "an " + this.family.name
     return "a " + this.family.name
 }
 

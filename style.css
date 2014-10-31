@@ -183,7 +183,7 @@ button.action:hover span.key-label {
     color: #500050;
 }
 
-.empty {
+.inventory.slot {
     background: #404040;
     color: #808080;
 }
