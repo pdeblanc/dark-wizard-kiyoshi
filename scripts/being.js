@@ -159,14 +159,17 @@ Being.prototype.wield = function(square) {
     if (this.wielding)
         $(this.wielding.span).removeClass('wielded')
     this.wielding = item
+    item.wielded_by = this
     item.span.className += ' wielded'
     this.tell('Now wielding ' + item.the() + '.')
     return true
 }
 
 Being.prototype.unwield = function(square) {
-    if (this.wielding)
+    if (this.wielding) {
         $(this.wielding.span).removeClass('wielded')
+        this.wielding.wielded_by = false
+    }
     this.wielding = false
     this.tell('Now wielding nothing.')
     return true

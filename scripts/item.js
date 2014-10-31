@@ -47,6 +47,8 @@ Item.prototype.moveto = function(square) {
 
 Item.prototype.destroy = function() {
     this.square.exit(this)
+    if (this.wielded_by)
+        this.wielded_by.wielding = false
 }
 
 Item.prototype.default_action = function() {
