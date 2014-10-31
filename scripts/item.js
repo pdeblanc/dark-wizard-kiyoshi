@@ -27,6 +27,7 @@ function Item(attributes) {
 
     // setup
     this.span = document.createElement('span')
+    $(this.span).draggable({ opacity: 0.7, helper: "clone"})
     if (this.square)
         this.square.enter(this)
 
@@ -42,7 +43,11 @@ Item.prototype.moveto = function(square) {
             this.square.exit(this)
         this.square = square
         this.square.enter(this)
+        $(this.span).draggable({ opacity: 0.7, helper: "clone"})
+        return true
     }
+    $(this.span).draggable({ opacity: 0.7, helper: "clone"})
+    return false
 }
 
 Item.prototype.destroy = function() {

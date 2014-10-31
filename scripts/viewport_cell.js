@@ -11,7 +11,7 @@ function viewportCell(id, controller) {
                 drop: function(event, ui) {
                     var item = ui.draggable[0].item
                     var square = this.childNodes[0].square
-                    item.moveto(square)
+                    controller.push_command(["put", item, square])
                 }
             })
             .disableSelection()

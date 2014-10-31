@@ -68,6 +68,13 @@ Being.prototype.wait = function() {
     return true
 }
 
+Being.prototype.put = function(item, square) {
+    var success = item.moveto(square)
+    if (success)
+        this.tell("You put " + item.the() + " in " + square.the() + ".")
+    return success
+}
+
 Being.prototype.rest = function() {
     if (this.health >= 1) {
         this.tell("You are already fully healed!")
