@@ -11,18 +11,6 @@ Universe.prototype.simulate = function() {
     this.timeline.simulate()
 }
 
-Universe.prototype.clade = function(attributes) {
-    attributes.universe = this
-    return new Clade(attributes)
-}
-
-Universe.prototype.product = function(attributes) {
-    attributes.universe = this
-    var variant = Item.variant(attributes)
-    this.products[variant.prototype.common_name] = variant
-    return variant
-}
-
 Universe.prototype.biome = function(attributes) {
     attributes.universe = this
     return new Biome(attributes)
