@@ -5,8 +5,6 @@ function Universe(attributes) {
     this.affinities = {}
     this.game_over = false
     this.timeline = new Timeline({start_time: 0, universe: this})
-
-
 } 
 
 Universe.prototype.simulate = function() {
@@ -20,7 +18,9 @@ Universe.prototype.clade = function(attributes) {
 
 Universe.prototype.product = function(attributes) {
     attributes.universe = this
-    return new Product(attributes)
+    var variant = Item.variant(attributes)
+    this.products[variant.prototype.common_name] = variant
+    return variant
 }
 
 Universe.prototype.biome = function(attributes) {
@@ -56,12 +56,3 @@ Universe.prototype.delay_if_game_over = function(milliseconds, callback) {
 
 var universe = new Universe()
 
-universe.clade({name: 'human', symbol: '人', lean_mass: 10, attack: {punch: 1}})
-    .variant({name: 'samurai', symbol: '侍', attack: {cut: 3}})
-universe.clade({name: 'blue dragon', symbol: '龍', lean_mass: 200, vigor: 20, attack: {burn: 9}})
-universe.clade({name: 'cat', symbol: '猫', lean_mass: 1, vigor: .2, attack: {scratch: 1}})
-universe.clade({name: 'dog', symbol: '犬', lean_mass: 3, vigor: .5, attack: {bite: 1}})
-universe.product({name: 'katana', symbol: '刀', action: 'toggle_wield', attack: {cut: 5}})
-    .variant({name: 'bokutō', attack: {hit: 2}})
-universe.product({name: 'longsword', symbol: '剣', action: 'toggle_wield', attack: {cut: 5}})
-universe.product({name: 'meat', symbol: '肉', fat: 2, action: 'eat', attack: {slap: .5}})

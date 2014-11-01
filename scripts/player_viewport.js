@@ -30,8 +30,8 @@ function PlayerViewport(attributes) {
         }
     }
     this.render_profile = function() {
-        name_element.text(this.being.name).attr("id", "name")
-        title_element.text(this.being.family.name).attr("class", this.being.family.name)
+        name_element.text(this.being.proper_name).attr("id", "name")
+        title_element.text(this.being.common_name).attr("class", this.being.family.name)
     }
     this.render = function() {
         this.render_profile()

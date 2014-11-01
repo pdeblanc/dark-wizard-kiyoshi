@@ -1,27 +1,17 @@
-function Being(attributes) {
+Being = WorldObject.variant({}, function(attributes) {
     WorldObject.apply(this, arguments)
+    if (!attributes)
+        attributes = {}
+    for (key in attributes)
+        this[key] = attributes[key]
     this.compile_attributes = function() {
         // appearance
-        this.symbol = this.family.symbol
         this.span.className = 'being blood'
         this.span.textContent = this.symbol
-        this.innerSpan.className = this.family.name + ' being_fg'
+        this.innerSpan.className = this.common_name + ' being_fg'
         this.innerSpan.textContent = this.symbol
         this.span.appendChild(this.innerSpan)
-        for (var i = 0; i < STATS.length; i++) {
-            var stat = STATS[i]
-            this[stat] = 10
-            for (var j = 0; j < this.aspects.length; j++) {
-                this[stat] *= (this.aspects[j][stat] || 1)
-            }
-        }
     }
-
-    // basic attributes
-    this.name = attributes.name
-    this.family = attributes.family
-    this.aspects = [this.family]
-    this.aspects.push.apply(attributes.aspects || [])
 
     // setup
     this.square = attributes.square
@@ -41,10 +31,16 @@ function Being(attributes) {
     this.health = 1
     this.body_fat = this.lean_mass * .3
     this.wielding = false
-    this.universe.timeline.add_agent(this)
-}
+    universe.timeline.add_agent(this)
+})
+
+Being.set_name = 'clades'
 
 Being.prototype = Object.create(WorldObject.prototype)
+
+Being.prototype.power = 10
+Being.prototype.speed = 10
+Being.prototype.vigor = 10
 
 // actions
 Being.prototype.north = function() {
@@ -134,10 +130,10 @@ Being.prototype.attack = function(target_square) {
     for (var i = 0; i < target_square.beings.length; i++) {
         var being = target_square.beings[i]
         if (this.wielding) {
-            being.receive_damage(this.wielding.family.attack, this)
+            being.receive_damage(this.wielding.attack, this)
         }
         else {
-            var attack = this.family.attack
+            var attack = this.attacks[0]
             being.receive_damage(attack, this)
         }
         return true
@@ -262,10 +258,7 @@ Being.prototype.redraw = function() {
 Being.prototype.die = function() {
     this.square.announce_all_but([this], this.The() + ' dies.')
     this.tell("You die.")
-    new Item({
-        family: universe.products.meat,
-        square: this.square
-    })
+    universe.products.meat.create({square: this.square})
     this.square.exit(this)
     this.dead = 1
     if (this.controllers.length > 0)
