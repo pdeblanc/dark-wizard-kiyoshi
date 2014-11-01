@@ -134,11 +134,10 @@ Being.prototype.attack = function(target_square) {
     for (var i = 0; i < target_square.beings.length; i++) {
         var being = target_square.beings[i]
         if (this.wielding) {
-            being.receive_damage(this.wielding.damage(), this)
+            being.receive_damage(this.wielding.family.attack, this)
         }
         else {
-            var attack = {}
-            attack[this.family.attack] = this.family.damage
+            var attack = this.family.attack
             being.receive_damage(attack, this)
         }
         return true
