@@ -4,6 +4,7 @@ function Controller(attributes) {
     this.commands = []
     this.command_callbacks = []
     this.partial_command = false
+    this.action_chars = {e: actions.eat, g: actions.get, l: actions.look, p: actions.rest, w: actions.wield, '.': actions.wait, ' ': actions.wait}
     // set up event listeners
     var controller = this
     document.body.addEventListener(
@@ -36,18 +37,8 @@ function Controller(attributes) {
         'keypress',
         function(event) {
             var charStr = String.fromCharCode(event.which || event.keyCode)
-            if (charStr == 'e')
-                controller.push_command([actions.eat])
-            if (charStr == 'g')
-                controller.push_command([actions.get])
-            if (charStr == 'l')
-                controller.push_command([actions.look])
-            if (charStr == 'p')
-                controller.push_command([actions.rest])
-            if (charStr == 'w')
-                controller.push_command([actions.wield])
-            if (charStr == '.' || charStr == ' ') {
-                controller.push_command([actions.wait])
+            if (charStr in controller.action_chars) {
+                controller.push_command([controller.action_chars[charStr]])
                 event.preventDefault()
             }
         },
@@ -89,7 +80,6 @@ Controller.prototype.cancel_partial_commands = function() {
 }
 Controller.prototype.push_command = function(command) {
     this.cancel_partial_commands()
-    console.log(command[0].name)
     if (command[0].dobj && command.length < 2 || command[0].iobj && command.length < 3)
         return this.set_partial_command(command)
     this.commands.push(command)
