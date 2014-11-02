@@ -4,7 +4,7 @@ Being = WorldObject.variant({}, function(attributes) {
     this.innerSpan = document.createElement('div')
     this.span.className = 'being blood'
     this.span.textContent = this.symbol
-    this.innerSpan.className = this.common_name + ' being_fg'
+    this.innerSpan.className = this.__proto__.name + ' being_fg'
     this.innerSpan.textContent = this.symbol
     this.span.appendChild(this.innerSpan)
 

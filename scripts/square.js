@@ -1,6 +1,6 @@
 Square = WorldObject.variant({}, function(attributes) {
     this.span = document.createElement('div')
-    this.span.className = 'biome ' + this.common_name
+    this.span.className = 'biome ' + this.name
     this.span.textContent = this.symbol
     this.span.square = this
     this.items = []
@@ -11,7 +11,7 @@ Square = WorldObject.variant({}, function(attributes) {
 
 Square.variant = function(attributes, f) {
     var F = WorldObject.variant.apply(this, arguments)
-    F.prototype.tags = [F.prototype.common_name]
+    F.prototype.tags = [F.prototype.name]
     F.affinity = Square.affinity
 }
 

@@ -36,9 +36,9 @@ function WildernessPlane(attributes) {
                     }
                     R -= biomes_by_probability[b][1]
                 }
-                if (!(biome.prototype.common_name in biome_counts))
-                    biome_counts[biome.prototype.common_name] = 0
-                biome_counts[biome.prototype.common_name] += 1
+                if (!(biome.prototype.name in biome_counts))
+                    biome_counts[biome.prototype.name] = 0
+                biome_counts[biome.prototype.name] += 1
                 this.squares['_' + coordinate.x + '_' + coordinate.y] = biome.create({plane: this, coordinate: new Coordinate({x: coordinate.x, y: coordinate.y})})
             }
         }

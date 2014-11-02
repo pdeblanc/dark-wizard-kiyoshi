@@ -3,7 +3,7 @@ Item = WorldObject.variant({}, function(attributes) {
     $(this.span).draggable({ opacity: 0.7, helper: "clone"})
     if (this.square)
         this.square.enter(this)
-    this.span.className = 'item ' + this.common_name
+    this.span.className = 'item ' + this.name
     this.span.textContent = this.symbol
     this.span.item = this
 })
