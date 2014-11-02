@@ -1,4 +1,5 @@
 Square = WorldObject.variant({}, function(attributes) {
+    WorldObject.apply(this, arguments)
     this.span = document.createElement('div')
     this.span.className = 'biome ' + this.name
     this.span.textContent = this.symbol

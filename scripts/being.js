@@ -1,4 +1,5 @@
 Being = WorldObject.variant({}, function(attributes) {
+    WorldObject.apply(this, arguments)
     // graphics
     this.span = document.createElement('div')
     this.innerSpan = document.createElement('div')
@@ -112,7 +113,7 @@ Being.prototype.redraw = function() {
 Being.prototype.die = function() {
     this.square.announce_all_but([this], this.The() + ' dies.')
     this.tell("You die.")
-    universe.products.meat.create({square: this.square})
+    universe.products.meat.create({square: this.square, fat: this.body_fat + this.lean_mass * .2})
     this.square.exit(this)
     this.dead = 1
     if (this.controllers.length > 0)

@@ -1,4 +1,5 @@
 Item = WorldObject.variant({}, function(attributes) {
+    WorldObject.apply(this, arguments)
     this.span = document.createElement('span')
     $(this.span).draggable({ opacity: 0.7, helper: "clone"})
     if (this.square)
