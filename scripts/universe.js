@@ -20,7 +20,7 @@ Universe.prototype.affinity = function(a, b, x) {
     if (x == undefined) {
         if (a in this.affinities && b in this.affinities[a])
             return this.affinities[a][b]
-        return 0
+        return false
     }
     this.affinities[a] = this.affinities[a] || {}
     this.affinities[b] = this.affinities[b] || {}

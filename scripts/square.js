@@ -14,6 +14,8 @@ Square.variant = function(attributes, f) {
     var F = WorldObject.variant.apply(this, arguments)
     F.prototype.tags = [F.prototype.name]
     F.affinity = Square.affinity
+    if (universe.affinity(F.prototype.name, F.prototype.name) === false)
+        universe.affinity(F.prototype.name, F.prototype.name, F.prototype.clumpiness)
 }
 
 Square.set_name = 'biomes'
@@ -29,6 +31,8 @@ Square.prototype.passable = true
 Square.prototype.bias = 0
 
 Square.prototype.tags = []
+
+Square.prototype.clumpiness = 1
 
 Square.prototype.offset = function(attributes) {
     return this.plane.square(this.coordinate.add(attributes))

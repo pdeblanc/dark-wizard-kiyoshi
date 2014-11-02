@@ -18,9 +18,6 @@ Square.variant({name: 'water', symbol: '水', passable: false, continuous: true}
 Square.variant({name: 'void', symbol: '無', passable: 0, bias: -100, continuous: true})
 universe.biomes.void.variant({name: 'inventory slot', passable: 1, max_items: 1, continuous: false})
 
-universe.friends('grass', 'grass')
-universe.friends('water', 'water')
-
 initialize = function() {
     var plane = new WildernessPlane({width: 16, height: 16})
     top.plane = plane
