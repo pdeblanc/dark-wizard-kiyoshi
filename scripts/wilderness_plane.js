@@ -2,8 +2,7 @@ function WildernessPlane(attributes) {
     Plane.apply(this, arguments)
     for (var x = 0; x < this.width; x++) {
         for (var y = 0; y < this.height; y++) {
-            var biome = universe.biomes.water;
-            this.squares['_' + x + '_' + y] = new Square({biome: biome, plane: this, coordinate: new Coordinate({x: x, y: y})})
+            this.squares['_' + x + '_' + y] = new universe.biomes.water({plane: this, coordinate: new Coordinate({x: x, y: y})})
         }
     }
     var coordinate = new Coordinate({x: 0, y: 0})
@@ -15,15 +14,15 @@ function WildernessPlane(attributes) {
                 var biomes_by_probability = []
                 var probability_sum = 0
                 for (var b in universe.biomes) {
-                    var activation = universe.biomes[b].bias;
+                    var activation = universe.biomes[b].prototype.bias;
                     if (x > 0)
-                        activation += universe.biomes[b].affinity(square.west().biome)
+                        activation += universe.biomes[b].affinity(square.west())
                     if (y > 0)
-                        activation += universe.biomes[b].affinity(square.north().biome)
+                        activation += universe.biomes[b].affinity(square.north())
                     if (x < this.width - 1)
-                        activation += universe.biomes[b].affinity(square.east().biome)
+                        activation += universe.biomes[b].affinity(square.east())
                     if (y < this.height - 1)
-                        activation += universe.biomes[b].affinity(square.south().biome)
+                        activation += universe.biomes[b].affinity(square.south())
                     var probability = Math.exp(activation)
                     biomes_by_probability.push([universe.biomes[b], probability])
                     probability_sum += probability
@@ -37,10 +36,10 @@ function WildernessPlane(attributes) {
                     }
                     R -= biomes_by_probability[b][1]
                 }
-                if (!(biome.name in biome_counts))
-                    biome_counts[biome.name] = 0
-                biome_counts[biome.name] += 1
-                this.square(coordinate).set_biome(biome)
+                if (!(biome.prototype.common_name in biome_counts))
+                    biome_counts[biome.prototype.common_name] = 0
+                biome_counts[biome.prototype.common_name] += 1
+                this.squares['_' + coordinate.x + '_' + coordinate.y] = biome.create({plane: this, coordinate: new Coordinate({x: coordinate.x, y: coordinate.y})})
             }
         }
     }

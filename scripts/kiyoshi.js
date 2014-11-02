@@ -10,23 +10,34 @@ Item.variant({common_name: 'katana', symbol: '刀', action: 'toggle_wield', atta
 universe.products.katana.variant({common_name: 'bokutō', attack: {hit: 2}})
 Item.variant({common_name: 'longsword', symbol: '剣', action: 'toggle_wield', attack: {cut: 5}})
 Item.variant({common_name: 'meat', symbol: '肉', fat: 2, action: 'eat', attack: {slap: .5}})
+Square.variant({common_name: 'grass', symbol: '草', continuous: true})
+Square.variant({common_name: 'tree', symbol: '木', passable: false, bias: -1})
+Square.variant({common_name: 'woods', symbol: '林', passable: true, continuous: true})
+universe.biomes.woods.variant({common_name: 'forest', symbol: '森', continuous: false})
+Square.variant({common_name: 'water', symbol: '水', passable: false, continuous: true})
+Square.variant({common_name: 'void', symbol: '無', passable: 0, bias: -100, continuous: true})
+universe.biomes.void.variant({common_name: 'inventory slot', passable: 1, max_items: 1, continuous: false})
+
+universe.friends('grass', 'grass')
+universe.friends('water', 'water')
 
 initialize = function() {
-    var plane = new WildernessPlane({width: 64, height: 64})
-    for (var i = 0; i < 20; i++) {
+    var plane = new WildernessPlane({width: 16, height: 16})
+    top.plane = plane
+    for (var i = 0; i < 1; i++) {
         plane.place_randomly(universe.clades.human.create())
         plane.place_randomly(universe.clades.dog.create())
         plane.place_randomly(universe.clades.cat.create())
     }
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 1; i++) {
         plane.place_randomly(universe.clades.samurai.create())
     }
     plane.place_randomly(universe.clades["blue dragon"].create())
-    for (var i = 0; i < 2; i++) {
+    for (var i = 0; i < 1; i++) {
         plane.place_randomly(new universe.products.katana({}))
         plane.place_randomly(new universe.products.longsword({}))
     }
-    for (var i = 0; i < 100; i++) {
+    for (var i = 0; i < 1; i++) {
         plane.place_randomly(new universe.products.meat({}))
     }
     BuildCharacter($('#container'), function(being) {

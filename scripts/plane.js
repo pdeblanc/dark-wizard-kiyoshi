@@ -5,7 +5,7 @@ function Plane(attributes) {
     this.tree = rbush(9, ['.square.coordinate.x', '.square.coordinate.y', '.square.coordinate.x', '.square.coordinate.y'])
     this.square = function(coordinate) {
         if (coordinate.x < 0 || coordinate.y < 0 || coordinate.x >= this.width || coordinate.y >= this.height)
-            return new Square({biome: universe.biomes.void, plane: this, coordinate: coordinate})
+            return universe.biomes.void.create({plane: this, coordinate: coordinate})
         return this.squares['_' + coordinate.x + '_' + coordinate.y]
     }
 }
@@ -24,6 +24,7 @@ Plane.prototype.vacancy = function(hopeful) {
 Plane.prototype.place_randomly = function(hopeful) {
     for (var attempt = 0; attempt < 100; attempt++) {
         var coordinate = new Coordinate({x: Math.floor(Math.random() * this.width), y: Math.floor(Math.random() * this.height)})
+        console.log(coordinate)
         var square = this.square(coordinate)
         if (square.permit_entry(hopeful))
             return hopeful.moveto(square)

@@ -35,7 +35,9 @@ WorldObject.prototype.the = function() {
 
 WorldObject.set_name = 'classes'
 
-WorldObject.variant = function(attributes, f) {
+WorldObject.initialize_class = function() { }
+
+WorldObject.variant = function(attributes, f, g) {
     var constructor = this
     function F() {
         constructor.apply(this, arguments)
@@ -48,6 +50,15 @@ WorldObject.variant = function(attributes, f) {
     F.variant = this.variant
     F.set_name = this.set_name
     F.create = this.create
+    F.initialize_class = this.initialize_class
+    F.initialize_class(this)
+    if (g) {
+        var g0 = this.initialize_class
+        F.initialize_class = function(parent_class) {
+            g0.apply(this, [parent_class])
+            g.apply(this, [parent_class])
+        }
+    }
     if ('common_name' in attributes)
         universe[this.set_name][attributes.common_name] = F
     return F

@@ -1,18 +1,30 @@
-function Square(attributes) {
-    WorldObject.apply(this, arguments)
-    this.biome = attributes.biome
-    this.family = this.biome
+Square = WorldObject.variant({}, function(attributes) {
     this.span = document.createElement('div')
-    this.span.className = 'biome ' + this.biome.name
-    this.span.textContent = this.biome.symbol
+    this.span.className = 'biome ' + this.common_name
+    this.span.textContent = this.symbol
     this.span.square = this
     this.items = []
     this.beings = []
     this.plane = attributes.plane
     this.coordinate = attributes.coordinate
-}
+}, function(parent_class) {
+    this.affinity = parent_class.affinity
+    this.tags = [this.prototype.common_name]
+    this.prototype.tags = this.tags
+    this.bias = this.prototype.bias
+})
+
+Square.set_name = 'biomes'
 
 Square.prototype = Object.create(WorldObject.prototype)
+
+Square.prototype.passable = true
+
+Square.prototype.max_items = 16
+
+Square.prototype.passable = true
+
+Square.prototype.bias = 0
 
 Square.prototype.offset = function(attributes) {
     return this.plane.square(this.coordinate.add(attributes))
@@ -40,7 +52,7 @@ Square.prototype.exit = function(departee) {
         this.span.appendChild(visible_object.span)
     }
     else
-        this.span.innerHTML = this.biome.symbol
+        this.span.innerHTML = this.symbol
     if (departee instanceof Being)
         this.plane.tree.remove(departee)
 }
@@ -70,13 +82,13 @@ Square.prototype.permit_entry = function(hopeful) {
         for (var i = 0; i < array.length; i++) {
             if (array[i] instanceof Item) {
                 total_items += 1;
-                if (total_items >= this.biome.max_items) {
+                if (total_items >= this.max_items) {
                     return false;
                 }
             }
         }
     }
-    return this.biome.passable
+    return this.passable
 }
 Square.prototype.announce_all_but = function(exclude, message) {
     var radius = 4;
@@ -89,11 +101,14 @@ Square.prototype.announce_all_but = function(exclude, message) {
 Square.prototype.announce = function(message) {
     this.announce_all_but([], message)
 }
-Square.prototype.set_biome = function(biome) {
-    this.biome = biome
-    this.family = this.biome
-    this.span.className = 'biome ' + this.biome.name
-    this.span.textContent = this.biome.symbol
+Square.affinity = function(other) {
+    var total = 0;
+    for (var i = 0; i < this.tags.length; i++) {
+        for (var j = 0; j < other.tags.length; j++) {
+            total += universe.affinity(this.tags[i], other.tags[j])
+        }
+    }
+    return total;
 }
-
-
+Square.tags = []
+Square.prototype.tags = []
