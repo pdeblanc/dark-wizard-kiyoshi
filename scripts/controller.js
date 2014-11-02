@@ -14,16 +14,20 @@ function Controller(attributes) {
                 controller.cancel_partial_commands()
             }
             if (event.keyCode == 37) {
-                controller.west()
+                controller.push_command([actions.west])
+                event.preventDefault()
             }
             if (event.keyCode == 38) {
-                controller.north()
+                controller.push_command([actions.north])
+                event.preventDefault()
             }
             if (event.keyCode == 39) {
-                controller.east()
+                controller.push_command([actions.east])
+                event.preventDefault()
             }
             if (event.keyCode == 40) {
-                controller.south()
+                controller.push_command([actions.south])
+                event.preventDefault()
             }
         },
         false
@@ -122,45 +126,5 @@ Controller.prototype.button = function(action, label) {
 // button functions
 Controller.prototype.cancel = function() {
     this.cancel_partial_commands()
-}
-Controller.prototype.west = function() {
-    if (this.partial_command)
-        this.click(this.being.square.west())
-    else if (this.being.square.west().permit_entry(this.being))
-        this.push_command([actions.west])
-    else
-        this.push_command([actions.attack, this.being.square.west()])
-    event.preventDefault()
-    return false;
-}
-Controller.prototype.east = function() {
-    if (this.partial_command)
-        this.click(this.being.square.east())
-    else if (this.being.square.east().permit_entry(this.being))
-        this.push_command([actions.east])
-    else
-        this.push_command([actions.attack, this.being.square.east()])
-    event.preventDefault()
-    return false;
-}
-Controller.prototype.north = function() {
-    if (this.partial_command)
-        this.click(this.being.square.north())
-    else if (this.being.square.north().permit_entry(this.being))
-        this.push_command([actions.north])
-    else
-        this.push_command([actions.attack, this.being.square.north()])
-    event.preventDefault()
-    return false;
-}
-Controller.prototype.south = function() {
-    if (this.partial_command)
-        this.click(this.being.square.south())
-    else if (this.being.square.south().permit_entry(this.being))
-        this.push_command([actions.south])
-    else
-        this.push_command([actions.attack, this.being.square.south()])
-    event.preventDefault()
-    return false;
 }
 

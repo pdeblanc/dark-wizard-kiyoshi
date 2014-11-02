@@ -12,22 +12,27 @@ Action.prototype.execute = function() {
 
 actions.north = new Action({name: 'north'})
 actions.north.execute = function(subject) {
-    return subject.moveto(subject.square.north())
+    return actions.moveto_or_attack.execute(subject, subject.square.north())
 }
 
 actions.south = new Action({name: 'south'})
 actions.south.execute = function(subject) {
-    return subject.moveto(subject.square.south())
+    return actions.moveto_or_attack.execute(subject, subject.square.south())
 }
 
 actions.east = new Action({name: 'east'})
 actions.east.execute = function(subject) {
-    return subject.moveto(subject.square.east())
+    return actions.moveto_or_attack.execute(subject, subject.square.east())
 }
 
 actions.west = new Action({name: 'west'})
 actions.west.execute = function(subject) {
-    return subject.moveto(subject.square.west())
+    return actions.moveto_or_attack.execute(subject, subject.square.west())
+}
+
+actions.moveto_or_attack = new Action({name: 'moveto_or_attack', dobj: Square})
+actions.moveto_or_attack.execute = function(subject, square) {
+    return (subject.moveto(square) || actions.attack.execute(subject, square))
 }
 
 actions.wait = new Action({name: 'wait'})
@@ -116,6 +121,7 @@ actions.attack.execute = function(subject, target_square) {
         }
         return true
     }
+    return false;
 }
 
 actions.toggle_wield = new Action({name: 'toggle_wield', dobj: Square})
