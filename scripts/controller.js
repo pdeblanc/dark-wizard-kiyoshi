@@ -33,17 +33,17 @@ function Controller(attributes) {
         function(event) {
             var charStr = String.fromCharCode(event.which || event.keyCode)
             if (charStr == 'e')
-                controller.eat()
+                controller.push_command([actions.eat])
             if (charStr == 'g')
-                controller.get()
+                controller.push_command([actions.get])
             if (charStr == 'l')
-                controller.look()
+                controller.push_command([actions.look])
             if (charStr == 'p')
-                controller.rest()
+                controller.push_command([actions.rest])
             if (charStr == 'w')
-                controller.wield()
+                controller.push_command([actions.wield])
             if (charStr == '.' || charStr == ' ') {
-                controller.wait()
+                controller.push_command([actions.wait])
                 event.preventDefault()
             }
         },
@@ -52,12 +52,12 @@ function Controller(attributes) {
     // set up buttons
     $(this.container).append(
         $('<div />').addClass('panel')
-        .append(this.button(this.eat, 'Eat'))
-        .append(this.button(this.get, 'Get'))
-        .append(this.button(this.look, 'Look'))
-        .append(this.button(this.rest, 'sleeP'))
-        .append(this.button(this.wait, 'wait.'))
-        .append(this.button(this.wield, 'Wield'))
+        .append(this.button(actions.eat, 'Eat'))
+        .append(this.button(actions.get, 'Get'))
+        .append(this.button(actions.look, 'Look'))
+        .append(this.button(actions.rest, 'sleeP'))
+        .append(this.button(actions.wait, 'wait.'))
+        .append(this.button(actions.wield, 'Wield'))
     )
 
     // set up display
@@ -85,6 +85,9 @@ Controller.prototype.cancel_partial_commands = function() {
 }
 Controller.prototype.push_command = function(command) {
     this.cancel_partial_commands()
+    console.log(command[0].name)
+    if (command[0].dobj && command.length < 2 || command[0].iobj && command.length < 3)
+        return this.set_partial_command(command)
     this.commands.push(command)
     if (this.command_callbacks.length > 0) {
         callback = this.command_callbacks.shift()
@@ -101,11 +104,11 @@ Controller.prototype.click = function(square) {
     }
 }
 // button creation method
-Controller.prototype.button = function(f, label) {
+Controller.prototype.button = function(action, label) {
     var controller = this
     var button = $('<button />').addClass('action')
         .click(function() {
-            f.apply(controller)
+            controller.push_command([f])
         })
     for (var i = 0; i < label.length; i++) {
         var c = label[i]
@@ -160,21 +163,4 @@ Controller.prototype.south = function() {
     event.preventDefault()
     return false;
 }
-Controller.prototype.get = function() {
-    this.push_command([actions.get])
-}
-Controller.prototype.eat = function() {
-    this.set_partial_command([actions.eat])
-}
-Controller.prototype.wield = function() {
-    this.set_partial_command([actions.wield])
-}
-Controller.prototype.look = function() {
-    this.set_partial_command([actions.look])
-}
-Controller.prototype.rest = function() {
-    this.push_command([actions.rest])
-}
-Controller.prototype.wait = function() {
-    this.push_command([actions.wait])
-}
+

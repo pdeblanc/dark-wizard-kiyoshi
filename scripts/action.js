@@ -36,7 +36,7 @@ actions.wait.execute = function(subject) {
     return true
 }
 
-actions.put = new Action({name: 'put'})
+actions.put = new Action({name: 'put', dobj: Item, iobj: Square})
 actions.put.execute = function(subject, item, square) {
     var success = item.moveto(square)
     if (success)
@@ -75,7 +75,7 @@ actions.get.execute = function(subject) {
     return false
 }
 
-actions.eat = new Action({name: 'eat'})
+actions.eat = new Action({name: 'eat', dobj: Square})
 actions.eat.execute = function(subject, square) {
     if (square.items.length == 0) {
         subject.tell("There is nothing there to eat.")
@@ -92,7 +92,7 @@ actions.eat.execute = function(subject, square) {
     return true;
 }
 
-actions.look = new Action({name: 'look'})
+actions.look = new Action({name: 'look', dobj: Square})
 actions.look.execute = function(subject, square) {
     var item_names = [square.a()]
     for (var i = 0; i < square.beings.length; i++)
@@ -103,7 +103,7 @@ actions.look.execute = function(subject, square) {
     return false
 }
 
-actions.attack = new Action({name: 'attack'})
+actions.attack = new Action({name: 'attack', dobj: Square})
 actions.attack.execute = function(subject, target_square) {
     for (var i = 0; i < target_square.beings.length; i++) {
         var being = target_square.beings[i]
@@ -118,7 +118,7 @@ actions.attack.execute = function(subject, target_square) {
     }
 }
 
-actions.toggle_wield = new Action({name: 'toggle_wield'})
+actions.toggle_wield = new Action({name: 'toggle_wield', dobj: Square})
 actions.toggle_wield.execute = function(subject, square) {
     if (square.items.length == 0) {
         subject.tell("There is nothing there to wield.")
@@ -131,7 +131,7 @@ actions.toggle_wield.execute = function(subject, square) {
         return actions.wield.execute(subject, square)
 }
 
-actions.wield = new Action({name: 'wield'})
+actions.wield = new Action({name: 'wield', dobj: Square})
 actions.wield.execute = function(subject, square) {
     if (square.items.length == 0) {
         subject.tell("There is nothing there to wield.")
@@ -147,7 +147,7 @@ actions.wield.execute = function(subject, square) {
     return true
 }
 
-actions.unwield = new Action({name: 'unwield'})
+actions.unwield = new Action({name: 'unwield', dobj: Square})
 actions.unwield.execute = function(subject, square) {
     if (subject.wielding) {
         $(subject.wielding.span).removeClass('wielded')
