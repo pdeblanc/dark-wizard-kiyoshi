@@ -1,26 +1,11 @@
-ITEM_STATS = ['mass', 'fat']
-
 Item = WorldObject.variant({}, function(attributes) {
-    if (!attributes)
-        attributes = {}
-    this.compile_attributes = function() {
-        // appearance
-        this.span.className = 'item ' + this.common_name
-        this.span.textContent = this.symbol
-        this.span.item = this
-    }
-
-    // highly mutable attributes
-    this.square = attributes.square
-
-    // setup
     this.span = document.createElement('span')
     $(this.span).draggable({ opacity: 0.7, helper: "clone"})
     if (this.square)
         this.square.enter(this)
-
-    // compile attributes
-    this.compile_attributes()
+    this.span.className = 'item ' + this.common_name
+    this.span.textContent = this.symbol
+    this.span.item = this
 })
 
 Item.set_name = 'products'

@@ -1,29 +1,17 @@
 Being = WorldObject.variant({}, function(attributes) {
-    WorldObject.apply(this, arguments)
-    if (!attributes)
-        attributes = {}
-    for (key in attributes)
-        this[key] = attributes[key]
-    this.compile_attributes = function() {
-        // appearance
-        this.span.className = 'being blood'
-        this.span.textContent = this.symbol
-        this.innerSpan.className = this.common_name + ' being_fg'
-        this.innerSpan.textContent = this.symbol
-        this.span.appendChild(this.innerSpan)
-    }
-
-    // setup
-    this.square = attributes.square
+    // graphics
     this.span = document.createElement('div')
     this.innerSpan = document.createElement('div')
+    this.span.className = 'being blood'
+    this.span.textContent = this.symbol
+    this.innerSpan.className = this.common_name + ' being_fg'
+    this.innerSpan.textContent = this.symbol
+    this.span.appendChild(this.innerSpan)
+
     if (this.square)
         this.square.enter(this)
     this.viewports = []
     this.controllers = []
-
-    // compile attributes
-    this.compile_attributes()
 
     // highly mutable attributes
     this.inventory = new InventoryPlane({width: 2, height: 9})
@@ -270,5 +258,4 @@ Being.prototype.tell = function(message) {
         viewport.tell(message)
     })
 }
-
 

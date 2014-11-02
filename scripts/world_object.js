@@ -1,4 +1,7 @@
 function WorldObject(attributes) {
+    if (attributes)
+        for (key in attributes)
+            this[key] = attributes[key]
 }
 
 WorldObject.prototype.common_name = 'object'
