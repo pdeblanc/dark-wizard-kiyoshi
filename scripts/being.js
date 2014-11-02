@@ -37,36 +37,37 @@ Being.prototype.notify = function() {
 
 Being.prototype.act = function(callback) {
     this.notify()
-    var obj = this
+    var subject = this
     if (this.controllers.length > 0) {
         this.controllers[0].set_callback(function(command) {
-            var success = actions[command[0]].execute(obj, command[1], command[2])
+            var success = actions[command[0]].execute(subject, command[1], command[2])
             if (success) {
                 // lose a bit over one pound per day due to very active lifestyle
                 // remove leading 10000 when done testing
-                obj.body_fat -= 10000 * (obj.body_fat + obj.lean_mass) / (86400 * 100)
-                if (obj.body_fat < 0) {
-                    obj.tell('You have starved.')
-                    obj.notify()
-                    obj.die()
+                subject.body_fat -= 10000 * (subject.body_fat + subject.lean_mass) / (86400 * 100)
+                if (subject.body_fat < 0) {
+                    subject.tell('You have starved.')
+                    subject.notify()
+                    subject.die()
                 }
                 callback() 
             }
             else
-                obj.act(callback)
+                subject.act(callback)
         })
     }
     else {
-        // move randomly
-        var commands = [['north'], ['south'], ['west'], ['east']]
-        command = commands[Math.floor(Math.random() * 4)]
-        var squares = [this.square.north(), this.square.south(), this.square.east(), this.square.west()]
         // attack
+        var squares = [this.square.north(), this.square.south(), this.square.east(), this.square.west()]
         for (var i = 0; i < squares.length; i++) {
-            if (squares[i] && squares[i].beings.length && this.hostile(squares[i].beings[0]))
-                command = ["attack", squares[i]]
+            if (squares[i] && squares[i].beings.length && this.hostile(squares[i].beings[0])) {
+                actions.attack.execute(subject, squares[i])
+                return callback()
+            }
         }
-        actions[command[0]].execute(obj, command[1], command[2])
+        // move randomly
+        var my_actions = [actions.north, actions.south, actions.east, actions.west]
+        my_actions[Math.floor(Math.random() * 4)].execute(this)
         callback()
     }
 }
