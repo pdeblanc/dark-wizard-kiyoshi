@@ -7,12 +7,13 @@ Square = WorldObject.variant({}, function(attributes) {
     this.beings = []
     this.plane = attributes.plane
     this.coordinate = attributes.coordinate
-}, function(parent_class) {
-    this.affinity = parent_class.affinity
-    this.tags = [this.prototype.common_name]
-    this.prototype.tags = this.tags
-    this.bias = this.prototype.bias
 })
+
+Square.variant = function(attributes, f) {
+    var F = WorldObject.variant.apply(this, arguments)
+    F.prototype.tags = [F.prototype.common_name]
+    F.affinity = Square.affinity
+}
 
 Square.set_name = 'biomes'
 
@@ -25,6 +26,8 @@ Square.prototype.max_items = 16
 Square.prototype.passable = true
 
 Square.prototype.bias = 0
+
+Square.prototype.tags = []
 
 Square.prototype.offset = function(attributes) {
     return this.plane.square(this.coordinate.add(attributes))
@@ -101,7 +104,7 @@ Square.prototype.announce_all_but = function(exclude, message) {
 Square.prototype.announce = function(message) {
     this.announce_all_but([], message)
 }
-Square.affinity = function(other) {
+Square.prototype.affinity = function(other) {
     var total = 0;
     for (var i = 0; i < this.tags.length; i++) {
         for (var j = 0; j < other.tags.length; j++) {
@@ -110,5 +113,3 @@ Square.affinity = function(other) {
     }
     return total;
 }
-Square.tags = []
-Square.prototype.tags = []

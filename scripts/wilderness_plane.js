@@ -16,13 +16,13 @@ function WildernessPlane(attributes) {
                 for (var b in universe.biomes) {
                     var activation = universe.biomes[b].prototype.bias;
                     if (x > 0)
-                        activation += universe.biomes[b].affinity(square.west())
+                        activation += universe.biomes[b].prototype.affinity(square.west())
                     if (y > 0)
-                        activation += universe.biomes[b].affinity(square.north())
+                        activation += universe.biomes[b].prototype.affinity(square.north())
                     if (x < this.width - 1)
-                        activation += universe.biomes[b].affinity(square.east())
+                        activation += universe.biomes[b].prototype.affinity(square.east())
                     if (y < this.height - 1)
-                        activation += universe.biomes[b].affinity(square.south())
+                        activation += universe.biomes[b].prototype.affinity(square.south())
                     var probability = Math.exp(activation)
                     biomes_by_probability.push([universe.biomes[b], probability])
                     probability_sum += probability
