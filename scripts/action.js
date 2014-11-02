@@ -1,7 +1,6 @@
 actions = {}
 
-function Action() {
-}
+Action = WorldObject.variant({}, function() {})
 
 // action.execute(subject, direct_object, indirect_object)
 // return true if action is successful
@@ -11,33 +10,33 @@ Action.prototype.execute = function() {
     return false
 }
 
-actions.north = new Action()
+actions.north = new Action({name: 'north'})
 actions.north.execute = function(subject) {
     return subject.moveto(subject.square.north())
 }
 
-actions.south = new Action()
+actions.south = new Action({name: 'south'})
 actions.south.execute = function(subject) {
     return subject.moveto(subject.square.south())
 }
 
-actions.east = new Action()
+actions.east = new Action({name: 'east'})
 actions.east.execute = function(subject) {
     return subject.moveto(subject.square.east())
 }
 
-actions.west = new Action()
+actions.west = new Action({name: 'west'})
 actions.west.execute = function(subject) {
     return subject.moveto(subject.square.west())
 }
 
-actions.wait = new Action()
+actions.wait = new Action({name: 'wait'})
 actions.wait.execute = function(subject) {
     subject.tell("You wait.")
     return true
 }
 
-actions.put = new Action()
+actions.put = new Action({name: 'put'})
 actions.put.execute = function(subject, item, square) {
     var success = item.moveto(square)
     if (success)
@@ -45,7 +44,7 @@ actions.put.execute = function(subject, item, square) {
     return success
 }
 
-actions.rest = new Action()
+actions.rest = new Action({name: 'rest'})
 actions.rest.execute = function(subject) {
     if (subject.health >= 1) {
         subject.tell("You are already fully healed!")
@@ -57,7 +56,7 @@ actions.rest.execute = function(subject) {
     return subject.health
 }
 
-actions.get = new Action()
+actions.get = new Action({name: 'get'})
 actions.get.execute = function(subject) {
     var gotten_items, item, vacancy
     gotten_items = []
@@ -76,7 +75,7 @@ actions.get.execute = function(subject) {
     return false
 }
 
-actions.eat = new Action()
+actions.eat = new Action({name: 'eat'})
 actions.eat.execute = function(subject, square) {
     if (square.items.length == 0) {
         subject.tell("There is nothing there to eat.")
@@ -93,7 +92,7 @@ actions.eat.execute = function(subject, square) {
     return true;
 }
 
-actions.look = new Action()
+actions.look = new Action({name: 'look'})
 actions.look.execute = function(subject, square) {
     var item_names = [square.a()]
     for (var i = 0; i < square.beings.length; i++)
@@ -104,7 +103,7 @@ actions.look.execute = function(subject, square) {
     return false
 }
 
-actions.attack = new Action()
+actions.attack = new Action({name: 'attack'})
 actions.attack.execute = function(subject, target_square) {
     for (var i = 0; i < target_square.beings.length; i++) {
         var being = target_square.beings[i]
@@ -119,7 +118,7 @@ actions.attack.execute = function(subject, target_square) {
     }
 }
 
-actions.toggle_wield = new Action()
+actions.toggle_wield = new Action({name: 'toggle_wield'})
 actions.toggle_wield.execute = function(subject, square) {
     if (square.items.length == 0) {
         subject.tell("There is nothing there to wield.")
@@ -132,7 +131,7 @@ actions.toggle_wield.execute = function(subject, square) {
         return actions.wield.execute(subject, square)
 }
 
-actions.wield = new Action()
+actions.wield = new Action({name: 'wield'})
 actions.wield.execute = function(subject, square) {
     if (square.items.length == 0) {
         subject.tell("There is nothing there to wield.")
@@ -148,7 +147,7 @@ actions.wield.execute = function(subject, square) {
     return true
 }
 
-actions.unwield = new Action()
+actions.unwield = new Action({name: 'unwield'})
 actions.unwield.execute = function(subject, square) {
     if (subject.wielding) {
         $(subject.wielding.span).removeClass('wielded')

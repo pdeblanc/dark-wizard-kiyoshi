@@ -76,7 +76,7 @@ Controller.prototype.set_callback = function(callback) {
 }
 Controller.prototype.set_partial_command = function(partial_command) {
     this.partial_command = partial_command
-    this.being.tell(english.capitalize(partial_command[0]) + ' <target>')
+    this.being.tell(english.capitalize(partial_command[0].name) + ' <target>')
 }
 Controller.prototype.cancel_partial_commands = function() {
     if (this.partial_command)
@@ -124,9 +124,9 @@ Controller.prototype.west = function() {
     if (this.partial_command)
         this.click(this.being.square.west())
     else if (this.being.square.west().permit_entry(this.being))
-        this.push_command(['west'])
+        this.push_command([actions.west])
     else
-        this.push_command(['attack', this.being.square.west()])
+        this.push_command([actions.attack, this.being.square.west()])
     event.preventDefault()
     return false;
 }
@@ -134,9 +134,9 @@ Controller.prototype.east = function() {
     if (this.partial_command)
         this.click(this.being.square.east())
     else if (this.being.square.east().permit_entry(this.being))
-        this.push_command(['east'])
+        this.push_command([actions.east])
     else
-        this.push_command(['attack', this.being.square.east()])
+        this.push_command([actions.attack, this.being.square.east()])
     event.preventDefault()
     return false;
 }
@@ -144,9 +144,9 @@ Controller.prototype.north = function() {
     if (this.partial_command)
         this.click(this.being.square.north())
     else if (this.being.square.north().permit_entry(this.being))
-        this.push_command(['north'])
+        this.push_command([actions.north])
     else
-        this.push_command(['attack', this.being.square.north()])
+        this.push_command([actions.attack, this.being.square.north()])
     event.preventDefault()
     return false;
 }
@@ -154,27 +154,27 @@ Controller.prototype.south = function() {
     if (this.partial_command)
         this.click(this.being.square.south())
     else if (this.being.square.south().permit_entry(this.being))
-        this.push_command(['south'])
+        this.push_command([actions.south])
     else
-        this.push_command(['attack', this.being.square.south()])
+        this.push_command([actions.attack, this.being.square.south()])
     event.preventDefault()
     return false;
 }
 Controller.prototype.get = function() {
-    this.push_command(['get'])
+    this.push_command([actions.get])
 }
 Controller.prototype.eat = function() {
-    this.set_partial_command(['eat'])
+    this.set_partial_command([actions.eat])
 }
 Controller.prototype.wield = function() {
-    this.set_partial_command(['wield'])
+    this.set_partial_command([actions.wield])
 }
 Controller.prototype.look = function() {
-    this.set_partial_command(['look'])
+    this.set_partial_command([actions.look])
 }
 Controller.prototype.rest = function() {
-    this.push_command(['rest'])
+    this.push_command([actions.rest])
 }
 Controller.prototype.wait = function() {
-    this.push_command(['wait'])
+    this.push_command([actions.wait])
 }

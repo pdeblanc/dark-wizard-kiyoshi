@@ -40,7 +40,7 @@ Being.prototype.act = function(callback) {
     var subject = this
     if (this.controllers.length > 0) {
         this.controllers[0].set_callback(function(command) {
-            var success = actions[command[0]].execute(subject, command[1], command[2])
+            var success = command[0].execute(subject, command[1], command[2])
             if (success) {
                 // lose a bit over one pound per day due to very active lifestyle
                 // remove leading 10000 when done testing
