@@ -3,11 +3,17 @@ function Plane(attributes) {
     this.height = attributes.height || 9
     this.squares = {}
     this.tree = rbush(9, ['.square.coordinate.x', '.square.coordinate.y', '.square.coordinate.x', '.square.coordinate.y'])
-    this.square = function(coordinate) {
-        if (coordinate.x < 0 || coordinate.y < 0 || coordinate.x >= this.width || coordinate.y >= this.height)
-            return universe.biomes.void.create({plane: this, coordinate: coordinate})
-        return this.squares['_' + coordinate.x + '_' + coordinate.y]
-    }
+}
+
+Plane.prototype.square = function(coordinate) {
+    var index_string = '_' + coordinate.x + '_' + coordinate.y
+    if (!(index_string in this.squares))
+        return (this.squares[index_string] = this.generate_square(coordinate))
+    return this.squares[index_string]
+}
+
+Plane.prototype.generate_square = function(coordinate) {
+    return universe.biomes.void.create({plane: this, coordinate: coordinate})
 }
 
 Plane.prototype.vacancy = function(hopeful) {
