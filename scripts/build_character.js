@@ -16,12 +16,12 @@ function BuildCharacter(container, callback) {
             .append($('<h1 />').text('Enter your name'))
             .append(name_input = $('<input />').attr('id', 'character-name').keydown(function() {
                 if (event.keyCode == 13) { // return key
-                    attributes.proper_name = name_input.val()
+                    attributes.name = name_input.val()
                     next()
                 }
             }))
             .append($('<button />').addClass('continue').text('continue').click(function() {
-                attributes.proper_name = name_input.val()
+                attributes.name = name_input.val()
                 next()
             }))
         name_input.focus()
