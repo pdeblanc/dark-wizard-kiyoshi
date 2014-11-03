@@ -7,6 +7,8 @@ Being
     .kingdom({name: 'blue dragon', symbol: '龍', lean_mass: 2000, vigor: 200, attacks: [{burn: 9}]})
     .kingdom({name: 'cat', symbol: '猫', lean_mass: 10, vigor: 2, attacks: [{scratch: 1}]})
     .kingdom({name: 'dog', symbol: '犬', lean_mass: 30, vigor: 5, attacks: [{bite: 1}]})
+    .kingdom({name: 'mouse', symbol: '鼠', lean_mass: 0.1, vigor: 0.02, speed: 30, attacks: [{bite: .1}]})
+        .phylum({name: 'rat', symbol: '鼠', lean_mass: 1, vigor: 0.2, speed: 20, attacks: [{bite: .3}]})
 
 Item.variant({name: 'katana', symbol: '刀', action: actions.toggle_wield, attack: {cut: 5}})
 universe.products.katana.variant({name: 'bokutō', attack: {hit: 2}})

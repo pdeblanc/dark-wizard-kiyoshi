@@ -208,6 +208,14 @@ button.action:hover span.key-label {
     color: #0000ff;
 }
 
+.mouse {
+    color: #ffffff;
+}
+
+.rat {
+    color: #a0a0a0;
+}
+
 .being {
     text-shadow: -1px -1px 0px white, 1px 1px 0px black;
 }
