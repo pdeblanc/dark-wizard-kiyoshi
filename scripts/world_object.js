@@ -7,6 +7,8 @@ function WorldObject(attributes) {
 
 WorldObject.prototype.name = 'object'
 WorldObject.prototype.continuous = false
+WorldObject.prototype.habitat = {}
+WorldObject.prototype.bias = -5
 
 WorldObject.prototype.constructor = WorldObject
 

@@ -8,20 +8,11 @@ Square = WorldObject.variant({}, function(attributes) {
     this.beings = []
     this.plane = attributes.plane
     this.coordinate = attributes.coordinate
-    for (clade_name in universe.clades) {
-        clade = universe.clades[clade_name]
-        if (Math.random() < .01 && this.permit_entry(clade.prototype)) {
-            clade.create({square: this})
-            break
-        }
-    }
-    for (product_name in universe.products) {
-        product = universe.products[product_name]
-        if (Math.random() < .01 && this.permit_entry(product.prototype)) {
-            product.create({square: this})
-            break
-        }
-    }
+    var being, item
+    if (being = this.sample_contents(universe.clades))
+        being.create({square: this})
+    if (item = this.sample_contents(universe.products))
+        item.create({square: this})
 })
 
 Square.variant = function(attributes, f) {
@@ -42,11 +33,22 @@ Square.prototype.max_beings = 1
 
 Square.prototype.max_items = 16
 
-Square.prototype.bias = 0
-
 Square.prototype.tags = []
 
+Square.prototype.bias = 0
+
 Square.prototype.clumpiness = 1
+
+// index is an object whose keys are things that may be placed in the square
+Square.prototype.sample_contents = function(index) {
+    var probability_array = [[false, 1]]
+    for (key in index) {
+        var object_class = index[key]
+        if (this.permit_entry(object_class.prototype))
+            probability_array.push([object_class, Math.exp(object_class.prototype.bias)])
+    }
+    return Probability.sample(probability_array)
+}
 
 Square.prototype.offset = function(attributes) {
     return this.plane.square(this.coordinate.add(attributes))
