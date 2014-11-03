@@ -8,6 +8,20 @@ Square = WorldObject.variant({}, function(attributes) {
     this.beings = []
     this.plane = attributes.plane
     this.coordinate = attributes.coordinate
+    for (clade_name in universe.clades) {
+        clade = universe.clades[clade_name]
+        if (Math.random() < .01 && this.permit_entry(clade.prototype)) {
+            clade.create({square: this})
+            break
+        }
+    }
+    for (product_name in universe.products) {
+        product = universe.products[product_name]
+        if (Math.random() < .01 && this.permit_entry(product.prototype)) {
+            product.create({square: this})
+            break
+        }
+    }
 })
 
 Square.variant = function(attributes, f) {
@@ -24,9 +38,9 @@ Square.prototype = Object.create(WorldObject.prototype)
 
 Square.prototype.passable = true
 
-Square.prototype.max_items = 16
+Square.prototype.max_beings = 1
 
-Square.prototype.passable = true
+Square.prototype.max_items = 16
 
 Square.prototype.bias = 0
 
@@ -78,24 +92,10 @@ Square.prototype.enter = function(newcomer) {
     }
 }
 Square.prototype.permit_entry = function(hopeful) {
-    var array = (hopeful instanceof Being) ? this.beings : this.items
-    if (hopeful instanceof Being) {
-        for (var i = 0; i < array.length; i++) {
-            if (array[i] instanceof Being) {
-                return false;
-            }
-        }
-    } else {
-        var total_items = 0;
-        for (var i = 0; i < array.length; i++) {
-            if (array[i] instanceof Item) {
-                total_items += 1;
-                if (total_items >= this.max_items) {
-                    return false;
-                }
-            }
-        }
-    }
+    if (hopeful instanceof Being && this.beings.length >= this.max_beings)
+        return false
+    if (hopeful instanceof Item && this.items.length >= this.max_items)
+        return false
     return this.passable
 }
 Square.prototype.announce_all_but = function(exclude, message) {

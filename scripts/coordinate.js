@@ -24,5 +24,5 @@ Coordinate.prototype.lattice_parents = function() {
 }
 
 Coordinate.prototype.max_distance = function(other) {
-    return Math.max(other.x - this.x, other.y - this.y)
+    return Math.max(Math.abs(other.x - this.x), Math.abs(other.y - this.y))
 }

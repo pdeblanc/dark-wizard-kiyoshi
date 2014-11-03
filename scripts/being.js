@@ -39,7 +39,11 @@ Being.prototype.notify = function() {
 
 Being.prototype.act = function(callback) {
     this.notify()
-    this.hibernating = this.should_hibernate() // takes effect after this action
+    this.hibernating = this.should_hibernate()
+    if (this.hibernating)
+        return callback()
+    for (var player_id in universe.players)
+        console.log(this.name, this.id, 'at distance', universe.players[player_id].square.coordinate.max_distance(this.square.coordinate))
     var subject = this
     if (this.controllers.length > 0) {
         this.disturb_others()

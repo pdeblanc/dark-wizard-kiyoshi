@@ -16,27 +16,11 @@ Square.variant({name: 'woods', symbol: '林', passable: true, continuous: true})
 universe.biomes.woods.variant({name: 'forest', symbol: '森', continuous: false})
 Square.variant({name: 'water', symbol: '水', passable: false, continuous: true})
 Square.variant({name: 'void', symbol: '無', passable: 0, bias: -100, continuous: true})
-universe.biomes.void.variant({name: 'inventory slot', passable: 1, max_items: 1, continuous: false})
+universe.biomes.void.variant({name: 'inventory slot', passable: 1, max_items: 1, max_beings: 0, continuous: false})
 
 initialize = function() {
     var plane = new WildernessPlane({width: 32, height: 32})
     top.plane = plane
-    for (var i = 0; i < 10; i++) {
-        plane.place_randomly(universe.clades.human.create())
-        plane.place_randomly(universe.clades.dog.create())
-        plane.place_randomly(universe.clades.cat.create())
-    }
-    for (var i = 0; i < 10; i++) {
-        plane.place_randomly(universe.clades.samurai.create())
-    }
-    plane.place_randomly(universe.clades["blue dragon"].create())
-    for (var i = 0; i < 2; i++) {
-        plane.place_randomly(new universe.products.katana({}))
-        plane.place_randomly(new universe.products.longsword({}))
-    }
-    for (var i = 0; i < 10; i++) {
-        plane.place_randomly(new universe.products.meat({}))
-    }
     BuildCharacter($('#container'), function(being) {
         plane.place_randomly(being)
         new Controller({being: being, container: document.getElementById('container')})
