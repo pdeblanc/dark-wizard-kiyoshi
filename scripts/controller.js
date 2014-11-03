@@ -106,7 +106,7 @@ Controller.prototype.button = function(action, label) {
     var controller = this
     var button = $('<button />').addClass('action')
         .click(function() {
-            controller.push_command([f])
+            controller.push_command([action])
         })
     for (var i = 0; i < label.length; i++) {
         var c = label[i]
