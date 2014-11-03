@@ -28,6 +28,7 @@ Being.set_name = 'clades'
 
 Being.prototype = Object.create(WorldObject.prototype)
 
+Being.prototype.name = 'being'
 Being.prototype.power = 10
 Being.prototype.speed = 10
 Being.prototype.vigor = 10

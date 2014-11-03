@@ -6,9 +6,9 @@ function WorldObject(attributes) {
 }
 
 WorldObject.prototype.name = 'object'
-WorldObject.prototype.continuous = false
+WorldObject.prototype.continuous = false // continuous objects will not be referenced with an indefinite article
 WorldObject.prototype.habitat = {}
-WorldObject.prototype.bias = -5
+WorldObject.prototype.bias = -5 // the higher the number, the more common this object class will be
 
 WorldObject.prototype.constructor = WorldObject
 
@@ -34,9 +34,11 @@ WorldObject.prototype.the = function() {
     return "the " + this.name
 }
 
-WorldObject.set_name = 'classes'
+WorldObject.weird_heritable_stuff = ['weird_heritable_stuff', 'specificity', 'set_name', 'variant', 'create', 'variant_of_given_specificity', 'kingdom', 'phylum', 'clazz', 'order', 'family', 'genus', 'species']
 
-WorldObject.initialize_class = function() { }
+WorldObject.specificity = -100 // more abstract classes have lower specificity
+
+WorldObject.set_name = 'classes'
 
 WorldObject.variant = function(attributes, f) {
     var constructor = this
@@ -46,14 +48,56 @@ WorldObject.variant = function(attributes, f) {
             f.apply(this, arguments)
     }
     F.prototype = Object.create(constructor.prototype)
+    F.specificity = this.specificity + 1
+    F.parent_class = this
     for (key in attributes)
         F.prototype[key] = attributes[key]
-    F.variant = this.variant
-    F.set_name = this.set_name
-    F.create = this.create
+    for (var i = 0; i < this.weird_heritable_stuff.length; i++)
+        F[this.weird_heritable_stuff[i]] = this[this.weird_heritable_stuff[i]]
     if ('name' in attributes)
         universe[this.set_name][attributes.name] = F
     return F
+}
+
+WorldObject.variant_of_given_specificity = function(attributes, f, specificity) {
+    var parentClass = this
+    while (parentClass.specificity >= specificity)
+        parentClass = parentClass.parent_class
+    var result = parentClass.variant(attributes, f)
+    result.specificity = specificity
+    return result
+}
+
+WorldObject.kingdom = function(attributes, f) {
+    return this.variant_of_given_specificity(attributes, f, 1)
+}
+
+WorldObject.kingdom = function(attributes, f) {
+    return this.variant_of_given_specificity(attributes, f, 1)
+}
+
+WorldObject.phylum = function(attributes, f) {
+    return this.variant_of_given_specificity(attributes, f, 2)
+}
+
+WorldObject.clazz = function(attributes, f) {
+    return this.variant_of_given_specificity(attributes, f, 3)
+}
+
+WorldObject.order = function(attributes, f) {
+    return this.variant_of_given_specificity(attributes, f, 4)
+}
+
+WorldObject.family = function(attributes, f) {
+    return this.variant_of_given_specificity(attributes, f, 5)
+}
+
+WorldObject.genus = function(attributes, f) {
+    return this.variant_of_given_specificity(attributes, f, 6)
+}
+
+WorldObject.species = function(attributes, f) {
+    return this.variant_of_given_specificity(attributes, f, 7)
 }
 
 WorldObject.create = function(attributes) {
