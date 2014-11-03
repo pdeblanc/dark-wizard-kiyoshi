@@ -20,6 +20,7 @@ Being = WorldObject.variant({}, function(attributes) {
     this.health = 1
     this.body_fat = this.lean_mass * .3
     this.wielding = false
+    this.hibernating = false
     universe.timeline.add_agent(this)
 })
 
@@ -38,8 +39,10 @@ Being.prototype.notify = function() {
 
 Being.prototype.act = function(callback) {
     this.notify()
+    this.hibernating = this.should_hibernate() // takes effect after this action
     var subject = this
     if (this.controllers.length > 0) {
+        this.disturb_others()
         this.controllers[0].set_callback(function(command) {
             var success = command[0].execute(subject, command[1], command[2])
             if (success) {
@@ -126,3 +129,25 @@ Being.prototype.tell = function(message) {
     })
 }
 
+Being.prototype.disturb = function() {
+    if (!this.next_action_time) {
+        universe.timeline.add_agent(this)
+    }
+    this.hibernating = false
+}
+
+Being.prototype.should_hibernate = function() {
+    for (player_id in universe.players)
+        if (universe.players[player_id].square.coordinate.max_distance(this.square.coordinate) <= 10)
+            return false;
+    return true
+}
+
+Being.prototype.disturb_others = function() {
+    var radius = 10
+    var coordinate = this.square.coordinate
+    var beings = this.square.plane.tree.search([coordinate.x - radius, coordinate.y - radius, coordinate.x + radius, coordinate.y + radius])
+    for (var b = 0; b < beings.length; b++) {
+        beings[b].disturb()
+    }
+}

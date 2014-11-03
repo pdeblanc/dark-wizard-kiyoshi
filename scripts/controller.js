@@ -60,6 +60,7 @@ function Controller(attributes) {
 
     // tell player about controller
     this.being.controllers.push(this)
+    universe.players[this.being.id] = this.being
 }
 
 Controller.prototype.set_callback = function(callback) {

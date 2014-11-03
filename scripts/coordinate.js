@@ -22,3 +22,7 @@ Coordinate.prototype.lattice_parents = function() {
         return [this.add({x: 0, y: -divisor}), this.add({x: 0, y: divisor}), this.add({x: -divisor, y: 0}), this.add({x: divisor, y: 0})]
     return [this.add({x: -divisor, y: -divisor}), this.add({x: -divisor, y: divisor}), this.add({x: divisor, y: -divisor}), this.add({x: divisor, y: divisor})]
 }
+
+Coordinate.prototype.max_distance = function(other) {
+    return Math.max(other.x - this.x, other.y - this.y)
+}

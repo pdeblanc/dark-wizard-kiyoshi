@@ -4,6 +4,7 @@ function Universe(attributes) {
     this.biomes = {}
     this.affinities = {}
     this.game_over = false
+    this.players = {}
     this.timeline = new Timeline({start_time: 0, universe: this})
 } 
 

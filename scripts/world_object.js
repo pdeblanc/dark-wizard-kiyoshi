@@ -1,4 +1,5 @@
 function WorldObject(attributes) {
+    this.id = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2)
     if (attributes)
         for (key in attributes)
             this[key] = attributes[key]
