@@ -204,6 +204,10 @@ button.action:hover span.key-label {
     color: red;
 }
 
+.tea {
+    color: lightgreen;
+}
+
 .blood {
     color: red;
     position: relative;

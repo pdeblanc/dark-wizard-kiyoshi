@@ -97,6 +97,27 @@ actions.eat.execute = function(subject, square) {
     return true;
 }
 
+actions.drink = new Action({name: 'drink', dobj: Square})
+actions.drink.execute = function(subject, square) {
+    var target = square;
+    for (var i = 0; i < square.items.length; i++) {
+        if (square.items[i].drinkable || !target.drinkable)
+            target = square.items[i]
+    }
+    for (var i = 0; i < square.beings.length; i++) {
+        if (square.beings[i].drinkable || !target.drinkable)
+            target = square.beings[i]
+    }
+    if (!(target.drinkable)) {
+        subject.tell(target.The() + " does not appear to be drinkable.")
+        return false;
+    }
+    subject.tell("You drink " + target.the() + ". That tasted good.")
+    if (target instanceof Item)
+        target.destroy()
+    return true;
+}
+
 actions.look = new Action({name: 'look', dobj: Square})
 actions.look.execute = function(subject, square) {
     var item_names = [square.a()]

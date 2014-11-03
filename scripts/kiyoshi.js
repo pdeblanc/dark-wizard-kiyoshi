@@ -14,16 +14,18 @@ Being
     .kingdom({name: 'horse', symbol: '馬', lean_mass: 850, vigor: 85, speed: 13, attacks: [{kick: 2}]})
     .kingdom({name: 'cow', symbol: '牛', lean_mass: 1000, vigor: 100, speed: 8, attacks: [{kick: 1.5}]})
 
-Item.variant({name: 'katana', symbol: '刀', action: actions.toggle_wield, attack: {cut: 5}})
-universe.products.katana.variant({name: 'bokutō', attack: {hit: 2}})
-Item.variant({name: 'longsword', symbol: '剣', action: actions.toggle_wield, attack: {cut: 5}})
-Item.variant({name: 'meat', symbol: '肉', fat: 2, action: actions.eat, attack: {slap: .5}})
+Item
+    .kingdom({name: 'katana', symbol: '刀', action: actions.toggle_wield, attack: {cut: 5}})
+        .phylum({name: 'bokutō', attack: {hit: 2}})
+    .kingdom({name: 'longsword', symbol: '剣', action: actions.toggle_wield, attack: {cut: 5}})
+    .kingdom({name: 'meat', symbol: '肉', fat: 2, action: actions.eat, attack: {slap: .5}})
+    .kingdom({name: 'green tea', symbol: '茶', action: actions.drink, drinkable: true})
 
 Square.variant({name: 'grass', symbol: '草', continuous: true})
 Square.variant({name: 'tree', symbol: '木', passable: false, bias: -1})
 Square.variant({name: 'woods', symbol: '林', passable: true, continuous: true})
 universe.biomes.woods.variant({name: 'forest', symbol: '森', continuous: false})
-Square.variant({name: 'water', symbol: '水', passable: false, continuous: true})
+Square.variant({name: 'water', symbol: '水', passable: false, continuous: true, drinkable: true})
 Square.variant({name: 'void', symbol: '無', passable: 0, bias: -100, continuous: true})
 universe.biomes.void.variant({name: 'inventory slot', passable: 1, max_items: 1, max_beings: 0, continuous: false})
 

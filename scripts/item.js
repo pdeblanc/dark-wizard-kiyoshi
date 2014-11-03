@@ -14,6 +14,7 @@ Item.set_name = 'products'
 Item.prototype = Object.create(WorldObject.prototype)
 
 Item.prototype.fat = 0
+Item.prototype.drinkable = false
 Item.prototype.weight = 1
 Item.prototype.attacks = [{'hit': 1}]
 
