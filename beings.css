@@ -1,0 +1,25 @@
+.being { text-shadow: -1px -1px 0px white, 1px 1px 0px black; }
+
+.player { font-weight: bold; }
+
+.human { color: lime; }
+
+.samurai { color: white; }
+
+.dog { color: white; }
+
+.cat { color: black; }
+
+.dragon { color: blue; }
+
+.mouse { color: white; }
+
+.rat { color: gray; }
+
+.bird { color: royalblue; }
+
+.rabbit { color: white; }
+
+.horse { color: peru; }
+
+.cow { color: white; }
