@@ -15,19 +15,19 @@ function Controller(attributes) {
                 controller.cancel_partial_commands()
             }
             if (event.keyCode == 37) {
-                controller.push_command([actions.west])
+                controller.click(controller.being.square.west())
                 event.preventDefault()
             }
             if (event.keyCode == 38) {
-                controller.push_command([actions.north])
+                controller.click(controller.being.square.north())
                 event.preventDefault()
             }
             if (event.keyCode == 39) {
-                controller.push_command([actions.east])
+                controller.click(controller.being.square.east())
                 event.preventDefault()
             }
             if (event.keyCode == 40) {
-                controller.push_command([actions.south])
+                controller.click(controller.being.square.south())
                 event.preventDefault()
             }
         },
@@ -97,6 +97,9 @@ Controller.prototype.click = function(square) {
         partial_command.push(square)
         this.push_command(partial_command)
     }
+    else if (this.being.square.next_to(square))
+        this.push_command([actions.moveto_or_attack, square])
+
 }
 // button creation method
 Controller.prototype.button = function(action, label) {

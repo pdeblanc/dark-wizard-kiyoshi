@@ -118,3 +118,6 @@ Square.prototype.affinity = function(other) {
     }
     return total;
 }
+Square.prototype.next_to = function(other) {
+    return (other == this.north() || other == this.south() || other == this.west() || other == this.east())
+}
