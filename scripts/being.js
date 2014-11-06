@@ -15,7 +15,7 @@ Being = WorldObject.variant({}, function(attributes) {
     this.controllers = []
 
     // highly mutable attributes
-    this.inventory = new InventoryPlane({width: 2, height: 9})
+    this.inventory = new InventoryPlane(this.inventory)
     this.dead = 0
     this.health = 1
     this.body_fat = this.lean_mass * .3

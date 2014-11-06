@@ -2,8 +2,8 @@ PUBLIC_STATS = ['power', 'speed', 'vigor']
 STATS = ['power', 'speed', 'vigor', 'lean_mass']
 
 Being
-    .kingdom({name: 'animal', generic: true})
-        .phylum({name: 'human', symbol: '人', lean_mass: 100, attacks: [{punch: 1}]})
+    .kingdom({name: 'animal', generic: true, inventory: {width: 1, height: 1}})
+        .phylum({name: 'human', symbol: '人', lean_mass: 100, attacks: [{punch: 1}], inventory: {width: 2, height: 9}})
             .clazz({name: 'samurai', symbol: '侍', attacks: [{cut: 3}]})
         .phylum({name: 'blue dragon', symbol: '龍', lean_mass: 2000, vigor: 200, attacks: [{burn: 9}]})
         .phylum({name: 'cat', symbol: '猫', lean_mass: 10, vigor: 2, attacks: [{scratch: 1}]})
