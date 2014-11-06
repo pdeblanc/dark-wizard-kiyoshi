@@ -14,6 +14,7 @@ Being
         .phylum({name: 'rabbit', symbol: '兎', lean_mass: 4, vigor: 0.5, speed: 15, attacks: [{bite: .5}]})
         .phylum({name: 'horse', symbol: '馬', lean_mass: 850, vigor: 85, speed: 13, attacks: [{kick: 2}]})
         .phylum({name: 'cow', symbol: '牛', lean_mass: 1000, vigor: 100, speed: 8, attacks: [{kick: 1.5}]})
+        .phylum({name: 'fish', symbol: '魚', lean_mass: 2, vigor: 1, attacks: [{bite: 0.2}], can_walk: false, can_swim: true})
 
 Item
     .kingdom({name: 'katana', symbol: '刀', action: actions.toggle_wield, attack: {cut: 5}})
@@ -37,7 +38,7 @@ Square
         .phylum({name: 'inventory slot', max_items: 1, continuous: false})
 
 initialize = function() {
-    var plane = new WildernessPlane({width: 32, height: 32})
+    var plane = new WildernessPlane({width: 1024, height: 1024})
     top.plane = plane
     BuildCharacter($('#container'), function(being) {
         plane.place_randomly(being)
