@@ -88,6 +88,25 @@ button.action:hover span.key-label {
     font-weight: bold;
 }
 
+.clade-chooser {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 3em;
+    margin: 8px;
+    opacity: 0.8;
+}
+
+.clade-chooser-label {
+    font-family: monospace;
+    font-size: 50%;
+    font-weight: bold;
+    text-shadow: 0px 0px 1px white;
+}
+
+.clade-chooser:hover {
+    opacity: 1.0;
+}
+
 
 .panel {
     vertical-align: top;
