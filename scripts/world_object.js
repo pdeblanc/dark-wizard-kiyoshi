@@ -50,11 +50,12 @@ WorldObject.variant = function(attributes, f) {
     F.prototype = Object.create(constructor.prototype)
     F.specificity = this.specificity + 1
     F.parent_class = this
+    F.prototype.generic = false
     for (key in attributes)
         F.prototype[key] = attributes[key]
     for (var i = 0; i < this.weird_heritable_stuff.length; i++)
         F[this.weird_heritable_stuff[i]] = this[this.weird_heritable_stuff[i]]
-    if ('name' in attributes)
+    if ('name' in attributes && !F.prototype.generic)
         universe[this.set_name][attributes.name] = F
     return F
 }
