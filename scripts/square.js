@@ -21,13 +21,16 @@ Square.variant = function(attributes, f) {
     F.affinity = Square.affinity
     if (universe.affinity(F.prototype.name, F.prototype.name) === false)
         universe.affinity(F.prototype.name, F.prototype.name, F.prototype.clumpiness)
+    return F
 }
 
 Square.set_name = 'biomes'
 
 Square.prototype = Object.create(WorldObject.prototype)
 
-Square.prototype.passable = true
+Square.prototype.walkable = false
+Square.prototype.swimmable = false
+Square.prototype.flyable = false
 
 Square.prototype.max_beings = 1
 
@@ -94,11 +97,11 @@ Square.prototype.enter = function(newcomer) {
     }
 }
 Square.prototype.permit_entry = function(hopeful) {
-    if (hopeful instanceof Being && this.beings.length >= this.max_beings)
-        return false
-    if (hopeful instanceof Item && this.items.length >= this.max_items)
-        return false
-    return this.passable
+    if (hopeful instanceof Being && this.beings.length < this.max_beings)
+        return ((this.walkable && hopeful.can_walk) || (this.flyable && hopeful.can_fly) || (this.swimmable && hopeful.can_swim))
+    if (hopeful instanceof Item)
+        return (this.items.length < this.max_items)
+    return false
 }
 Square.prototype.announce_all_but = function(exclude, message) {
     var radius = 4;

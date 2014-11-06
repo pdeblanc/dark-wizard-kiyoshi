@@ -33,6 +33,11 @@ Being.prototype.power = 10
 Being.prototype.speed = 10
 Being.prototype.vigor = 10
 
+Being.prototype.inventory = {width: 1, height: 1}
+Being.prototype.can_walk = true
+Being.prototype.can_swim = false
+Being.prototype.can_fly = false
+
 // methods
 Being.prototype.notify = function() {
     this.viewports.forEach(function(viewport) {viewport.render()})
