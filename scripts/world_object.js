@@ -53,6 +53,7 @@ WorldObject.variant = function(attributes, f) {
     F.prototype.generic = false
     for (key in attributes)
         F.prototype[key] = attributes[key]
+    F.prototype.className = F.prototype.name.replace(/ /g, '-')
     for (var i = 0; i < this.weird_heritable_stuff.length; i++)
         F[this.weird_heritable_stuff[i]] = this[this.weird_heritable_stuff[i]]
     if ('name' in attributes && !F.prototype.generic)

@@ -31,7 +31,7 @@ function PlayerViewport(attributes) {
     }
     this.render_profile = function() {
         name_element.text(this.being.name).attr("id", "name")
-        title_element.text(this.being.__proto__.name).attr("class", this.being.__proto__.name)
+        title_element.text(this.being.__proto__.name).attr("class", this.being.className)
     }
     this.render = function() {
         this.render_profile()

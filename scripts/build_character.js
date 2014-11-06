@@ -43,13 +43,13 @@ function BuildCharacter(container, callback) {
                 $('<div />').addClass('clade-chooser')
                     .append(
                         $('<div />')
-                        .addClass(name)
+                        .addClass(universe.clades[name].prototype.className)
                         .addClass('being')
                         .text(universe.clades[name].prototype.symbol)
                     )
                     .click(clickFunction(name))
                     .append(
-                        $('<div />').text(name).addClass(name).addClass('clade-chooser-label')
+                        $('<div />').text(name).addClass(universe.clades[name].prototype.className).addClass('clade-chooser-label')
                     )
             )
         }

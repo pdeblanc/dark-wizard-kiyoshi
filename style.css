@@ -202,7 +202,7 @@ button.action:hover span.key-label {
     color: #500050;
 }
 
-.inventory.slot {
+.inventory-slot {
     background: #404040;
     color: #808080;
 }
