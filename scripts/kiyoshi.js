@@ -33,7 +33,7 @@ Square
         .phylum({name: 'forest', symbol: '森', continuous: false})
         .phylum({name: 'downward staircase', symbol: '＞', can_descend: true, clumpiness: 0, bias: -1.5})
         .phylum({name: 'upward staircase', symbol: '＜', can_ascend: true, clumpiness: 0, bias: -2})
-    .kingdom({name: 'obstacle', symbol: '壁', continuous: false, flyable: true, generic: true})
+    .kingdom({name: 'obstacle', symbol: '壁', continuous: false, flyable: true, generic: true, max_items: 0})
         .phylum({name: 'tree', symbol: '木', bias: -1})
     .kingdom({name: 'liquid', symbol: '液', continuous: true, flyable: true, swimmable: true, generic: true})
         .phylum({name: 'water', symbol: '水', drinkable: true, bias: 1})

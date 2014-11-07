@@ -115,7 +115,7 @@ Controller.prototype.click = function(square) {
         if (partial_command.length == 1)
             next_item = action.select_dobj(this.being, square)
         else if (partial_command.length == 2)
-            next_item = action.select_iobj(this.being, square)
+            next_item = action.select_iobj(this.being, partial_command[1], square)
         if (typeof(next_item) == "string")
             this.being.tell(next_item)
         else if (next_item) {

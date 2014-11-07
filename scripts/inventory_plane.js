@@ -20,10 +20,11 @@ InventoryPlane.prototype.hide_labels = function() {
 }
 
 InventoryPlane.prototype.show_labels = function(subject, action, dobj) {
+    this.hide_labels()
     for (var i = 0; i < this.width * this.height; i++) {
         var coordinate = new Coordinate({y: Math.floor(i / this.width), x: i % this.width})
         var square = this.square(coordinate)
-        if (dobj && action.select_iobj(subject, dobj, square) || action.select_dobj(subject, square)) {
+        if (dobj && action.select_iobj(subject, dobj, square) || !dobj && action.select_dobj(subject, square)) {
             var label = document.createElement('div')
             label.innerHTML = this.label_symbols[i]
             label.className = 'inventory-label'

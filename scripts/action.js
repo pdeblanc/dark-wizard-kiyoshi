@@ -90,6 +90,9 @@ actions.wait.execute = function(subject) {
 }
 
 actions.put = new Action({name: 'put', dobj: Item, iobj: Square, prep: 'into'})
+actions.put.accept_iobj = function(subject, item, square) {
+    return square.permit_entry(item)
+}
 actions.put.execute = function(subject, item, square) {
     var success = item.moveto(square)
     if (success)
