@@ -38,6 +38,7 @@ function Controller(attributes) {
                 if (square) {
                     controller.click(square)
                     event.preventDefault()
+                    return
                 }
             }
             if (charStr in controller.action_chars) {
@@ -82,13 +83,11 @@ Controller.prototype.set_partial_command = function(partial_command) {
     var action = partial_command[0]
     if (partial_command.length == 1) {
         this.being.tell(english.capitalize(partial_command[0].name) + ' <' + action.dobj.prototype.name + '>')
-        if (action.dobj == Item)
-            this.being.inventory.show_labels()
+        this.being.inventory.show_labels(this.being, action)
     }
     else if (partial_command.length == 2) {
         this.being.tell(' ...' + action.prep + ' <' + action.iobj.prototype.name + '>')
-        if (action.iobj == Item)
-            this.being.inventory.show_labels()
+        this.being.inventory.show_labels(this.being, action, partial_command[1])
     }
 }
 Controller.prototype.cancel_partial_commands = function() {

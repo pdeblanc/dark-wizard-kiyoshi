@@ -19,14 +19,17 @@ InventoryPlane.prototype.hide_labels = function() {
     this.labels = []
 }
 
-InventoryPlane.prototype.show_labels = function() {
+InventoryPlane.prototype.show_labels = function(subject, action, dobj) {
     for (var i = 0; i < this.width * this.height; i++) {
         var coordinate = new Coordinate({y: Math.floor(i / this.width), x: i % this.width})
-        var label = document.createElement('div')
-        label.innerHTML = this.label_symbols[i]
-        label.className = 'inventory-label'
-        this.square(coordinate).span.appendChild(label)
-        this.labels.push(label)
+        var square = this.square(coordinate)
+        if (dobj && action.select_iobj(subject, dobj, square) || action.select_dobj(subject, square)) {
+            var label = document.createElement('div')
+            label.innerHTML = this.label_symbols[i]
+            label.className = 'inventory-label'
+            square.span.appendChild(label)
+            this.labels.push(label)
+        }
     }
 }
 
