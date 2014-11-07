@@ -13,20 +13,16 @@ function Controller(attributes) {
             var being = controller.being
             if (event.keyCode == 27) { // esc
                 controller.cancel_partial_commands()
-            }
-            if (event.keyCode == 37) {
+            } else if (event.keyCode == 37) {
                 controller.click(controller.being.square.west())
                 event.preventDefault()
-            }
-            if (event.keyCode == 38) {
+            } else if (event.keyCode == 38) {
                 controller.click(controller.being.square.north())
                 event.preventDefault()
-            }
-            if (event.keyCode == 39) {
+            } else if (event.keyCode == 39) {
                 controller.click(controller.being.square.east())
                 event.preventDefault()
-            }
-            if (event.keyCode == 40) {
+            } else if (event.keyCode == 40) {
                 controller.click(controller.being.square.south())
                 event.preventDefault()
             }
