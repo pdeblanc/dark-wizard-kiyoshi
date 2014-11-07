@@ -95,7 +95,7 @@ button.action:hover span.key-label {
     display: inline-block;
     cursor: pointer;
     font-size: 3em;
-    margin: 8px;
+    margin: 20px;
     opacity: 0.8;
 }
 

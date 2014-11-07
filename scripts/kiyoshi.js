@@ -3,18 +3,18 @@ STATS = ['power', 'speed', 'vigor', 'lean_mass']
 
 Being
     .kingdom({name: 'animal', generic: true})
-        .phylum({name: 'human', symbol: '人', lean_mass: 100, attacks: [{punch: 1}], inventory: {width: 2, height: 9}, level: 2})
-            .clazz({name: 'samurai', symbol: '侍', attacks: [{cut: 3}]})
+        .phylum({name: 'human', symbol: '人', lean_mass: 100, attacks: [{punch: 1}], inventory: {width: 2, height: 9}, level: 2, playable: true})
+            .clazz({name: 'samurai', symbol: '侍', attacks: [{cut: 3}], playable: false})
         .phylum({name: 'blue dragon', symbol: '龍', lean_mass: 2000, vigor: 200, attacks: [{burn: 9}], can_fly: true, inventory: {width: 1, height: 3}, level: 3})
-        .phylum({name: 'cat', symbol: '猫', lean_mass: 10, vigor: 2, attacks: [{scratch: 1}]})
-        .phylum({name: 'dog', symbol: '犬', lean_mass: 30, vigor: 5, attacks: [{bite: 1}]})
+        .phylum({name: 'cat', symbol: '猫', lean_mass: 10, vigor: 2, attacks: [{scratch: 1}], playable: true})
+        .phylum({name: 'dog', symbol: '犬', lean_mass: 30, vigor: 5, attacks: [{bite: 1}], playable: true})
         .phylum({name: 'mouse', symbol: '鼠', lean_mass: 0.1, vigor: 0.02, speed: 30, attacks: [{bite: .1}]})
             .clazz({name: 'rat', symbol: '鼠', lean_mass: 1, vigor: 0.2, speed: 20, attacks: [{bite: .3}]})
-        .phylum({name: 'bird', symbol: '鳥', lean_mass: 0.1, vigor: 0.02, speed: 30, attacks: [{peck: .1}], can_fly: true})
+        .phylum({name: 'bird', symbol: '鳥', lean_mass: 0.1, vigor: 0.02, speed: 30, attacks: [{peck: .1}], can_fly: true, playable: true})
         .phylum({name: 'rabbit', symbol: '兎', lean_mass: 4, vigor: 0.5, speed: 15, attacks: [{bite: .5}]})
         .phylum({name: 'horse', symbol: '馬', lean_mass: 850, vigor: 85, speed: 13, attacks: [{kick: 2}], level: 2})
         .phylum({name: 'cow', symbol: '牛', lean_mass: 1000, vigor: 100, speed: 8, attacks: [{kick: 1.5}], level: 2})
-        .phylum({name: 'fish', symbol: '魚', lean_mass: 2, vigor: 1, attacks: [{bite: 0.2}], can_walk: false, can_swim: true})
+        .phylum({name: 'fish', symbol: '魚', lean_mass: 2, vigor: 1, attacks: [{bite: 0.2}], can_walk: false, can_swim: true, playable: true})
         .phylum({name: 'battleship', symbol: '艦', lean_mass: 1000000, vigor: 1000000, attacks: [{shoot: 200}], can_walk: false, can_swim: true, level: 3, inventory: {width: 4, height: 9}})
 
 Item

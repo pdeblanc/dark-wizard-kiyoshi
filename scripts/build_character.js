@@ -39,19 +39,21 @@ function BuildCharacter(container, callback) {
             .append($('<h1 />').text('Choose your clade'))
             .append(clades_div = $('<div />'))
         for (var name in universe.clades) {
-            clades_div.append(
-                $('<div />').addClass('clade-chooser')
-                    .append(
-                        $('<div />')
-                        .addClass(universe.clades[name].prototype.className)
-                        .addClass('being')
-                        .text(universe.clades[name].prototype.symbol)
-                    )
-                    .click(clickFunction(name))
-                    .append(
-                        $('<div />').text(name).addClass(universe.clades[name].prototype.className).addClass('clade-chooser-label')
-                    )
-            )
+            if (universe.clades[name].prototype.playable) {
+                clades_div.append(
+                    $('<div />').addClass('clade-chooser')
+                        .append(
+                            $('<div />')
+                            .addClass(universe.clades[name].prototype.className)
+                            .addClass('being')
+                            .text(universe.clades[name].prototype.symbol)
+                        )
+                        .click(clickFunction(name))
+                        .append(
+                            $('<div />').text(name).addClass(universe.clades[name].prototype.className).addClass('clade-chooser-label')
+                        )
+                )
+            }
         }
     }
 

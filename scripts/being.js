@@ -37,6 +37,7 @@ Being.prototype.inventory = {width: 1, height: 1}
 Being.prototype.can_walk = true
 Being.prototype.can_swim = false
 Being.prototype.can_fly = false
+Being.prototype.playable = false
 
 // methods
 Being.prototype.notify = function() {
