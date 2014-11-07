@@ -31,6 +31,8 @@ Square.prototype = Object.create(WorldObject.prototype)
 Square.prototype.walkable = false
 Square.prototype.swimmable = false
 Square.prototype.flyable = false
+Square.prototype.can_descend = false
+Square.prototype.can_ascend = false
 
 Square.prototype.max_beings = 1
 

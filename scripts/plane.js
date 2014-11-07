@@ -1,9 +1,14 @@
 function Plane(attributes) {
-    this.width = attributes.width || 9
-    this.height = attributes.height || 9
+    if (attributes)
+        for (key in attributes)
+            this[key] = attributes[key]
     this.squares = {}
     this.tree = rbush(9, ['.square.coordinate.x', '.square.coordinate.y', '.square.coordinate.x', '.square.coordinate.y'])
 }
+
+Plane.prototype.width = 9
+
+Plane.prototype.height = 9
 
 Plane.prototype.square = function(coordinate) {
     var index_string = '_' + coordinate.x + '_' + coordinate.y

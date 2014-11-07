@@ -30,6 +30,20 @@ actions.west.execute = function(subject) {
     return actions.moveto_or_attack.execute(subject, subject.square.west())
 }
 
+actions.descend = new Action({name: 'descend'})
+actions.descend.execute = function(subject) {
+    if (subject.square.can_descend)
+        return actions.moveto_or_attack.execute(subject, subject.square.plane.downstairs.square(subject.square.coordinate))
+    subject.tell("You see no way down from here.")
+}
+
+actions.ascend = new Action({name: 'ascend'})
+actions.ascend.execute = function(subject) {
+    if (subject.square.can_ascend)
+        return actions.moveto_or_attack.execute(subject, subject.square.plane.upstairs.square(subject.square.coordinate))
+    subject.tell("You see no way up from here.")
+}
+
 actions.moveto_or_attack = new Action({name: 'moveto_or_attack', dobj: Square})
 actions.moveto_or_attack.execute = function(subject, square) {
     return (subject.moveto(square) || actions.attack.execute(subject, square))

@@ -1,5 +1,8 @@
 function WildernessPlane(attributes) {
     Plane.apply(this, arguments)
+    console.log(attributes)
+    if (this.upstairs)
+        this.upstairs.downstairs = this
 }
 
 WildernessPlane.prototype = Object.create(Plane.prototype)
@@ -20,6 +23,10 @@ WildernessPlane.prototype.generate_square = function(coordinate) {
             activation += universe.biomes[b].prototype.affinity(square)
         }
         var probability = Math.exp(activation)
+        if (universe.biomes[b].prototype.can_descend && !this.downstairs || universe.biomes[b].prototype.can_ascend && !this.upstairs)
+            probability = 0
+        if (this.upstairs && !universe.biomes[b].prototype.can_ascend && this.upstairs.square(coordinate).can_descend)
+            probability = 0
         biomes_by_probability.push([universe.biomes[b], probability])
         probability_sum += probability
     }

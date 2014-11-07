@@ -4,7 +4,7 @@ function Controller(attributes) {
     this.commands = []
     this.command_callbacks = []
     this.partial_command = false
-    this.action_chars = {e: actions.eat, g: actions.get, l: actions.look, n: actions.drink, p: actions.rest, w: actions.wield, '.': actions.wait, ' ': actions.wait}
+    this.action_chars = {e: actions.eat, g: actions.get, l: actions.look, n: actions.drink, p: actions.rest, w: actions.wield, '.': actions.wait, ' ': actions.wait, '<': actions.ascend, '>': actions.descend}
     // set up event listeners
     var controller = this
     document.body.addEventListener(
@@ -54,6 +54,8 @@ function Controller(attributes) {
         .append(this.button(actions.rest, 'sleeP'))
         .append(this.button(actions.wait, 'wait.'))
         .append(this.button(actions.wield, 'Wield'))
+        .append(this.button(actions.ascend, '< ascend'))
+        .append(this.button(actions.descend, '> descend'))
     )
 
     // set up display
