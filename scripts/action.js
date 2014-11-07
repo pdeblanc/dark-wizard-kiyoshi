@@ -143,11 +143,10 @@ actions.eat.execute = function(subject, item) {
 }
 
 actions.drink = new Action({name: 'drink', dobj: Item})
+actions.drink.accept_dobj = function(subject, item) {
+    return (item.drinkable == true)
+}
 actions.drink.execute = function(subject, item) {
-    if (!(item.drinkable)) {
-        subject.tell(item.The() + " does not appear to be drinkable.")
-        return false;
-    }
     subject.tell("You drink " + item.the() + ". That tasted good.")
     item.destroy()
     return true;
