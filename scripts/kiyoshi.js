@@ -15,6 +15,7 @@ Being
         .phylum({name: 'horse', symbol: '馬', lean_mass: 850, vigor: 85, speed: 13, attacks: [{kick: 2}], level: 2})
         .phylum({name: 'cow', symbol: '牛', lean_mass: 1000, vigor: 100, speed: 8, attacks: [{kick: 1.5}], level: 2})
         .phylum({name: 'fish', symbol: '魚', lean_mass: 2, vigor: 1, attacks: [{bite: 0.2}], can_walk: false, can_swim: true})
+        .phylum({name: 'battleship', symbol: '艦', lean_mass: 1000000, vigor: 1000000, attacks: [{shoot: 200}], can_walk: false, can_swim: true, level: 3, inventory: {width: 4, height: 9}})
 
 Item
     .kingdom({name: 'katana', symbol: '刀', action: actions.toggle_wield, attack: {cut: 5}, level: 3})
