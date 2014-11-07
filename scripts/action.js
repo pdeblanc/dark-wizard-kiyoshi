@@ -13,11 +13,11 @@ Action.prototype.execute = function() {
 // return a square, item, or being within the given square that is a valid target for this action.
 // If no valid target is available, return a string explaining why, or return false.
 Action.prototype.select_dobj = function(subject, square) {
-    if (this.dobj == Square)
+    if (this.dobj == Square && this.accept_dobj(subject, square) == true)
         return square
-    if (this.dobj == Being && square.beings.length)
+    if (this.dobj == Being && square.beings.length && this.accept_dobj(subject, square.beings[0]) == true)
         return square.beings[0]
-    if (this.dobj == Item && square.items.length)
+    if (this.dobj == Item && square.items.length && this.accept_dobj(subject, square.items[0]) == true)
         return square.items[0]
     return false
 }
@@ -25,13 +25,23 @@ Action.prototype.select_dobj = function(subject, square) {
 // return a square, item, or being within the given square that is a valid indirect target for this action.
 // If no valid indirect target is available, return a string explaining why, or return false.
 Action.prototype.select_iobj = function(subject, dobj, square) {
-    if (this.iobj == Square)
+    if (this.iobj == Square && this.accept_iobj(subject, dobj, square) == true)
         return square
-    if (this.iobj == Being && square.beings.length)
+    if (this.iobj == Being && square.beings.length && this.accept_iobj(subject, dobj, square.beings[0]) == true)
         return square.beings[0]
-    if (this.iobj == Item && square.items.length)
+    if (this.iobj == Item && square.items.length && this.accept_iobj(subject, dobj, square.items[0]) == true)
         return square.items[0]
     return false
+}
+
+// return true if dobj is acceptable.
+// otherwise, return a string explaining why, or return false.
+Action.prototype.accept_dobj = function(subject, dobj) {
+    return true
+}
+
+Action.prototype.accept_iobj = function(subject, dobj, iobj) {
+    return true
 }
 
 actions.north = new Action({name: 'north'})
@@ -119,11 +129,10 @@ actions.get.execute = function(subject) {
 }
 
 actions.eat = new Action({name: 'eat', dobj: Item})
+actions.eat.accept_dobj = function(subject, item) {
+    return (item.fat > 0)
+}
 actions.eat.execute = function(subject, item) {
-    if (!(item.fat)) {
-        subject.tell(item.The() + " does not appear to be edible.")
-        return false;
-    }
     subject.tell("You eat " + item.the() + ".")
     subject.body_fat += item.fat
     item.destroy()
