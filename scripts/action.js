@@ -10,6 +10,30 @@ Action.prototype.execute = function() {
     return false
 }
 
+// return a square, item, or being within the given square that is a valid target for this action.
+// If no valid target is available, return a string explaining why, or return false.
+Action.prototype.select_dobj = function(subject, square) {
+    if (this.dobj == Square)
+        return square
+    if (this.dobj == Being && square.beings.length)
+        return square.beings[0]
+    if (this.dobj == Item && square.items.length)
+        return square.items[0]
+    return false
+}
+
+// return a square, item, or being within the given square that is a valid indirect target for this action.
+// If no valid indirect target is available, return a string explaining why, or return false.
+Action.prototype.select_iobj = function(subject, dobj, square) {
+    if (this.iobj == Square)
+        return square
+    if (this.iobj == Being && square.beings.length)
+        return square.beings[0]
+    if (this.iobj == Item && square.items.length)
+        return square.items[0]
+    return false
+}
+
 actions.north = new Action({name: 'north'})
 actions.north.execute = function(subject) {
     return actions.moveto_or_attack.execute(subject, subject.square.north())
