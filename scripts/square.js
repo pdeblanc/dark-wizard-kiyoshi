@@ -49,7 +49,7 @@ Square.prototype.sample_contents = function(index) {
     var probability_array = [[false, 1]]
     for (key in index) {
         var object_class = index[key]
-        if (this.permit_entry(object_class.prototype))
+        if (this.permit_entry(object_class.prototype) && object_class.prototype.level <= this.plane.level)
             probability_array.push([object_class, Math.exp(object_class.prototype.bias)])
     }
     return Probability.sample(probability_array)

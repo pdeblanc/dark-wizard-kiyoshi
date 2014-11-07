@@ -7,8 +7,8 @@ function Plane(attributes) {
 }
 
 Plane.prototype.width = 9
-
 Plane.prototype.height = 9
+Plane.prototype.level = 1
 
 Plane.prototype.square = function(coordinate) {
     var index_string = '_' + coordinate.x + '_' + coordinate.y

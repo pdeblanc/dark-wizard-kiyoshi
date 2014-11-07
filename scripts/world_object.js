@@ -9,6 +9,7 @@ WorldObject.prototype.name = 'object'
 WorldObject.prototype.continuous = false // continuous objects will not be referenced with an indefinite article
 WorldObject.prototype.habitat = {}
 WorldObject.prototype.bias = -5 // the higher the number, the more common this object class will be
+WorldObject.prototype.level = 1
 
 WorldObject.prototype.constructor = WorldObject
 

@@ -1,6 +1,5 @@
 function WildernessPlane(attributes) {
     Plane.apply(this, arguments)
-    console.log(attributes)
     if (this.upstairs)
         this.upstairs.downstairs = this
 }
