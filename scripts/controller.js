@@ -61,6 +61,7 @@ function Controller(attributes) {
         .append(this.button(actions.wield, 'Wield'))
         .append(this.button(actions.ascend, '< ascend'))
         .append(this.button(actions.descend, '> descend'))
+        .append($('<button />').addClass('action').addClass('cancel').html('cancel <span class="key-label">(esc)</span>').click(function() { controller.cancel_partial_commands() }))
     )
 
     // set up display

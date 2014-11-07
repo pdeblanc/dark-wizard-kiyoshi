@@ -79,6 +79,9 @@ button.action:hover {
     color: silver;
     border: 1px solid silver;
 }
+button.cancel {
+    margin-top: 22px;
+}
 
 span.key-label {
     color: silver;
