@@ -35,9 +35,13 @@ Square
     .kingdom({name: 'obstacle', symbol: '壁', continuous: false, flyable: true, generic: true})
         .phylum({name: 'tree', symbol: '木', bias: -1})
     .kingdom({name: 'liquid', symbol: '液', continuous: true, flyable: true, swimmable: true, generic: true})
-        .phylum({name: 'water', symbol: '水', drinkable: true})
+        .phylum({name: 'water', symbol: '水', drinkable: true, bias: 1})
     .kingdom({name: 'void', symbol: '無', bias: -100, continuous: true})
         .phylum({name: 'inventory slot', max_items: 1, continuous: false})
+
+universe.friends('woods', 'forest')
+universe.friends('woods', 'tree')
+universe.friends('forest', 'tree')
 
 initialize = function() {
     var plane = new WildernessPlane({width: 1024, height: 1024, level: 1})
