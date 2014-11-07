@@ -28,6 +28,8 @@ Square.set_name = 'biomes'
 
 Square.prototype = Object.create(WorldObject.prototype)
 
+Square.prototype.name = 'square'
+
 Square.prototype.walkable = false
 Square.prototype.swimmable = false
 Square.prototype.flyable = false
@@ -35,14 +37,11 @@ Square.prototype.can_descend = false
 Square.prototype.can_ascend = false
 
 Square.prototype.max_beings = 1
-
 Square.prototype.max_items = 16
-
 Square.prototype.tags = []
-
 Square.prototype.bias = 0
-
 Square.prototype.clumpiness = 1
+
 
 // index is an object whose keys are things that may be placed in the square
 Square.prototype.sample_contents = function(index) {

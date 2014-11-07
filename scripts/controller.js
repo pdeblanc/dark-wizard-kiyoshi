@@ -75,7 +75,14 @@ Controller.prototype.set_callback = function(callback) {
 }
 Controller.prototype.set_partial_command = function(partial_command) {
     this.partial_command = partial_command
-    this.being.tell(english.capitalize(partial_command[0].name) + ' <target>')
+    var action = partial_command[0]
+    if (partial_command.length == 1) {
+        this.being.tell(english.capitalize(partial_command[0].name) + ' <' + action.dobj.prototype.name + '>')
+    }
+    else if (partial_command.length == 2) {
+        this.being.tell(' ...' + action.prep + ' <' + action.iobj.prototype.name + '>')
+
+    }
 }
 Controller.prototype.cancel_partial_commands = function() {
     if (this.partial_command)
@@ -96,9 +103,29 @@ Controller.prototype.push_command = function(command) {
 Controller.prototype.click = function(square) {
     var partial_command = this.partial_command
     if (partial_command) {
-        this.partial_command = false
-        partial_command.push(square)
-        this.push_command(partial_command)
+        var action = partial_command[0]
+        var target_class = Square
+        if (partial_command.length == 1)
+            var target_class = action.dobj
+        else if (partial_command.length == 2)
+            var target_class = action.iobj
+        if (target_class == Square) {
+            this.partial_command = false
+            partial_command.push(square)
+            this.push_command(partial_command)
+        } else if (target_class == Being) {
+            if (square.beings.length) {
+                this.partial_command = false
+                partial_command.push(square.beings[0])
+                this.push_command(partial_command)
+            }
+        } else if (target_class == Item) {
+            if (square.items.length) {
+                this.partial_command = false
+                partial_command.push(square.items[0])
+                this.push_command(partial_command)
+            }
+        }
     }
     else if (this.being.square.next_to(square))
         this.push_command([actions.moveto_or_attack, square])

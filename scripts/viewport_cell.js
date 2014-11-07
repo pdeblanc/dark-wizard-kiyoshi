@@ -21,7 +21,7 @@ function viewportCell(id, controller) {
             var action, item
             for (var i = 0; i < children.length; i++) {
                 if ((item = children[i].item) && (action = item.default_action())) {
-                    return controller.push_command([action, children[i].item.square])
+                    return controller.push_command([action, children[i].item])
                 }
             }
         })

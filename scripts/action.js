@@ -55,7 +55,7 @@ actions.wait.execute = function(subject) {
     return true
 }
 
-actions.put = new Action({name: 'put', dobj: Item, iobj: Square})
+actions.put = new Action({name: 'put', dobj: Item, iobj: Square, prep: 'into'})
 actions.put.execute = function(subject, item, square) {
     var success = item.moveto(square)
     if (success)
@@ -94,13 +94,8 @@ actions.get.execute = function(subject) {
     return false
 }
 
-actions.eat = new Action({name: 'eat', dobj: Square})
-actions.eat.execute = function(subject, square) {
-    if (square.items.length == 0) {
-        subject.tell("There is nothing there to eat.")
-        return;
-    }
-    var item = square.items[0]
+actions.eat = new Action({name: 'eat', dobj: Item})
+actions.eat.execute = function(subject, item) {
     if (!(item.fat)) {
         subject.tell(item.The() + " does not appear to be edible.")
         return false;
@@ -111,24 +106,14 @@ actions.eat.execute = function(subject, square) {
     return true;
 }
 
-actions.drink = new Action({name: 'drink', dobj: Square})
-actions.drink.execute = function(subject, square) {
-    var target = square;
-    for (var i = 0; i < square.items.length; i++) {
-        if (square.items[i].drinkable || !target.drinkable)
-            target = square.items[i]
-    }
-    for (var i = 0; i < square.beings.length; i++) {
-        if (square.beings[i].drinkable || !target.drinkable)
-            target = square.beings[i]
-    }
-    if (!(target.drinkable)) {
-        subject.tell(target.The() + " does not appear to be drinkable.")
+actions.drink = new Action({name: 'drink', dobj: Item})
+actions.drink.execute = function(subject, item) {
+    if (!(item.drinkable)) {
+        subject.tell(item.The() + " does not appear to be drinkable.")
         return false;
     }
-    subject.tell("You drink " + target.the() + ". That tasted good.")
-    if (target instanceof Item)
-        target.destroy()
+    subject.tell("You drink " + item.the() + ". That tasted good.")
+    item.destroy()
     return true;
 }
 
@@ -159,26 +144,16 @@ actions.attack.execute = function(subject, target_square) {
     return false;
 }
 
-actions.toggle_wield = new Action({name: 'toggle_wield', dobj: Square})
-actions.toggle_wield.execute = function(subject, square) {
-    if (square.items.length == 0) {
-        subject.tell("There is nothing there to wield.")
-        return;
-    }
-    var item = square.items[0]
+actions.toggle_wield = new Action({name: 'toggle_wield', dobj: Item})
+actions.toggle_wield.execute = function(subject, item) {
     if (subject.wielding == item)
-        return actions.unwield.execute(subject, square)
+        return actions.unwield.execute(subject, item)
     else
-        return actions.wield.execute(subject, square)
+        return actions.wield.execute(subject, item)
 }
 
-actions.wield = new Action({name: 'wield', dobj: Square})
-actions.wield.execute = function(subject, square) {
-    if (square.items.length == 0) {
-        subject.tell("There is nothing there to wield.")
-        return;
-    }
-    var item = square.items[0]
+actions.wield = new Action({name: 'wield', dobj: Item})
+actions.wield.execute = function(subject, item) {
     if (subject.wielding)
         $(subject.wielding.span).removeClass('wielded')
     subject.wielding = item
@@ -188,8 +163,8 @@ actions.wield.execute = function(subject, square) {
     return true
 }
 
-actions.unwield = new Action({name: 'unwield', dobj: Square})
-actions.unwield.execute = function(subject, square) {
+actions.unwield = new Action({name: 'unwield', dobj: Item})
+actions.unwield.execute = function(subject, item) {
     if (subject.wielding) {
         $(subject.wielding.span).removeClass('wielded')
         subject.wielding.wielded_by = false
