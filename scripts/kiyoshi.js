@@ -31,7 +31,7 @@ Square
         .phylum({name: 'grass', symbol: '草'})
         .phylum({name: 'woods', symbol: '林'})
         .phylum({name: 'forest', symbol: '森', continuous: false})
-        .phylum({name: 'downward staircase', symbol: '＞', can_descend: true, clumpiness: 0, bias: -2})
+        .phylum({name: 'downward staircase', symbol: '＞', can_descend: true, clumpiness: 0, bias: -1.5})
         .phylum({name: 'upward staircase', symbol: '＜', can_ascend: true, clumpiness: 0, bias: -2})
     .kingdom({name: 'obstacle', symbol: '壁', continuous: false, flyable: true, generic: true})
         .phylum({name: 'tree', symbol: '木', bias: -1})
@@ -45,9 +45,9 @@ universe.friends('woods', 'tree')
 universe.friends('forest', 'tree')
 
 initialize = function() {
-    var plane = new WildernessPlane({width: 1024, height: 1024, level: 1})
-    var depths = new WildernessPlane({width: 1024, height: 1024, upstairs: plane, level: 2})
-    var such_depths = new WildernessPlane({width: 1024, height: 1024, upstairs: depths, level: 3})
+    var plane = new WildernessPlane({width: 1024, height: 1024, level: 1, tags: ['woods']})
+    var depths = new WildernessPlane({width: 1024, height: 1024, upstairs: plane, level: 2, tags: ['grass']})
+    var such_depths = new WildernessPlane({width: 1024, height: 1024, upstairs: depths, level: 3, tags: ['water']})
     top.plane = plane
     BuildCharacter($('#container'), function(being) {
         plane.place_randomly(being)

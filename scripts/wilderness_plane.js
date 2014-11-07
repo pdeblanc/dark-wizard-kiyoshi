@@ -21,6 +21,7 @@ WildernessPlane.prototype.generate_square = function(coordinate) {
             var square = this.square(parents[p])
             activation += universe.biomes[b].prototype.affinity(square)
         }
+        activation += universe.biomes[b].prototype.affinity(this)
         var probability = Math.exp(activation)
         if (universe.biomes[b].prototype.can_descend && !this.downstairs || universe.biomes[b].prototype.can_ascend && !this.upstairs)
             probability = 0
