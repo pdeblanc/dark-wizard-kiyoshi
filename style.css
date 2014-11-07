@@ -131,11 +131,11 @@ button.action:hover span.key-label {
 
 .inventory-label {
     display: block;
-    position: relative;
-    left: -15px;
-    top: -50px;
+    position: absolute;
+    left: 3px;
+    top: 0;
     font-size: 60%;
-    z-index: 10;
+    z-index: 3;
     color: white;
     text-shadow:
         0px 1px 1px black,
@@ -169,6 +169,9 @@ button.action:hover span.key-label {
 }
 
 .cell {
+    position: relative;
+    left: 0px;
+    top: 0px;
     display: table;
     width: 3em;
     height: 3em;
@@ -178,6 +181,7 @@ button.action:hover span.key-label {
 .cell:hover {
     opacity: 0.95;
     outline: 1px dashed rgba(255, 255, 255, 0.5);
+    z-index: 1;
 }
 
 .biome {

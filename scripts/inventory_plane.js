@@ -4,7 +4,7 @@ function InventoryPlane(attributes) {
 
 InventoryPlane.prototype = Object.create(Plane.prototype)
 InventoryPlane.prototype.labels = []
-InventoryPlane.prototype.label_symbols = 'abcdefghijklmnopqrstuvwxyz'
+InventoryPlane.prototype.label_symbols = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 InventoryPlane.prototype.generate_square = function(coordinate) {
     if (coordinate.x >= 0 && coordinate.y >= 0 && coordinate.x < this.width && coordinate.y < this.height)
