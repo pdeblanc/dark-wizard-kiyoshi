@@ -18,7 +18,7 @@ Item.prototype.name = 'item'
 Item.prototype.fat = 0
 Item.prototype.drinkable = false
 Item.prototype.weight = 1
-Item.prototype.attacks = [{'hit': 1}]
+Item.prototype.attack = {'hit': 1}
 
 Item.prototype.moveto = function(square) {
     if (square.permit_entry(this)) {
