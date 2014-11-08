@@ -10,6 +10,10 @@
 
 .void { background: black; color: #500050; }
 
+.house { background: #201000; color: #cc6600; }
+
+.shop { background: #201000; color: #cc6600; }
+
 .inventory-slot { background: #404040; color: #808080; }
 
 .upward-staircase { background: black; color: white; }

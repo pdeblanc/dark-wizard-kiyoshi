@@ -1,12 +1,18 @@
 function WildernessPlane(attributes) {
     Plane.apply(this, arguments)
-    if (this.upstairs)
+    if (this.upstairs) {
         this.upstairs.downstairs = this
+        if (!("level" in attributes))
+            this.level = this.upstairs.level + 1
+    }
 }
 
 WildernessPlane.prototype = Object.create(Plane.prototype)
 
 WildernessPlane.prototype.feature_size_limit = 1024
+WildernessPlane.prototype.width = 1024
+WildernessPlane.prototype.height = 1024
+
 
 WildernessPlane.prototype.generate_square = function(coordinate) {
     if (coordinate.x % this.feature_size_limit == 0 && coordinate.y % this.feature_size_limit == 0)
@@ -15,6 +21,7 @@ WildernessPlane.prototype.generate_square = function(coordinate) {
 
     var biomes_by_probability = []
     var probability_sum = 0
+    var make_stairs = Math.floor(1 + .001 - Math.random())
     for (var b in universe.biomes) {
         var activation = universe.biomes[b].prototype.bias;
         for (var p = 0; p < parents.length; p++) {
@@ -27,6 +34,8 @@ WildernessPlane.prototype.generate_square = function(coordinate) {
             probability = 0
         if (this.upstairs && (universe.biomes[b].prototype.can_ascend != this.upstairs.square(coordinate).can_descend))
             probability = 0
+        if (universe.biomes[b].prototype.can_descend && make_stairs)
+            probability *= 1000000
         biomes_by_probability.push([universe.biomes[b], probability])
         probability_sum += probability
     }

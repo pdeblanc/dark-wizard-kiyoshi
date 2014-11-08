@@ -5,7 +5,7 @@ Being
     .kingdom({name: 'animal', generic: true})
         .phylum({name: 'human', symbol: '人', lean_mass: 100, attacks: [{punch: 1}], inventory: {width: 2, height: 9}, level: 2, playable: true})
             .clazz({name: 'samurai', symbol: '侍', attacks: [{cut: 3}], playable: false})
-        .phylum({name: 'blue dragon', symbol: '龍', lean_mass: 2000, vigor: 200, attacks: [{burn: 9}], can_fly: true, inventory: {width: 1, height: 3}, level: 3})
+        .phylum({name: 'blue dragon', symbol: '龍', lean_mass: 2000, vigor: 200, attacks: [{burn: 9}], can_fly: true, inventory: {width: 1, height: 3}, level: 3, playable: true})
         .phylum({name: 'cat', symbol: '猫', lean_mass: 10, vigor: 2, attacks: [{scratch: 1}], playable: true})
         .phylum({name: 'dog', symbol: '犬', lean_mass: 30, vigor: 5, attacks: [{bite: 1}], playable: true})
         .phylum({name: 'mouse', symbol: '鼠', lean_mass: 0.1, vigor: 0.02, speed: 30, attacks: [{bite: .1}]})
@@ -16,6 +16,7 @@ Being
         .phylum({name: 'cow', symbol: '牛', lean_mass: 1000, vigor: 100, speed: 8, attacks: [{kick: 1.5}], level: 2})
         .phylum({name: 'fish', symbol: '魚', lean_mass: 2, vigor: 1, attacks: [{bite: 0.2}], can_walk: false, can_swim: true, playable: true})
         .phylum({name: 'battleship', symbol: '艦', lean_mass: 1000000, vigor: 1000000, attacks: [{shoot: 200}], can_walk: false, can_swim: true, level: 3, inventory: {width: 4, height: 9}})
+        .phylum({name: 'fire being', symbol: '火', lean_mass: 100, speed: 15, attacks: [{burn: 3}], level: 3})
 
 Item
     .kingdom({name: 'katana', symbol: '刀', action: actions.toggle_wield, attack: {cut: 5}, level: 3})
@@ -37,6 +38,9 @@ Square
         .phylum({name: 'tree', symbol: '木', bias: -1})
     .kingdom({name: 'liquid', symbol: '液', continuous: true, flyable: true, swimmable: true, generic: true})
         .phylum({name: 'water', symbol: '水', drinkable: true, bias: 1})
+    .kingdom({name: 'settlement', symbol: '町', continuous: false, flyable: true, walkable: true, generic: true})
+        .phylum({name: 'house', symbol: '家'})
+        .phylum({name: 'shop', symbol: '店'})
     .kingdom({name: 'void', symbol: '無', bias: -100, continuous: true})
         .phylum({name: 'inventory slot', max_items: 1, continuous: false})
 
@@ -44,13 +48,14 @@ universe.friends('woods', 'forest')
 universe.friends('woods', 'tree')
 universe.friends('forest', 'tree')
 
+planes = [new WildernessPlane({level: 1, tags: ['woods']})]
+planes.push(new WildernessPlane({upstairs: planes[planes.length - 1], tags: ['grass']}))
+planes.push(new WildernessPlane({upstairs: planes[planes.length - 1], tags: ['settlement']}))
+planes.push(new WildernessPlane({upstairs: planes[planes.length - 1], tags: ['water']}))
+
 initialize = function() {
-    var plane = new WildernessPlane({width: 1024, height: 1024, level: 1, tags: ['woods']})
-    var depths = new WildernessPlane({width: 1024, height: 1024, upstairs: plane, level: 2, tags: ['grass']})
-    var such_depths = new WildernessPlane({width: 1024, height: 1024, upstairs: depths, level: 3, tags: ['water']})
-    top.plane = plane
     BuildCharacter($('#container'), function(being) {
-        plane.place_randomly(being)
+        planes[0].place_randomly(being)
         new Controller({being: being, container: document.getElementById('container')})
         universe.simulate()
     })
