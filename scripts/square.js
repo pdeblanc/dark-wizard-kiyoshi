@@ -13,6 +13,7 @@ Square = WorldObject.variant({}, function(attributes) {
         being.create({square: this})
     if (item = this.sample_contents(universe.products))
         item.create({square: this})
+    this.name = this.name.replace(/[0-9]/g, "")
 })
 
 Square.variant = function(attributes, f) {
