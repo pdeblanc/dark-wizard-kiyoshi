@@ -18,6 +18,10 @@ Square = WorldObject.variant({}, function(attributes) {
 Square.variant = function(attributes, f) {
     var F = WorldObject.variant.apply(this, arguments)
     F.prototype.tags = [F.prototype.name]
+    if ('tags' in attributes)
+        F.prototype.extra_tags = attributes.tags
+    for (var t = 0; t < F.prototype.extra_tags.length; t++)
+        F.prototype.tags.push(F.prototype.extra_tags[t])
     F.affinity = Square.affinity
     if (universe.affinity(F.prototype.name, F.prototype.name) === false)
         universe.affinity(F.prototype.name, F.prototype.name, F.prototype.clumpiness)
@@ -29,6 +33,7 @@ Square.set_name = 'biomes'
 Square.prototype = Object.create(WorldObject.prototype)
 
 Square.prototype.name = 'square'
+Square.prototype.extra_tags = []
 
 Square.prototype.walkable = false
 Square.prototype.swimmable = false

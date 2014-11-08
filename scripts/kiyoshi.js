@@ -38,7 +38,7 @@ Square
         .phylum({name: 'tree', symbol: '木', bias: -1})
     .kingdom({name: 'liquid', symbol: '液', continuous: true, flyable: true, swimmable: true, generic: true})
         .phylum({name: 'water', symbol: '水', drinkable: true, bias: 1})
-    .kingdom({name: 'settlement', symbol: '町', continuous: false, flyable: true, walkable: true, generic: true})
+    .kingdom({name: 'settlement', symbol: '町', continuous: false, flyable: true, walkable: true, generic: true, tags: ['settlement'], clumpiness: 0})
         .phylum({name: 'house', symbol: '家'})
         .phylum({name: 'shop', symbol: '店'})
     .kingdom({name: 'void', symbol: '無', bias: -100, continuous: true})
@@ -47,6 +47,7 @@ Square
 universe.friends('woods', 'forest')
 universe.friends('woods', 'tree')
 universe.friends('forest', 'tree')
+universe.friends('settlement', 'settlement')
 
 planes = [new WildernessPlane({level: 1, tags: ['woods']})]
 planes.push(new WildernessPlane({upstairs: planes[planes.length - 1], tags: ['grass']}))
