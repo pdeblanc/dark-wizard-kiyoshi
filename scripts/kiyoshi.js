@@ -5,7 +5,7 @@ Being
     .kingdom({name: 'animal', generic: true})
         .phylum({name: 'human', symbol: '人', lean_mass: 100, attacks: [{punch: 1}], inventory: {width: 2, height: 9}, level: 2, playable: true})
             .clazz({name: 'samurai', symbol: '侍', attacks: [{cut: 3}], playable: false})
-        .phylum({name: 'blue dragon', symbol: '龍', lean_mass: 2000, vigor: 200, attacks: [{burn: 9}], can_fly: true, inventory: {width: 1, height: 3}, level: 3, playable: true})
+        .phylum({name: 'blue dragon', symbol: '龍', lean_mass: 2000, vigor: 200, attacks: [{burn: 9}], can_fly: true, inventory: {width: 1, height: 3}, level: 3})
         .phylum({name: 'cat', symbol: '猫', lean_mass: 10, vigor: 2, attacks: [{scratch: 1}], playable: true})
         .phylum({name: 'dog', symbol: '犬', lean_mass: 30, vigor: 5, attacks: [{bite: 1}], playable: true})
         .phylum({name: 'mouse', symbol: '鼠', lean_mass: 0.1, vigor: 0.02, speed: 30, attacks: [{bite: .1}]})
