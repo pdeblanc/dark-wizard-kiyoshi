@@ -41,7 +41,10 @@ function Controller(attributes) {
                     return
                 }
             }
-            if (charStr in controller.action_chars) {
+            if (charStr == '.' && controller.partial_command) {
+                controller.click(controller.being.square)
+                event.preventDefault()
+            } else if (charStr in controller.action_chars) {
                 controller.push_command([controller.action_chars[charStr]])
                 event.preventDefault()
             }
