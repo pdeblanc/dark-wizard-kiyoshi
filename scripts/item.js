@@ -27,6 +27,7 @@ Item.prototype.moveto = function(square) {
         this.square = square
         this.square.enter(this)
         $(this.span).draggable({ opacity: 0.7, helper: "clone"})
+        this.check_wielding()
         return true
     }
     $(this.span).draggable({ opacity: 0.7, helper: "clone"})
@@ -43,3 +44,8 @@ Item.prototype.default_action = function() {
     return this.action
 }
 
+Item.prototype.check_wielding = function() {
+    var subject
+    if ((subject = this.wielded_by) && !(subject.is_holding(this)))
+        actions.unwield.execute(subject, this)
+}

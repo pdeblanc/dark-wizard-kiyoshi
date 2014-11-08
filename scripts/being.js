@@ -161,3 +161,7 @@ Being.prototype.disturb_others = function() {
         beings[b].disturb()
     }
 }
+
+Being.prototype.is_holding = function(item) {
+    return (item.square.plane == this.inventory)
+}

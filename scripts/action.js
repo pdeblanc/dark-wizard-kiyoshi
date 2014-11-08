@@ -189,12 +189,17 @@ actions.toggle_wield.execute = function(subject, item) {
 
 actions.wield = new Action({name: 'wield', dobj: Item})
 actions.wield.execute = function(subject, item) {
+    var vacancy = subject.inventory.vacancy(item)
+    if (!(vacancy && item.moveto(vacancy))) {
+        subject.tell('Your inventory is full. Drop something first.')
+        return false
+    }
     if (subject.wielding)
         $(subject.wielding.span).removeClass('wielded')
     subject.wielding = item
     item.wielded_by = subject
     item.span.className += ' wielded'
-    subject.tell('Now wielding ' + item.the() + '.')
+    subject.tell('Now wielding ' + item.a() + '.')
     return true
 }
 
@@ -205,6 +210,6 @@ actions.unwield.execute = function(subject, item) {
         subject.wielding.wielded_by = false
     }
     subject.wielding = false
-    subject.tell('Now wielding nothing.')
+    subject.tell('No longer wielding ' + item.the() + '.')
     return true
 }
