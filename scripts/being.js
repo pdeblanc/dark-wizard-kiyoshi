@@ -21,6 +21,7 @@ Being = WorldObject.variant({}, function(attributes) {
     this.body_fat = this.lean_mass * .3
     this.wielding = false
     this.hibernating = false
+    this.experience = 0
     universe.timeline.add_agent(this)
 })
 
@@ -165,3 +166,44 @@ Being.prototype.disturb_others = function() {
 Being.prototype.is_holding = function(item) {
     return (item.square.plane == this.inventory)
 }
+
+Being.prototype.gain_experience = function(exp) {
+    this.experience += exp
+    var new_level = this.level_from_experience(this.experience)
+    if (new_level != this.level) {
+        if (new_level < this.level)
+            this.tell("You have regressed to level " + new_level + ".")
+        else
+            this.tell("You have reached level " + new_level + "!")
+        this.set_level(new_level)
+    }
+}
+
+Being.prototype.set_level = function(level) {
+    var old_level = this.level
+    this.level = level
+    this.speed *= level + 9
+    this.speed /= old_level + 9
+    console.log('speed', this.speed)
+}
+
+Being.prototype.experience_for_level = function(level) {
+    return (level - 1) * level * 5
+}
+
+Being.prototype.level_from_experience = function(experience) {
+    // binary search, so experience_for_level can be edited freely
+    var upper_bound = 1
+    while (this.experience_for_level(upper_bound) <= experience)
+        upper_bound *= 2
+    var guess = upper_bound / 2
+    while (upper_bound - guess > 1) {
+        var mid = Math.floor((upper_bound + guess) / 2)
+        if (this.experience_for_level(mid) <= experience)
+            guess = mid
+        else
+            upper_bound = mid
+    }
+    return guess
+}
+

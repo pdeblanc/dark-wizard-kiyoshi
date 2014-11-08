@@ -174,6 +174,8 @@ actions.attack.execute = function(subject, target_square) {
             var attack = subject.attacks[0]
             being.receive_damage(attack, subject)
         }
+        if (being.dead)
+            subject.gain_experience(being.level)
         return true
     }
     return false;

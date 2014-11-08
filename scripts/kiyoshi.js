@@ -1,4 +1,4 @@
-PUBLIC_STATS = ['power', 'speed', 'vigor']
+PUBLIC_STATS = ['power', 'speed', 'vigor', 'level', 'experience']
 STATS = ['power', 'speed', 'vigor', 'lean_mass']
 
 Being
