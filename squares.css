@@ -19,12 +19,14 @@
 .wielded {
     text-shadow: 0px 0px 1px black, 0px 0px 2px black, 0px 0px 3px black;
     /* http://www.colorzilla.com/gradient-editor/ */
-    background: #c80000; /* Old browsers */
-    background: -moz-linear-gradient(-45deg, #c80000 0%, #ffff00 50%, #ffe100 51%, #ffffff 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#c80000), color-stop(50%,#ffff00), color-stop(51%,#ffe100), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(-45deg, #c80000 0%,#ffff00 50%,#ffe100 51%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(-45deg, #c80000 0%,#ffff00 50%,#ffe100 51%,#ffffff 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(-45deg, #c80000 0%,#ffff00 50%,#ffe100 51%,#ffffff 100%); /* IE10+ */
-    background: linear-gradient(135deg, #c80000 0%,#ffff00 50%,#ffe100 51%,#ffffff 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c80000', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+background: #000000; /* Old browsers */
+background: -moz-linear-gradient(-45deg, #000000 0%, #ff0000 38%, #ffff00 50%, #ffc000 51%, #ff0000 66%, #000000 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#000000), color-stop(38%,#ff0000), color-stop(50%,#ffff00), color-stop(51%,#ffc000), color-stop(66%,#ff0000), color-stop(100%,#000000)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(-45deg, #000000 0%,#ff0000 38%,#ffff00 50%,#ffc000 51%,#ff0000 66%,#000000 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(-45deg, #000000 0%,#ff0000 38%,#ffff00 50%,#ffc000 51%,#ff0000 66%,#000000 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(-45deg, #000000 0%,#ff0000 38%,#ffff00 50%,#ffc000 51%,#ff0000 66%,#000000 100%); /* IE10+ */
+background: linear-gradient(135deg, #000000 0%,#ff0000 38%,#ffff00 50%,#ffc000 51%,#ff0000 66%,#000000 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
 }
