@@ -76,6 +76,7 @@ function Controller(attributes) {
 }
 
 Controller.prototype.set_callback = function(callback) {
+    this.being.inventory.render()
     if (this.commands.length > 0) {
         command = this.commands.shift()
         return callback(command)

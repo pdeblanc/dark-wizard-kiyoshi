@@ -40,3 +40,13 @@ InventoryPlane.prototype.get_by_label = function(label) {
         return this.square(new Coordinate({y: Math.floor(i / this.width), x: i % this.width}))
     return false
 }
+
+InventoryPlane.prototype.render = function() {
+    for (var i = 0; i < this.width * this.height; i++) {
+        var coordinate = new Coordinate({y: Math.floor(i / this.width), x: i % this.width})
+        var square = this.square(coordinate)
+        $(square.span).removeClass('wielded')
+        if (square.items.length && square.items[0].wielded_by)
+            $(square.span).addClass('wielded')
+    }
+}

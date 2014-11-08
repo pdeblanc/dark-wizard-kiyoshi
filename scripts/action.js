@@ -197,20 +197,17 @@ actions.wield.execute = function(subject, item) {
         }
     }
     if (subject.wielding)
-        $(subject.wielding.span).removeClass('wielded')
+        subject.wielding.wielded_by = false
     subject.wielding = item
     item.wielded_by = subject
-    item.span.className += ' wielded'
     subject.tell('Now wielding ' + item.a() + '.')
     return true
 }
 
 actions.unwield = new Action({name: 'unwield', dobj: Item})
 actions.unwield.execute = function(subject, item) {
-    if (subject.wielding) {
-        $(subject.wielding.span).removeClass('wielded')
+    if (subject.wielding)
         subject.wielding.wielded_by = false
-    }
     subject.wielding = false
     subject.tell('No longer wielding ' + item.the() + '.')
     return true
