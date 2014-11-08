@@ -17,11 +17,15 @@ function BuildCharacter(container, callback) {
             .append(name_input = $('<input />').attr('id', 'character-name').keydown(function() {
                 if (event.keyCode == 13) { // return key
                     attributes.name = name_input.val()
+                    if (attributes.name == '茅場晶彦')
+                        attributes.cheater = true
                     next()
                 }
             }))
             .append($('<button />').addClass('continue').text('continue').click(function() {
                 attributes.name = name_input.val()
+                if (attributes.name == '茅場晶彦')
+                    attributes.cheater = true
                 next()
             }))
         name_input.focus()
@@ -39,7 +43,7 @@ function BuildCharacter(container, callback) {
             .append($('<h1 />').text('Choose your clade'))
             .append(clades_div = $('<div />'))
         for (var name in universe.clades) {
-            if (universe.clades[name].prototype.playable) {
+            if (universe.clades[name].prototype.playable || attributes.cheater) {
                 clades_div.append(
                     $('<div />').addClass('clade-chooser')
                         .append(
