@@ -12,7 +12,7 @@ function Controller(attributes) {
         function(event) {
             var being = controller.being
             if (event.keyCode == 27) { // esc
-                controller.cancel_partial_commands()
+                controller.cancel()
             } else if (event.keyCode == 37) {
                 controller.click(controller.being.square.west())
                 event.preventDefault()
@@ -64,7 +64,7 @@ function Controller(attributes) {
         .append(this.button(actions.wield, 'Wield'))
         .append(this.button(actions.ascend, '< ascend'))
         .append(this.button(actions.descend, '> descend'))
-        .append($('<button />').addClass('action').addClass('cancel').html('cancel <span class="key-label">(esc)</span>').click(function() { controller.cancel_partial_commands() }))
+        .append($('<button />').addClass('action').addClass('cancel').html('cancel <span class="key-label">(esc)</span>').click(function() { controller.cancel() }))
     )
 
     // set up display
@@ -96,8 +96,6 @@ Controller.prototype.set_partial_command = function(partial_command) {
     }
 }
 Controller.prototype.cancel_partial_commands = function() {
-    if (this.partial_command)
-        this.being.tell(' ...canceled.')
     this.partial_command = false
     this.being.inventory.hide_labels()
 }
@@ -121,12 +119,19 @@ Controller.prototype.click = function(square) {
             next_item = action.select_dobj(this.being, square)
         else if (partial_command.length == 2)
             next_item = action.select_iobj(this.being, partial_command[1], square)
-        if (typeof(next_item) == "string")
+        if (typeof(next_item) == "string") {
             this.being.tell(next_item)
-        else if (next_item) {
+            this.cancel_partial_commands()
+        } else if (next_item) {
             this.partial_command = false
             partial_command.push(next_item)
             this.push_command(partial_command)
+        } else if (partial_command.length == 1) {
+            this.being.tell("There is nothing there to " + action + ".")
+            this.cancel_partial_commands()
+        } else if (partial_command.length == 2) {
+            this.being.tell("There is nothing there to " + action + " " + partial_command[1].the() + " " + action.prep + ".")
+            this.cancel_partial_commands()
         }
     }
     else if (this.being.square.next_to(square))
@@ -151,6 +156,8 @@ Controller.prototype.button = function(action, label) {
 }
 // button functions
 Controller.prototype.cancel = function() {
+    if (this.partial_command)
+        this.being.tell(' ...canceled.')
     this.cancel_partial_commands()
 }
 
