@@ -45,7 +45,7 @@ function PlayerViewport(attributes) {
             var stat_value = document.createElement('span')
             stat_value.className = 'stat-value'
             stat_value.id = PUBLIC_STATS[i]
-            stat_value.textContent = this.being[PUBLIC_STATS[i]]
+            stat_value.textContent = Math.floor(this.being[PUBLIC_STATS[i]])
             stat_div.appendChild(stat_label)
             stat_div.appendChild(stat_value)
             stats_element.append(stat_div)
