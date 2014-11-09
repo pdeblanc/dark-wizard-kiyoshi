@@ -18,12 +18,11 @@ Square = WorldObject.variant({}, function(attributes) {
 
 Square.variant = function(attributes, f) {
     var F = WorldObject.variant.apply(this, arguments)
-    F.prototype.tags = [F.prototype.name]
+    F.prototype.tags = {}
+    F.prototype.tags[F.prototype.name] = 1
     if ('tags' in attributes)
         F.prototype.extra_tags = attributes.tags
-    for (var t = 0; t < F.prototype.extra_tags.length; t++)
-        F.prototype.tags.push(F.prototype.extra_tags[t])
-    F.affinity = Square.affinity
+    $.extend(F.prototype.tags, F.prototype.extra_tags)
     if (universe.affinity(F.prototype.name, F.prototype.name) === false)
         universe.affinity(F.prototype.name, F.prototype.name, F.prototype.clumpiness)
     return F
@@ -123,11 +122,9 @@ Square.prototype.announce = function(message) {
 }
 Square.prototype.affinity = function(other) {
     var total = 0;
-    for (var i = 0; i < this.tags.length; i++) {
-        for (var j = 0; j < other.tags.length; j++) {
-            total += universe.affinity(this.tags[i], other.tags[j])
-        }
-    }
+    for (this_tag in this.tags)
+        for (other_tag in other.tags)
+            total += universe.affinity(this_tag, other_tag) * this.tags[this_tag] * other.tags[other_tag]
     return total;
 }
 Square.prototype.next_to = function(other) {

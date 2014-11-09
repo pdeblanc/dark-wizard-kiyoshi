@@ -38,7 +38,7 @@ Square
         .phylum({name: 'tree', symbol: '木', bias: -1})
     .kingdom({name: 'liquid', symbol: '液', continuous: true, flyable: true, swimmable: true, generic: true})
         .phylum({name: 'water', symbol: '水', drinkable: true, bias: 1})
-    .kingdom({name: 'settlement', symbol: '町', continuous: false, flyable: true, walkable: true, generic: true, tags: ['settlement'], clumpiness: 0})
+    .kingdom({name: 'town', symbol: '町', continuous: false, flyable: true, walkable: true, generic: true, tags: {town: 1}, clumpiness: 0})
         .phylum({name: 'grass2', symbol: '草'})
         .phylum({name: 'house', symbol: '家', bias: -.5})
         .phylum({name: 'shop', symbol: '店', bias: -.5})
@@ -48,12 +48,12 @@ Square
 universe.friends('woods', 'forest')
 universe.friends('woods', 'tree')
 universe.friends('forest', 'tree')
-universe.friends('settlement', 'settlement')
+universe.friends('town', 'town')
 
-planes = [new WildernessPlane({level: 1, tags: ['woods']})]
-planes.push(new WildernessPlane({upstairs: planes[planes.length - 1], tags: ['grass']}))
-planes.push(new WildernessPlane({upstairs: planes[planes.length - 1], tags: ['settlement']}))
-planes.push(new WildernessPlane({upstairs: planes[planes.length - 1], tags: ['water']}))
+planes = [new WildernessPlane({level: 1, tags: {woods: 1, town: -1}})]
+planes.push(new WildernessPlane({upstairs: planes[planes.length - 1], tags: {grass: 1, town: -1}}))
+planes.push(new WildernessPlane({upstairs: planes[planes.length - 1]}))
+planes.push(new WildernessPlane({upstairs: planes[planes.length - 1], tags: {water: .25}}))
 
 initialize = function() {
     BuildCharacter($('#container'), function(being) {
