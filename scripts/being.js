@@ -39,6 +39,7 @@ Being.prototype.can_walk = true
 Being.prototype.can_swim = false
 Being.prototype.can_fly = false
 Being.prototype.playable = false
+Being.prototype.habitat = {}
 
 // methods
 Being.prototype.notify = function() {

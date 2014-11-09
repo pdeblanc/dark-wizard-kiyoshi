@@ -26,9 +26,9 @@ WildernessPlane.prototype.generate_square = function(coordinate) {
         var activation = universe.biomes[b].prototype.bias;
         for (var p = 0; p < parents.length; p++) {
             var square = this.square(parents[p])
-            activation += universe.biomes[b].prototype.affinity(square)
+            activation += universe.biomes[b].prototype.affinity(square.tags)
         }
-        activation += universe.biomes[b].prototype.affinity(this)
+        activation += universe.biomes[b].prototype.affinity(this.tags)
         var probability = Math.exp(activation)
         if (universe.biomes[b].prototype.can_descend && !this.downstairs || universe.biomes[b].prototype.can_ascend && !this.upstairs)
             probability = 0

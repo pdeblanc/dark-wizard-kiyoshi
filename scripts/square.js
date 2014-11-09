@@ -54,7 +54,7 @@ Square.prototype.sample_contents = function(index) {
     for (key in index) {
         var object_class = index[key]
         if (this.permit_entry(object_class.prototype) && object_class.prototype.level <= this.plane.level)
-            probability_array.push([object_class, Math.exp(object_class.prototype.bias)])
+            probability_array.push([object_class, Math.exp(object_class.prototype.bias + this.affinity(object_class.prototype.habitat))])
     }
     return Probability.sample(probability_array)
 }
@@ -120,11 +120,11 @@ Square.prototype.announce_all_but = function(exclude, message) {
 Square.prototype.announce = function(message) {
     this.announce_all_but([], message)
 }
-Square.prototype.affinity = function(other) {
+Square.prototype.affinity = function(tags) {
     var total = 0;
     for (this_tag in this.tags)
-        for (other_tag in other.tags)
-            total += universe.affinity(this_tag, other_tag) * this.tags[this_tag] * other.tags[other_tag]
+        for (other_tag in tags)
+            total += universe.affinity(this_tag, other_tag) * this.tags[this_tag] * tags[other_tag]
     return total;
 }
 Square.prototype.next_to = function(other) {
