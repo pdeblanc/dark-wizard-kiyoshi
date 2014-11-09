@@ -41,7 +41,7 @@ Square
     .kingdom({name: 'town', symbol: '町', continuous: false, flyable: true, walkable: true, generic: true, tags: {town: 1}, clumpiness: 0})
         .phylum({name: 'grass2', symbol: '草'})
         .phylum({name: 'house', symbol: '家', bias: -.5})
-        .phylum({name: 'shop', symbol: '店', bias: -.5})
+        .phylum({name: 'shop', symbol: '店', bias: -1})
     .kingdom({name: 'void', symbol: '無', bias: -100, continuous: true})
         .phylum({name: 'inventory slot', max_items: 1, continuous: false})
 
