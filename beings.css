@@ -10,7 +10,21 @@
 
 .cat { color: black; }
 
-.blue-dragon { color: blue; }
+.three-clawed-dragon { color: green; }
+
+.four-clawed-dragon { color: lime; }
+
+.five-clawed-dragon {
+    color: white;
+    text-shadow:
+        0px 0px 1px blue,
+        0px 0px 2px blue,
+        0px 0px 3px blue,
+        0px 0px 4px blue,
+        0px 0px 5px blue,
+        0px 0px 6px blue,
+        0px 0px 7px blue;
+}
 
 .mouse { color: white; }
 
@@ -25,6 +39,12 @@
 .cow { color: white; }
 
 .fish { color: cyan; }
+
+.orca { color: black; }
+
+.great-white-shark { color: white; }
+
+.megalodon { color: silver; }
 
 .battleship { color: gray; }
 
