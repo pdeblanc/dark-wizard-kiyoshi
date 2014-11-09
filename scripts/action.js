@@ -66,14 +66,14 @@ actions.west.execute = function(subject) {
 
 actions.descend = new Action({name: 'descend'})
 actions.descend.execute = function(subject) {
-    if (subject.square.can_descend)
+    if (subject.square.can_descend || (subject.square.plane.downstairs && subject.cheater))
         return actions.moveto_or_attack.execute(subject, subject.square.plane.downstairs.square(subject.square.coordinate))
     subject.tell("You see no way down from here.")
 }
 
 actions.ascend = new Action({name: 'ascend'})
 actions.ascend.execute = function(subject) {
-    if (subject.square.can_ascend)
+    if (subject.square.can_ascend || (subject.square.plane.upstairs && subject.cheater))
         return actions.moveto_or_attack.execute(subject, subject.square.plane.upstairs.square(subject.square.coordinate))
     subject.tell("You see no way up from here.")
 }
