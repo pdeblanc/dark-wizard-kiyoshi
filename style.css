@@ -156,6 +156,10 @@ button.action:hover span.key-label {
     color: lime;
 }
 
+#region {
+    color: yellow;
+}
+
 .stat-value {
     color: lime;
 }

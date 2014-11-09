@@ -53,7 +53,7 @@ Square.prototype.sample_contents = function(index) {
     var probability_array = [[false, 1]]
     for (key in index) {
         var object_class = index[key]
-        if (this.permit_entry(object_class.prototype))
+        if (this.permit_entry(object_class.prototype)) {
             var p = Math.exp(object_class.prototype.bias + this.affinity(object_class.prototype.habitat))
             var level = Math.max(1, object_class.prototype.level)
             if (this.plane.level > level)
@@ -61,6 +61,7 @@ Square.prototype.sample_contents = function(index) {
             else
                 p *= Math.pow(this.plane.level / level, 2)
             probability_array.push([object_class, p])
+        }
     }
     return Probability.sample(probability_array)
 }

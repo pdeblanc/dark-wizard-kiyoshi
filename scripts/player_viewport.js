@@ -3,7 +3,7 @@ function PlayerViewport(attributes) {
     this.controller = attributes.controller
     this.container = attributes.container
 
-    var profile_element, name_element, title_element, stats_element, map_element, inventory_element
+    var profile_element, name_element, title_element, stats_element, map_element, inventory_element, region_element
     
     $(container)
         .append($('<div />').attr('id', 'profile').addClass('panel')
@@ -12,6 +12,7 @@ function PlayerViewport(attributes) {
                 .append($("<span />").text(" the "))
                 .append(title_element = $("<span />"))
             )
+            .append(region_element = $("<div />").attr('id', 'region'))
             .append(stats_element = $("<div />")))
         .append(map_element = $('<div />').addClass('panel'))
         .append(inventory_element = $('<div />').addClass('panel'))
@@ -32,6 +33,7 @@ function PlayerViewport(attributes) {
     this.render_profile = function() {
         name_element.text(this.being.name).attr("id", "name")
         title_element.text(this.being.__proto__.name).attr("class", this.being.className)
+        region_element.text("Region " + this.being.square.plane.level)
     }
     this.render = function() {
         this.render_profile()
