@@ -1,8 +1,18 @@
 PUBLIC_STATS = ['power', 'speed', 'vigor', 'level', 'experience']
 STATS = ['power', 'speed', 'vigor', 'lean_mass']
 
+Item
+    .kingdom({name: 'katana', symbol: '刀', action: actions.toggle_wield, attack: {cut: 5}, level: 3})
+        .phylum({name: 'bokutō', attack: {hit: 2}, level: 1})
+    .kingdom({name: 'sword', symbol: '剣', action: actions.toggle_wield, attack: {cut: 5}, generic: true, level: 3})
+        .phylum({name: 'longsword', symbol: '剣', action: actions.toggle_wield, attack: {cut: 5}})
+        .phylum({name: 'rapier', symbol: '剣', action: actions.toggle_wield, attack: {stab: 3}, level: 2})
+    .kingdom({name: 'meat', symbol: '肉', fat: 1, action: actions.eat, attack: {slap: .5}})
+    .kingdom({name: 'ash', symbol: '灰', bias: -10})
+    .kingdom({name: 'green tea', symbol: '茶', action: actions.drink, drinkable: true})
+
 Being
-    .kingdom({name: 'animal', generic: true, bias: -5})
+    .kingdom({name: 'animal', generic: true, bias: -5, corpse: universe.products.meat})
         .phylum({name: 'human', symbol: '人', lean_mass: 100, attacks: [{punch: 1}], inventory: {width: 2, height: 9}, level: 2, playable: true, bias: -4, habitat: {town: 2}})
             .clazz({name: 'samurai', symbol: '侍', attacks: [{cut: 3}], playable: false})
         .phylum({name: 'blue dragon', symbol: '龍', lean_mass: 10000, vigor: 100, attacks: [{burn: 9}], can_fly: true, inventory: {width: 1, height: 3}, level: 10})
@@ -16,16 +26,7 @@ Being
         .phylum({name: 'cow', symbol: '牛', lean_mass: 1000, vigor: 32, speed: 8, attacks: [{kick: 2}], level: 2, habitat: {grass: 5}, bias: -9})
         .phylum({name: 'fish', symbol: '魚', lean_mass: 2, vigor: 2, attacks: [{bite: 0.2}], can_walk: false, can_swim: true, playable: true})
         .phylum({name: 'battleship', symbol: '艦', lean_mass: 20000000, vigor: 4472, attacks: [{shoot: 300}], can_walk: false, can_swim: true, level: 256, inventory: {width: 4, height: 9}})
-        .phylum({name: 'fire being', symbol: '火', lean_mass: 100, speed: 15, attacks: [{burn: 3}], level: 4})
-
-Item
-    .kingdom({name: 'katana', symbol: '刀', action: actions.toggle_wield, attack: {cut: 5}, level: 3})
-        .phylum({name: 'bokutō', attack: {hit: 2}, level: 1})
-    .kingdom({name: 'sword', symbol: '剣', action: actions.toggle_wield, attack: {cut: 5}, generic: true, level: 3})
-        .phylum({name: 'longsword', symbol: '剣', action: actions.toggle_wield, attack: {cut: 5}})
-        .phylum({name: 'rapier', symbol: '剣', action: actions.toggle_wield, attack: {stab: 3}, level: 2})
-    .kingdom({name: 'meat', symbol: '肉', fat: 2, action: actions.eat, attack: {slap: .5}})
-    .kingdom({name: 'green tea', symbol: '茶', action: actions.drink, drinkable: true})
+        .phylum({name: 'fire being', symbol: '火', lean_mass: 100, speed: 15, attacks: [{burn: 3}], level: 4, corpse: universe.products.ash})
 
 Square
     .kingdom({name: 'ground', symbol: '土', continuous: true, walkable: true, flyable: true, generic: true})
