@@ -214,3 +214,12 @@ Being.prototype.level_from_experience = function(experience) {
     return guess
 }
 
+Being.prototype.visibility = function(square) {
+    if (square.plane != this.square.plane)
+        return false
+    var total_obstacles = 0
+    var line = this.square.coordinate.line(square.coordinate)
+    for (var i = 1; i < line.length-1; i++)
+        total_obstacles += this.square.plane.square(line[i][0]).opacity * line[i][1]
+    return Math.max(1 - total_obstacles, 0)
+}

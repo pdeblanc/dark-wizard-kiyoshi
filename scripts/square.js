@@ -44,6 +44,8 @@ Square.prototype.flyable = false
 Square.prototype.can_descend = false
 Square.prototype.can_ascend = false
 
+Square.prototype.opacity = 0
+
 Square.prototype.max_beings = 1
 Square.prototype.max_items = 16
 Square.prototype.tags = []
@@ -113,7 +115,7 @@ Square.prototype.enter = function(newcomer) {
         this.plane.tree.insert(newcomer)
         if (this.items.length)
             newcomer.tell("You find " + english.list(this.items) + ".")
-        if (newcomer.controllers && newcomer.controllers.length) {
+        if (newcomer.controllers && newcomer.controllers.length && false) {
             this.reveal(newcomer)
             this.north().reveal(newcomer)
             this.south().reveal(newcomer)
@@ -150,6 +152,6 @@ Square.prototype.affinity = function(tags) {
 Square.prototype.next_to = function(other) {
     return (other == this.north() || other == this.south() || other == this.west() || other == this.east())
 }
-Square.prototype.reveal = function (being) {
-    this.shade.className = ''
+Square.prototype.reveal = function (being, visibility) {
+    this.shade.style.opacity = 1 - visibility
 }

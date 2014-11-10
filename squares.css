@@ -18,9 +18,9 @@
 
 .inventory-slot { background: #404040; color: #808080; }
 
-.upward-staircase { background: black; color: white; }
+.upward-staircase { background: #002000; color: white; }
 
-.downward-staircase { background: black; color: white; }
+.downward-staircase { background: #002000; color: white; }
 
 .wielded {
     text-shadow: 0px 0px 1px black, 0px 0px 2px black, 0px 0px 3px black;
