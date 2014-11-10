@@ -18,7 +18,7 @@ Being = WorldObject.variant({}, function(attributes) {
     this.inventory = new InventoryPlane(this.inventory)
     for (var x = 0; x < this.inventory.width; x++) {
         for (var y = 0; y < this.inventory.height; y++) {
-            this.inventory.square(new Coordinate({x: x, y: y})).reveal(this)
+            this.inventory.square(new Coordinate({x: x, y: y})).reveal(this, 1)
         }
     }
     this.dead = 0
