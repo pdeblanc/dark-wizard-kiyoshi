@@ -56,6 +56,10 @@ Square
         .phylum({name: 'grass2', symbol: '草'})
         .phylum({name: 'house', symbol: '家', bias: -.5})
         .phylum({name: 'shop', symbol: '店', bias: -1})
+        .phylum({name: 'temple', symbol: '寺', bias: -3, generic: true})
+            .clazz({name: 'temple of light'})
+            .clazz({name: 'temple of nature'})
+            .clazz({name: 'temple of fire'})
     .kingdom({name: 'void', symbol: '無', bias: -100, continuous: true})
         .phylum({name: 'inventory slot', max_items: 1, continuous: false})
 
