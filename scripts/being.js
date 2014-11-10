@@ -16,6 +16,11 @@ Being = WorldObject.variant({}, function(attributes) {
 
     // highly mutable attributes
     this.inventory = new InventoryPlane(this.inventory)
+    for (var x = 0; x < this.inventory.width; x++) {
+        for (var y = 0; y < this.inventory.height; y++) {
+            this.inventory.square(new Coordinate({x: x, y: y})).reveal(this)
+        }
+    }
     this.dead = 0
     this.health = 1
     this.body_fat = this.lean_mass * .3

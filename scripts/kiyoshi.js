@@ -167,8 +167,8 @@ planes.push(new WildernessPlane({upstairs: planes[planes.length - 1]}))
 
 initialize = function() {
     BuildCharacter($('#container'), function(being) {
-        planes[0].place_randomly(being)
         new Controller({being: being, container: document.getElementById('container')})
+        planes[0].place_randomly(being)
         universe.simulate()
     })
 }

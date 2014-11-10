@@ -4,6 +4,9 @@ Square = WorldObject.variant({}, function(attributes) {
     this.span.className = 'biome ' + this.className
     this.span.textContent = this.symbol
     this.span.square = this
+    this.shade = document.createElement('div')
+    this.shade.className = 'square-shading'
+    this.span.appendChild(this.shade)
     this.items = []
     this.beings = []
     this.plane = attributes.plane
@@ -90,9 +93,11 @@ Square.prototype.exit = function(departee) {
     if (visible_object) {
         this.span.innerHTML = ''
         this.span.appendChild(visible_object.span)
+        this.span.appendChild(this.shade)
     }
     else
         this.span.innerHTML = this.symbol
+        this.span.appendChild(this.shade)
     if (departee instanceof Being)
         this.plane.tree.remove(departee)
 }
@@ -102,11 +107,19 @@ Square.prototype.enter = function(newcomer) {
     if (newcomer instanceof Being || this.items.length == 1) {
         this.span.innerHTML = ''
         this.span.appendChild(newcomer.span)
+        this.span.appendChild(this.shade)
     }
     if (newcomer instanceof Being) {
         this.plane.tree.insert(newcomer)
         if (this.items.length)
             newcomer.tell("You find " + english.list(this.items) + ".")
+        if (newcomer.controllers && newcomer.controllers.length) {
+            this.reveal(newcomer)
+            this.north().reveal(newcomer)
+            this.south().reveal(newcomer)
+            this.west().reveal(newcomer)
+            this.east().reveal(newcomer)
+        }
     }
 }
 Square.prototype.permit_entry = function(hopeful) {
@@ -136,4 +149,7 @@ Square.prototype.affinity = function(tags) {
 }
 Square.prototype.next_to = function(other) {
     return (other == this.north() || other == this.south() || other == this.west() || other == this.east())
+}
+Square.prototype.reveal = function (being) {
+    this.shade.className = ''
 }
