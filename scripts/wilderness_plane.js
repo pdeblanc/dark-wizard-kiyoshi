@@ -18,17 +18,14 @@ WildernessPlane.prototype.generate_square = function(coordinate) {
     if (coordinate.x % this.feature_size_limit == 0 && coordinate.y % this.feature_size_limit == 0)
         return universe.biomes.grass.create({plane: this, coordinate: coordinate})
     var parents = coordinate.lattice_parents()
-
     var biomes_by_probability = []
     var probability_sum = 0
     var make_stairs = Math.floor(1 + .001 - Math.random())
     for (var b in universe.biomes) {
-        var activation = universe.biomes[b].prototype.bias;
+        var activation = universe.biomes[b].prototype.bias + universe.biomes[b].prototype.affinity(this.tags)
         for (var p = 0; p < parents.length; p++) {
-            var square = this.square(parents[p])
-            activation += universe.biomes[b].prototype.affinity(square.tags)
+            activation += universe.biomes[b].prototype.affinity(this.square(parents[p]).tags)
         }
-        activation += universe.biomes[b].prototype.affinity(this.tags)
         var probability = Math.exp(activation)
         if (universe.biomes[b].prototype.can_descend && !this.downstairs || universe.biomes[b].prototype.can_ascend && !this.upstairs)
             probability = 0
