@@ -14,3 +14,13 @@
 
 .iron { color: darkgray; }
 
+.soybean { color: lime; }
+
+.azuki-bean { color: #ff6080 }
+
+.black-bean {
+    color: black;
+    text-shadow: -1px -1px 1px white;
+}
+
+.bowl-of-cooked-white-rice { color: white; }

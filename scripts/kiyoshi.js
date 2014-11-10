@@ -11,6 +11,12 @@ Item
     .kingdom({name: 'ash', symbol: '灰', bias: -10})
     .kingdom({name: 'iron', symbol: '鉄', bias: -10})
     .kingdom({name: 'green tea', symbol: '茶', action: actions.drink, drinkable: true})
+    .kingdom({name: 'bean', symbol: '豆', action: actions.eat, fat: 1, generic: true})
+        .phylum({name: 'soybean'})
+        .phylum({name: 'azuki bean'})
+        .phylum({name: 'black bean'})
+    .kingdom({name: 'cooked rice', symbol: '飯', action: actions.eat, fat: 1, generic: true})
+        .phylum({name: 'bowl of cooked white rice'})
 
 Being
     .kingdom({name: 'animal', generic: true, bias: -5, corpse: universe.products.meat})
@@ -27,7 +33,7 @@ Being
         .phylum({name: 'rabbit', symbol: '兎', lean_mass: 4, vigor: 2, speed: 15, attacks: [{bite: .4}], level: 0.06})
         .phylum({name: 'horse', symbol: '馬', lean_mass: 850, vigor: 29, speed: 13, attacks: [{kick: 2}], level: 2, habitat: {grass: 5}, bias: -9, level: 3.77})
         .phylum({name: 'cow', symbol: '牛', lean_mass: 1000, vigor: 32, speed: 8, attacks: [{kick: 2}], level: 2, habitat: {grass: 5}, bias: -9, level: 2.56})
-        .phylum({name: 'fish', symbol: '魚', lean_mass: 2, vigor: 2, attacks: [{bite: 0.2}], can_walk: false, can_swim: true, playable: true, level: 0.02})
+        .phylum({name: 'fish', symbol: '魚', lean_mass: 2, vigor: 2, attacks: [{bite: 0.2}], can_walk: false, can_swim: true, playable: false, level: 0.02})
             .clazz({name: 'orca', symbol: '鯱', lean_mass: 10000, vigor: 100, attacks: [{bite: 10}], level: 50})
             .clazz({name: 'shark', symbol: '鮫', generic: true})
                 .order({name: 'great white shark', lean_mass: 6400, vigor: 80, attacks: [{bite: 8}], level: 32})
