@@ -23,7 +23,7 @@ Being = WorldObject.variant({}, function(attributes) {
     }
     this.dead = 0
     this.health = 1
-    this.body_fat = this.lean_mass * .3
+    this.body_fat = this.lean_weight * .3
     this.wielding = false
     this.hibernating = false
     this.experience = 0
@@ -64,7 +64,7 @@ Being.prototype.act = function(callback) {
             if (success) {
                 // lose a bit over one pound per day due to very active lifestyle
                 // remove leading 10000 when done testing
-                subject.body_fat -= 10000 * (subject.body_fat + subject.lean_mass) / (86400 * 100)
+                subject.body_fat -= 10000 * (subject.body_fat + subject.lean_weight) / (86400 * 100)
                 if (subject.body_fat < 0) {
                     subject.tell('You have starved.')
                     subject.notify()
@@ -133,7 +133,7 @@ Being.prototype.die = function() {
     this.square.announce_all_but([this], this.The() + ' dies.')
     this.tell("You die.")
     if (this.corpse)
-        this.corpse.create({square: this.square, fat: this.corpse.prototype.fat * (this.body_fat + this.lean_mass * .2)})
+        this.corpse.create({square: this.square, fat: this.corpse.prototype.fat * (this.body_fat + this.lean_weight * .2)})
     this.square.exit(this)
     this.dead = 1
     if (this.controllers.length > 0)
