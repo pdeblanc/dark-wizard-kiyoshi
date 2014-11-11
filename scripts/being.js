@@ -191,7 +191,6 @@ Being.prototype.set_level = function(level) {
     this.level = level
     this.speed *= level + 9
     this.speed /= old_level + 9
-    console.log('speed', this.speed)
 }
 
 Being.prototype.experience_for_level = function(level) {
