@@ -1,4 +1,6 @@
-.being { text-shadow: -1px -1px 0px white, 1px 1px 0px black; }
+.being {
+    text-shadow: -1px -1px 0px white, 1px 1px 0px black;
+}
 
 .player { font-weight: bold; }
 

@@ -58,8 +58,23 @@ function PlayerViewport(attributes) {
         for (var x = this.left; x <= this.right; x++) {
             for (var y = this.top; y <= this.bottom; y++) {
                 var square = plane.square(new Coordinate({x: origin.coordinate.x + x, y: origin.coordinate.y + y}))
-                $('#_' + x + '_' + y).html('').append(square.span)
-                square.reveal(this.being, this.being.visibility(square))
+                var foreground = square.beings[0] || square.items[0]
+                var outer_cell = $('#_' + x + '_' + y)
+                var middle_cell = outer_cell.find('.middle-cell').detach()
+                var inner_cell = middle_cell.find('.inner-cell').detach()
+                var innermost_cell = inner_cell.find('.innermost-cell').detach()
+                outer_cell.empty().append(middle_cell)
+                middle_cell.empty().append(inner_cell)
+                inner_cell.empty().append(innermost_cell)
+                innermost_cell.empty()
+                outer_cell.append(square.background)
+                $(square.foreground).removeClass('hidden')
+                innermost_cell.append(square.foreground)
+                if (foreground) {
+                    innermost_cell.append(foreground.span)
+                    $(square.foreground).addClass('hidden')
+                }
+                //square.reveal(this.being, this.being.visibility(square))
             }
         }
         $(".item").draggable({ opacity: 0.7, helper: "clone"})

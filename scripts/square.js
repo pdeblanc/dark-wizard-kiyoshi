@@ -1,13 +1,12 @@
 Square = WorldObject.variant({}, function(attributes) {
     WorldObject.apply(this, arguments)
-    this.span = document.createElement('div')
-    this.span.className = 'biome ' + this.className
-    this.span.square = this
-    this.shade = document.createElement('div')
-    this.shade.className = 'square-shading'
+    this.background = document.createElement('div')
+    this.background.className = 'biome ' + this.className
+    this.foreground = document.createElement('div')
+    this.foreground.className = 'biome ' + this.className
+    this.foreground.innerHTML = this.symbol
     this.items = []
     this.beings = []
-    this.render()
     this.plane = attributes.plane
     this.coordinate = attributes.coordinate
     var being, item
@@ -70,17 +69,6 @@ Square.prototype.sample_contents = function(index) {
     return Probability.sample(probability_array)
 }
 
-Square.prototype.render = function() {
-    var visible_object = this.beings[0] || this.items[0]
-    if (visible_object) {
-        this.span.innerHTML = ''
-        this.span.appendChild(visible_object.span)
-    }
-    else
-        this.span.innerHTML = this.symbol
-    this.span.appendChild(this.shade)
-}
-
 Square.prototype.offset = function(attributes) {
     return this.plane.square(this.coordinate.add(attributes))
 }
@@ -103,7 +91,6 @@ Square.prototype.exit = function(departee) {
         array.splice(index, 1)
     if (departee instanceof Being)
         this.plane.tree.remove(departee)
-    this.render()
 }
 Square.prototype.enter = function(newcomer) {
     var array = (newcomer instanceof Being) ? this.beings : this.items
@@ -113,7 +100,6 @@ Square.prototype.enter = function(newcomer) {
         if (this.items.length)
             newcomer.tell("You find " + english.list(this.items) + ".")
     }
-    this.render()
 }
 Square.prototype.permit_entry = function(hopeful) {
     if (hopeful instanceof Being && this.beings.length < this.max_beings)
@@ -144,5 +130,5 @@ Square.prototype.next_to = function(other) {
     return (other == this.north() || other == this.south() || other == this.west() || other == this.east())
 }
 Square.prototype.reveal = function (being, visibility) {
-    this.shade.style.opacity = 1 - visibility
+    return
 }

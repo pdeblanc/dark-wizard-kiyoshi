@@ -3,7 +3,7 @@ Being = WorldObject.variant({}, function(attributes) {
     // graphics
     this.span = document.createElement('div')
     this.innerSpan = document.createElement('div')
-    this.span.className = 'being blood'
+    this.span.className = 'being being-or-item blood'
     this.span.textContent = this.symbol
     this.innerSpan.className = this.className + ' being_fg'
     this.innerSpan.textContent = this.symbol
