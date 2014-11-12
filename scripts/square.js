@@ -136,17 +136,18 @@ Square.prototype.reveal = function(being, visibility) {
 // render this within cell as it would appear to being 
 Square.prototype.blit = function(being, cell) {
     var shader = $('<div />').addClass('square-shading').css('opacity', 1 - being.visibility(this))
+    var highlight = $('<div />').addClass('square-highlight')
     cell.removeClass('wielded')
     if (this.beings.length)
-        cell.empty().append(this.background).append(this.beings[0].foreground).append(shader)
+        cell.empty().append(this.background).append(this.beings[0].foreground).append(shader).append(highlight)
 
     else if (this.items.length) {
         var item = this.items[0]
         if (item.wielded_by == being)
-            cell.addClass('wielded').empty().append(item.foreground).append(shader)
+            cell.addClass('wielded').empty().append(item.foreground).append(shader).append(highlight)
         else
-            cell.empty().append(this.background).append(item.foreground).append(shader)
+            cell.empty().append(this.background).append(item.foreground).append(shader).append(highlight)
     } else
-        cell.empty().append(this.background).append(this.foreground).append(shader)
+        cell.empty().append(this.background).append(this.foreground).append(shader).append(highlight)
     cell[0].square = this
 }

@@ -7,7 +7,7 @@ Item = WorldObject.variant({}, function(attributes) {
     this.foreground.textContent = this.symbol
     this.foreground = centralizer(this.foreground).addClass('item')
     this.foreground[0].item = this
-    $(this.foreground).draggable({ opacity: 0.7, helper: "clone"})
+    $(this.foreground).draggable({opacity: 0.7, helper: "clone", zIndex: 1000})
 })
 
 Item.set_name = 'products'
@@ -27,11 +27,9 @@ Item.prototype.moveto = function(square) {
             this.square.exit(this)
         this.square = square
         this.square.enter(this)
-        $(this.foreground).draggable({ opacity: 0.7, helper: "clone"})
         this.check_wielding()
         return true
     }
-    $(this.foreground).draggable({ opacity: 0.7, helper: "clone"})
     return false
 }
 
