@@ -138,10 +138,10 @@ Square.prototype.blit = function(being, cell) {
     var shader = $('<div />').addClass('square-shading').css('opacity', 1 - being.visibility(this))
     var highlight = $('<div />').addClass('square-highlight')
     cell.removeClass('wielded')
-    if (this.beings.length)
+    if (this.beings.length) {
+        this.beings[0].redraw()
         cell.empty().append(this.background).append(this.beings[0].foreground).append(shader).append(highlight)
-
-    else if (this.items.length) {
+    } else if (this.items.length) {
         var item = this.items[0]
         if (item.wielded_by == being)
             cell.addClass('wielded').empty().append(item.foreground).append(shader).append(highlight)

@@ -48,3 +48,14 @@ Item.prototype.check_wielding = function() {
     if ((subject = this.wielded_by) && !(subject.is_holding(this)))
         actions.unwield.execute(subject, this)
 }
+
+Item.variant = function(attributes, f) {
+    var F = WorldObject.variant.apply(this, arguments)
+    var proto = F.prototype
+    if (proto.random_effects && proto.random_effects.length) {
+        var i = Math.floor(Math.random() * proto.random_effects.length)
+        proto.effect = proto.random_effects[i]
+        proto.random_effects.splice(i, 1)
+    }
+    return F
+}

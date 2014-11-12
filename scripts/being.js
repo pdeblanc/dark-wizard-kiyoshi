@@ -119,7 +119,6 @@ Being.prototype.receive_damage = function(damage_package, attacker) {
     if (this.health <= 0) {
         this.die()
     }
-    this.redraw()
 }
 
 Being.prototype.redraw = function() {

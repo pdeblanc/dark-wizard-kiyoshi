@@ -147,7 +147,9 @@ actions.drink.accept_dobj = function(subject, item) {
     return (item.drinkable == true)
 }
 actions.drink.execute = function(subject, item) {
-    subject.tell("You drink " + item.the() + ". That tasted good.")
+    subject.tell("You drink " + item.the() + ".")
+    if (item.effect)
+        item.effect.execute(subject)
     item.destroy()
     return true;
 }

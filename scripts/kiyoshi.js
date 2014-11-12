@@ -10,7 +10,7 @@ Item
     .kingdom({name: 'meat', symbol: '肉', fat: 1, action: actions.eat, attack: {slap: .5}})
     .kingdom({name: 'ash', symbol: '灰', bias: -10})
     .kingdom({name: 'iron', symbol: '鉄', bias: -10})
-    .kingdom({name: 'tea', symbol: '茶', action: actions.drink, drinkable: true, generic: true})
+    .kingdom({name: 'tea', symbol: '茶', action: actions.drink, drinkable: true, generic: true, random_effects: [effects.healing, effects.healing, effects.poison]})
         .phylum({name: 'green tea'})
         .phylum({name: 'black tea'})
         .phylum({name: 'thai iced tea'})
