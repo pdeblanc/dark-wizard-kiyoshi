@@ -22,3 +22,18 @@ PlaneViewport.prototype.render = function() {
         }
     }
 }
+
+PlaneViewport.prototype.show_labels = function(subject, action, dobj) {
+    for (var x = 0; x < this.plane.width; x++) {
+        for (var y = 0; y < this.plane.height; y++) {
+            var coordinate = new Coordinate({x: x, y: y})
+            var square = this.plane.square(coordinate)
+            if (dobj && action.select_iobj(subject, dobj, square) || !dobj && action.select_dobj(subject, square))
+                $('#_' + this.name + '_' + x + '_' + y).append($('<div />').addClass('inventory-label').text(this.plane.label_for(coordinate)))
+        }
+    }
+}
+
+PlaneViewport.prototype.hide_labels = function() {
+    $(".inventory_label").remove()
+}

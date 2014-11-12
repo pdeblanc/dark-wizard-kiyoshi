@@ -33,7 +33,7 @@ function Controller(attributes) {
         'keypress',
         function(event) {
             var charStr = String.fromCharCode(event.which || event.keyCode)
-            if (controller.being.inventory.labels.length) {
+            if (controller.partial_command) {
                 var square = controller.being.inventory.get_by_label(charStr)
                 if (square) {
                     controller.click(square)
@@ -68,7 +68,8 @@ function Controller(attributes) {
     )
 
     // set up display
-    this.being.viewports.push(new PlayerViewport({being: this.being, controller: this, container: this.container}))
+    this.viewport = new PlayerViewport({being: this.being, controller: this, container: this.container})
+    this.being.viewports.push(this.viewport)
 
     // tell player about controller
     this.being.controllers.push(this)
@@ -76,7 +77,6 @@ function Controller(attributes) {
 }
 
 Controller.prototype.set_callback = function(callback) {
-    this.being.inventory.render()
     if (this.commands.length > 0) {
         command = this.commands.shift()
         return callback(command)
@@ -88,16 +88,16 @@ Controller.prototype.set_partial_command = function(partial_command) {
     var action = partial_command[0]
     if (partial_command.length == 1) {
         this.being.tell(english.capitalize(partial_command[0].name) + ' <' + action.dobj.prototype.name + '>')
-        this.being.inventory.show_labels(this.being, action)
+        this.viewport.inventory_viewport.show_labels(this.being, action)
     }
     else if (partial_command.length == 2) {
         this.being.tell(' ...' + action.prep + ' <' + action.iobj.prototype.name + '>')
-        this.being.inventory.show_labels(this.being, action, partial_command[1])
+        this.viewport.inventory_viewport.show_labels(this.being, action, partial_command[1])
     }
 }
 Controller.prototype.cancel_partial_commands = function() {
     this.partial_command = false
-    this.being.inventory.hide_labels()
+    this.viewport.inventory_viewport.hide_labels()
 }
 Controller.prototype.push_command = function(command) {
     this.cancel_partial_commands()
@@ -160,4 +160,3 @@ Controller.prototype.cancel = function() {
         this.being.tell(' ...canceled.')
     this.cancel_partial_commands()
 }
-

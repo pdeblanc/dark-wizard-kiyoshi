@@ -3,7 +3,7 @@ function PlayerViewport(attributes) {
     this.controller = attributes.controller
     this.container = attributes.container
 
-    var profile_element, name_element, title_element, stats_element, map_element, inventory_element, region_element, inventory_viewport
+    var profile_element, name_element, title_element, stats_element, map_element, inventory_element, region_element
     
     $(container)
         .append($('<div />').attr('id', 'profile').addClass('panel')
@@ -17,7 +17,7 @@ function PlayerViewport(attributes) {
         .append(map_element = $('<div />').addClass('panel'))
         .append(inventory_element = $('<div />').addClass('panel'))
         .append($('<textarea></textarea>').attr('id', 'messages').attr('readonly', true))
-    inventory_viewport = new PlaneViewport({plane: this.being.inventory, controller: this.controller, container: inventory_element})
+    this.inventory_viewport = new PlaneViewport({plane: this.being.inventory, controller: this.controller, container: inventory_element})
     this.left = -4
     this.right = 4
     this.top = -4
@@ -35,7 +35,7 @@ function PlayerViewport(attributes) {
         region_element.text("Region " + this.being.square.plane.level)
     }
     this.render = function() {
-        inventory_viewport.render()
+        this.inventory_viewport.render()
         this.render_profile()
         stats_element[0].innerHTML = ''
         for (var i = 0; i < PUBLIC_STATS.length; i++) {
