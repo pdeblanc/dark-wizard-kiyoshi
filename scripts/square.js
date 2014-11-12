@@ -1,9 +1,9 @@
 Square = WorldObject.variant({}, function(attributes) {
     WorldObject.apply(this, arguments)
     this.background = document.createElement('div')
-    this.background.className = 'biome ' + this.className
+    this.background.className = 'square-background ' + this.className
     this.foreground = document.createElement('div')
-    this.foreground.className = 'biome ' + this.className
+    this.foreground.className = this.className
     this.foreground.innerHTML = this.symbol
     this.foreground = centralizer(this.foreground)
     this.items = []
