@@ -7,7 +7,7 @@ function viewportCell(id, controller) {
             hoverClass: "drag-target",
             drop: function(event, ui) {
                 var item = ui.draggable[0].item
-                var square = this.childNodes[0].square
+                var square = this.square
                 controller.push_command([actions.put, item, square])
             }
         })

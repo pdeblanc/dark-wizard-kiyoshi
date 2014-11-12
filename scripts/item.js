@@ -3,10 +3,10 @@ Item = WorldObject.variant({}, function(attributes) {
     this.foreground = document.createElement('span')
     if (this.square)
         this.square.enter(this)
-    this.foreground.className = 'being-or-item item ' + this.className
+    this.foreground.className = this.className
     this.foreground.textContent = this.symbol
-    this.foreground.item = this
-    this.foreground = centralizer(this.foreground)
+    this.foreground = centralizer(this.foreground).addClass('item')
+    this.foreground[0].item = this
     $(this.foreground).draggable({ opacity: 0.7, helper: "clone"})
 })
 

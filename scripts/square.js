@@ -141,6 +141,5 @@ Square.prototype.blit = function(being, cell) {
         cell.empty().append(this.background).append(this.items[0].foreground)
     else
         cell.empty().append(this.background).append(this.foreground)
-    console.log(cell[0])
     cell[0].square = this
 }
