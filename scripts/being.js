@@ -210,8 +210,8 @@ Being.prototype.level_from_experience = function(experience) {
 }
 
 Being.prototype.visibility = function(square) {
-    if (square.plane != this.square.plane)
-        return false
+    if (square.plane != this.square.plane) // probably in inventory
+        return 1
     var total_obstacles = 0
     var line = this.square.coordinate.line(square.coordinate)
     for (var i = 1; i < line.length-1; i++)
