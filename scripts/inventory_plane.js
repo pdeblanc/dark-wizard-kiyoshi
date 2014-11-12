@@ -14,7 +14,7 @@ InventoryPlane.prototype.generate_square = function(coordinate) {
 
 InventoryPlane.prototype.hide_labels = function() {
     for (var i = 0; i < this.labels.length; i++) {
-        this.labels[i].parentNode.removeChild(this.labels[i])
+        //this.labels[i].parentNode.removeChild(this.labels[i])
     }
     this.labels = []
 }
@@ -28,7 +28,7 @@ InventoryPlane.prototype.show_labels = function(subject, action, dobj) {
             var label = document.createElement('div')
             label.innerHTML = this.label_symbols[i]
             label.className = 'inventory-label'
-            square.span.appendChild(label)
+            //square.span.appendChild(label)
             this.labels.push(label)
         }
     }

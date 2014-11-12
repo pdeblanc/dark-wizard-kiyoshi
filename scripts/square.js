@@ -135,11 +135,16 @@ Square.prototype.reveal = function(being, visibility) {
 }
 // render this within cell as it would appear to being 
 Square.prototype.blit = function(being, cell) {
+    cell.removeClass('wielded')
     if (this.beings.length)
         cell.empty().append(this.background).append(this.beings[0].foreground)
-    else if (this.items.length)
-        cell.empty().append(this.background).append(this.items[0].foreground)
-    else
+    else if (this.items.length) {
+        var item = this.items[0]
+        if (item.wielded_by == being)
+            cell.addClass('wielded').empty().append(item.foreground)
+        else
+            cell.empty().append(this.background).append(item.foreground)
+    } else
         cell.empty().append(this.background).append(this.foreground)
     cell[0].square = this
 }
