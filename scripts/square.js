@@ -5,6 +5,7 @@ Square = WorldObject.variant({}, function(attributes) {
     this.foreground = document.createElement('div')
     this.foreground.className = 'biome ' + this.className
     this.foreground.innerHTML = this.symbol
+    this.foreground = centralizer(this.foreground)
     this.items = []
     this.beings = []
     this.plane = attributes.plane

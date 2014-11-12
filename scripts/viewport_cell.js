@@ -2,25 +2,18 @@ function viewportCell(id, controller) {
     return $("<span />")
         .addClass("cell-container")
         .append(
-            $("<div />").addClass("outer-cell").attr("id", id).append(
-                $("<div />").addClass("middle-cell").append(
-                    $("<div />").addClass("inner-cell").append(
-                        $("<div />")
-                        .addClass("innermost-cell")
-                        .attr("id", id)
-                        .droppable({
-                            accept: ".item",
-                            hoverClass: "drag-target",
-                            drop: function(event, ui) {
-                                var item = ui.draggable[0].item
-                                var square = this.childNodes[0].square
-                                controller.push_command([actions.put, item, square])
-                            }
-                        })
-                        .disableSelection()
-                    )
-                )
-            )
+            $("<div />").addClass("cell")
+                .attr("id", id)
+                .droppable({
+                    accept: ".item",
+                    hoverClass: "drag-target",
+                    drop: function(event, ui) {
+                        var item = ui.draggable[0].item
+                        var square = this.childNodes[0].square
+                        controller.push_command([actions.put, item, square])
+                    }
+                })
+                .disableSelection()
         )
         .dblclick(function() {
             var children = this.getElementsByClassName('item');
@@ -36,3 +29,6 @@ function viewportCell(id, controller) {
         })
 }
 
+function centralizer(element) {
+    return $("<div />").addClass("centralizer-outer").append($("<div />").addClass("centralizer-inner").append(element))
+}

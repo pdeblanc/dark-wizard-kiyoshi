@@ -18,7 +18,6 @@ function PlayerViewport(attributes) {
         .append(inventory_element = $('<div />').addClass('panel'))
         .append($('<textarea></textarea>').attr('id', 'messages').attr('readonly', true))
     new PlaneViewport({plane: this.being.inventory, controller: this.controller, container: inventory_element})
-    this.being.span.className += ' player'
     this.left = -4
     this.right = 4
     this.top = -4
@@ -58,22 +57,14 @@ function PlayerViewport(attributes) {
         for (var x = this.left; x <= this.right; x++) {
             for (var y = this.top; y <= this.bottom; y++) {
                 var square = plane.square(new Coordinate({x: origin.coordinate.x + x, y: origin.coordinate.y + y}))
-                var foreground = square.beings[0] || square.items[0]
-                var outer_cell = $('#_' + x + '_' + y)
-                var middle_cell = outer_cell.find('.middle-cell').detach()
-                var inner_cell = middle_cell.find('.inner-cell').detach()
-                var innermost_cell = inner_cell.find('.innermost-cell').detach()
-                outer_cell.empty().append(middle_cell)
-                middle_cell.empty().append(inner_cell)
-                inner_cell.empty().append(innermost_cell)
-                innermost_cell.empty()
-                outer_cell.append(square.background)
-                $(square.foreground).removeClass('hidden')
-                innermost_cell.append(square.foreground)
-                if (foreground) {
-                    innermost_cell.append(foreground.span)
-                    $(square.foreground).addClass('hidden')
-                }
+                var foreground = (square.beings[0] || square.items[0]) 
+                var cell = $('#_' + x + '_' + y)
+                if (foreground instanceof Being)
+                    cell.empty().append(square.background).append(foreground.foreground)
+                else if (foreground instanceof Item)
+                    cell.empty().append(square.background).append(foreground.span)
+                else
+                    cell.empty().append(square.background).append(square.foreground)
                 //square.reveal(this.being, this.being.visibility(square))
             }
         }

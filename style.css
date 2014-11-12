@@ -110,7 +110,6 @@ button.action:hover span.key-label {
     opacity: 1.0;
 }
 
-
 .panel {
     vertical-align: top;
     display: inline-block;
@@ -175,16 +174,17 @@ button.action:hover span.key-label {
     display: inline-block;
 }
 
-.outer-cell {
+.cell {
     position: relative;
     left: 0px;
     top: 0px;
-    width: 3em;
-    height: 3em;
+    width: 48px;
+    height: 48px;
+    font-size: 32px;
     cursor: pointer;
 }
 
-.middle-cell {
+.centralizer-outer {
     display: table;
     position: absolute;
     left: 0px;
@@ -193,23 +193,13 @@ button.action:hover span.key-label {
     height: 100%;
 }
 
-.inner-cell {
+.centralizer-inner {
     display: table-cell;
     vertical-align: middle;
     text-align: center;
-    position: relative;
-    left: 0px;
-    top: 0px;
 }
 
-.innermost-cell {
-    display: inline-block;
-    position: relative;
-    left: 0px;
-    top: 0px;
-}
-
-.outer-cell:hover {
+.cell:hover {
     opacity: 0.95;
     outline: 1px dashed rgba(255, 255, 255, 0.5);
     z-index: 1;
@@ -230,14 +220,6 @@ button.action:hover span.key-label {
 .biome {
     width: 100%;
     height: 100%;
-    font-size: 2em;
-}
-
-.being-or-item {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    font-size: 2em;
 }
 
 .blood {
@@ -248,7 +230,7 @@ button.action:hover span.key-label {
     opacity: 0
 }
 
-.being_fg {
+.skin {
     display: block;
     z-index: 2;
     position: absolute;
@@ -256,6 +238,12 @@ button.action:hover span.key-label {
     height: 100%;
     overflow: hidden;
     pointer-events: none;
+}
+
+.blood-and-skin-container {
+    display: inline-block;
+    position: relative;
+    margin: 0 auto;
 }
 
 .drag-target .biome {

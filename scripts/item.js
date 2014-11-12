@@ -1,12 +1,13 @@
 Item = WorldObject.variant({}, function(attributes) {
     WorldObject.apply(this, arguments)
     this.span = document.createElement('span')
-    $(this.span).draggable({ opacity: 0.7, helper: "clone"})
     if (this.square)
         this.square.enter(this)
     this.span.className = 'being-or-item item ' + this.className
     this.span.textContent = this.symbol
     this.span.item = this
+    this.span = centralizer(this.span)
+    $(this.span).draggable({ opacity: 0.7, helper: "clone"})
 })
 
 Item.set_name = 'products'

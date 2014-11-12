@@ -1,13 +1,9 @@
 Being = WorldObject.variant({}, function(attributes) {
     WorldObject.apply(this, arguments)
     // graphics
-    this.span = document.createElement('div')
-    this.innerSpan = document.createElement('div')
-    this.span.className = 'being being-or-item blood'
-    this.span.textContent = this.symbol
-    this.innerSpan.className = this.className + ' being_fg'
-    this.innerSpan.textContent = this.symbol
-    this.span.appendChild(this.innerSpan)
+    this.skin = $('<div />').addClass(this.className).text(this.symbol).addClass('skin')
+    this.blood = $('<div />').addClass("blood being").text(this.symbol)
+    this.foreground = centralizer($('<div />').append(this.blood).append(this.skin).addClass('blood-and-skin-container'))
 
     if (this.square)
         this.square.enter(this)
@@ -126,7 +122,7 @@ Being.prototype.receive_damage = function(damage_package, attacker) {
 }
 
 Being.prototype.redraw = function() {
-    this.innerSpan.style.height = Math.round(this.health * 100) + '%'
+    this.skin.height(Math.round(this.health * 100) + '%')
 }
 
 Being.prototype.die = function() {
