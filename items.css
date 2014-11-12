@@ -8,7 +8,11 @@
 
 .meat { color: red; }
 
-.green-tea { color: lightgreen; }
+.green-tea { color: yellowgreen; }
+
+.black-tea { color: firebrick; }
+
+.thai-iced-tea { color: darkorange; }
 
 .ash { color: gray; }
 
