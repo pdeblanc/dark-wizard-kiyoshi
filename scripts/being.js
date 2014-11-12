@@ -22,7 +22,8 @@ Being = WorldObject.variant({}, function(attributes) {
     this.body_fat = this.lean_weight * .3
     this.wielding = false
     this.hibernating = false
-    this.experience = 0
+    this.level = Math.ceil(this.level)
+    this.experience = this.experience_for_level(this.level)
     universe.timeline.add_agent(this)
 })
 
@@ -185,8 +186,8 @@ Being.prototype.gain_experience = function(exp) {
 Being.prototype.set_level = function(level) {
     var old_level = this.level
     this.level = level
-    this.speed *= level + 9
-    this.speed /= old_level + 9
+    this.speed *= (level - Math.ceil(this.__proto__.level)) + 9
+    this.speed /= (old_level - Math.ceil(this.__proto__.level)) + 9
 }
 
 Being.prototype.experience_for_level = function(level) {

@@ -63,7 +63,6 @@ function BuildCharacter(container, callback) {
 
     function finish() {
         var player = attributes.family.create(attributes)
-        player.level = 1
         callback(player)
     }
 
