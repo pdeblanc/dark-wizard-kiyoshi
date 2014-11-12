@@ -106,6 +106,19 @@ actions.rest.execute = function(subject) {
         subject.tell("You are already fully healed!")
         return false;
     }
+    var neighbors = subject.square.neighbors()
+    var enemies = []
+    for (direction in neighbors) {
+        var beings = neighbors[direction].beings
+        for (var i = 0; i < beings.length; i++) {
+            if (beings[i].hostile(subject))
+                enemies.push(beings[i].the(subject))
+        }
+    }
+    if (enemies.length) {
+        subject.tell("You cannot rest next to " + english.list(enemies, subject) + ".")
+        return false
+    }
     subject.tell('You rest...')
     subject.health = Math.min(1, subject.health + 0.01)
     subject.redraw()

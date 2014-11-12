@@ -151,3 +151,7 @@ Square.prototype.blit = function(being, cell) {
         cell.empty().append(this.background).append(this.foreground).append(shader).append(highlight)
     cell[0].square = this
 }
+
+Square.prototype.neighbors = function() {
+    return {north: this.north(), south: this.south(), east: this.east(), west: this.west()}
+}
