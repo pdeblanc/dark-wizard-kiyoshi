@@ -40,6 +40,7 @@ Being
                 .order({name: 'megalodon', lean_weight: 90000, vigor: 300, attacks: [{bite: 30}], level: 450})
         .phylum({name: 'battleship', symbol: '艦', lean_weight: 20000000, vigor: 4472, attacks: [{shoot: 300}], can_walk: false, can_swim: true, level: 67080, inventory: {width: 4, height: 9}, corpse: universe.products.iron})
         .phylum({name: 'fire being', symbol: '火', lean_weight: 100, speed: 15, attacks: [{burn: 3}], level: 2.25, corpse: universe.products.ash})
+        .phylum({name: 'elephant', symbol: '象', lean_weight: 10000, vigor: 100, attacks: [{trample: 10}], playable: false, level: 50})
 
 Square
     .kingdom({name: 'ground', symbol: '土', continuous: true, walkable: true, flyable: true, generic: true})

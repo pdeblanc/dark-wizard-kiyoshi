@@ -38,4 +38,5 @@ english.verb('cut', 'cuts', 'cut')
     .verb('kick', 'kicks', 'kicked')
     .verb('stab', 'stabs', 'stabbed')
     .verb('shoot', 'shoots', 'shot')
+    .verb('trample', 'tramples', 'trampled')
 
