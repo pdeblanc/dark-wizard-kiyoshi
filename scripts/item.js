@@ -1,13 +1,13 @@
 Item = WorldObject.variant({}, function(attributes) {
     WorldObject.apply(this, arguments)
-    this.span = document.createElement('span')
+    this.foreground = document.createElement('span')
     if (this.square)
         this.square.enter(this)
-    this.span.className = 'being-or-item item ' + this.className
-    this.span.textContent = this.symbol
-    this.span.item = this
-    this.span = centralizer(this.span)
-    $(this.span).draggable({ opacity: 0.7, helper: "clone"})
+    this.foreground.className = 'being-or-item item ' + this.className
+    this.foreground.textContent = this.symbol
+    this.foreground.item = this
+    this.foreground = centralizer(this.foreground)
+    $(this.foreground).draggable({ opacity: 0.7, helper: "clone"})
 })
 
 Item.set_name = 'products'
@@ -27,11 +27,11 @@ Item.prototype.moveto = function(square) {
             this.square.exit(this)
         this.square = square
         this.square.enter(this)
-        $(this.span).draggable({ opacity: 0.7, helper: "clone"})
+        $(this.foreground).draggable({ opacity: 0.7, helper: "clone"})
         this.check_wielding()
         return true
     }
-    $(this.span).draggable({ opacity: 0.7, helper: "clone"})
+    $(this.foreground).draggable({ opacity: 0.7, helper: "clone"})
     return false
 }
 

@@ -130,6 +130,15 @@ Square.prototype.affinity = function(tags) {
 Square.prototype.next_to = function(other) {
     return (other == this.north() || other == this.south() || other == this.west() || other == this.east())
 }
-Square.prototype.reveal = function (being, visibility) {
+Square.prototype.reveal = function(being, visibility) {
     return
+}
+// render this within cell as it would appear to being 
+Square.prototype.blit = function(being, cell) {
+    if (this.beings.length)
+        cell.empty().append(this.background).append(this.beings[0].foreground)
+    else if (this.items.length)
+        cell.empty().append(this.background).append(this.items[0].foreground)
+    else
+        cell.empty().append(this.background).append(this.foreground)
 }

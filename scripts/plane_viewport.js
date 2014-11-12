@@ -16,8 +16,9 @@ function PlaneViewport(attributes) {
 PlaneViewport.prototype.render = function() {
     for (var x = 0; x < this.plane.width; x++) {
         for (var y = 0; y < this.plane.height; y++) {
+            var cell = $('#_' + this.name + '_' + x + '_' + y)
             var square = this.plane.square(new Coordinate({x: x, y: y}))
-            $('#_' + this.name + '_' + x + '_' + y).html('').append(square.span)
+            square.blit(this.controller.being, cell)
         }
     }
 }
