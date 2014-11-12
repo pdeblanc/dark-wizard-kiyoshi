@@ -96,7 +96,7 @@ actions.put.accept_iobj = function(subject, item, square) {
 actions.put.execute = function(subject, item, square) {
     var success = item.moveto(square)
     if (success)
-        subject.tell("You put " + item.the() + " into " + square.the() + ".")
+        subject.tell("You put " + item.the(subject) + " into " + square.the(subject) + ".")
     return success
 }
 
@@ -121,11 +121,11 @@ actions.get.execute = function(subject) {
         gotten_items.push(item)
     }
     if (gotten_items.length) {
-        subject.tell("You get " + english.list(gotten_items) + ".")
+        subject.tell("You get " + english.list(gotten_items, subject) + ".")
         return true
     }
-    if (subject.square.items[0])
-        subject.tell("You do not have space for " + subject.square.items[0].a() + ".")
+    if (subject.square.items.length)
+        subject.tell("You do not have space for " + english.list(subject.square.items, subject) + ".")
     else
         subject.tell("There is nothing to get.")
     return false
@@ -136,7 +136,7 @@ actions.eat.accept_dobj = function(subject, item) {
     return (item.fat > 0)
 }
 actions.eat.execute = function(subject, item) {
-    subject.tell("You eat " + item.the() + ".")
+    subject.tell("You eat " + item.the(subject) + ".")
     subject.body_fat += item.fat
     item.destroy()
     return true;
@@ -147,20 +147,25 @@ actions.drink.accept_dobj = function(subject, item) {
     return (item.drinkable == true)
 }
 actions.drink.execute = function(subject, item) {
-    subject.tell("You drink " + item.the() + ".")
-    if (item.effect)
-        item.effect.execute(subject)
+    subject.tell("You drink " + item.the(subject) + ".")
+    if (item.effect) {
+        var discovery = item.effect.execute(subject)
+        if (discovery && !subject.knowledge[item.class_id]) {
+            subject.knowledge[item.class_id] = 1
+            subject.tell("It was " + item.a(subject) + ".")
+        }
+    }
     item.destroy()
     return true;
 }
 
 actions.look = new Action({name: 'look', dobj: Square})
 actions.look.execute = function(subject, square) {
-    var item_names = [square.a()]
+    var item_names = [square.a(subject)]
     for (var i = 0; i < square.beings.length; i++)
-        item_names.push(square.beings[i].a())
+        item_names.push(square.beings[i].a(subject))
     for (var i = 0; i < square.items.length; i++)
-        item_names.push(square.items[i].a())
+        item_names.push(square.items[i].a(subject))
     subject.tell('You see ' + english.list(item_names) + '.')
     return false
 }
@@ -204,7 +209,7 @@ actions.wield.execute = function(subject, item) {
         subject.wielding.wielded_by = false
     subject.wielding = item
     item.wielded_by = subject
-    subject.tell('Now wielding ' + item.a() + '.')
+    subject.tell('Now wielding ' + item.a(subject) + '.')
     return true
 }
 
@@ -213,6 +218,6 @@ actions.unwield.execute = function(subject, item) {
     if (subject.wielding)
         subject.wielding.wielded_by = false
     subject.wielding = false
-    subject.tell('No longer wielding ' + item.the() + '.')
+    subject.tell('No longer wielding ' + item.the(subject) + '.')
     return true
 }

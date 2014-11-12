@@ -1,5 +1,9 @@
+generate_id = function() {
+    return Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2)
+}
+
 function WorldObject(attributes) {
-    this.id = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2)
+    this.id = generate_id()
     if (attributes)
         for (key in attributes)
             this[key] = attributes[key]
@@ -13,26 +17,32 @@ WorldObject.prototype.level = 1
 
 WorldObject.prototype.constructor = WorldObject
 
-WorldObject.prototype.A = function() {
-    return english.capitalize(this.a())
+WorldObject.prototype.A = function(observer) {
+    return english.capitalize(this.a(observer))
 }
 
-WorldObject.prototype.The = function() {
-    return english.capitalize(this.the())
+WorldObject.prototype.The = function(observer) {
+    return english.capitalize(this.the(observer))
 }
 
-WorldObject.prototype.toString = WorldObject.prototype.a = function() {
+WorldObject.prototype.toString = WorldObject.prototype.a = function(observer) {
     if (this.continuous || this.name != this.__proto__.name)
         return this.name
     if ("aeiouAEIOU".indexOf(this.name.charAt(0)) > -1)
-        return "an " + this.name
-    return "a " + this.name
+        return "an " + this.name + this.suffix(observer)
+    return "a " + this.name + this.suffix(observer)
 }
 
-WorldObject.prototype.the = function() {
+WorldObject.prototype.the = function(observer) {
     if (this.name != this.__proto__.name)
         return this.name
-    return "the " + this.name
+    return "the " + this.name + this.suffix(observer)
+}
+
+WorldObject.prototype.suffix = function(observer) {
+    if (!observer || !this.effect || !observer.knowledge[this.class_id])
+        return ""
+    return " of " + this.effect.name
 }
 
 WorldObject.weird_heritable_stuff = ['weird_heritable_stuff', 'specificity', 'set_name', 'variant', 'create', 'variant_of_given_specificity', 'kingdom', 'phylum', 'clazz', 'order', 'family', 'genus', 'species']
@@ -52,6 +62,7 @@ WorldObject.variant = function(attributes, f) {
     F.specificity = this.specificity + 1
     F.parent_class = this
     F.prototype.generic = false
+    F.prototype.class_id = generate_id()
     for (key in attributes)
         F.prototype[key] = attributes[key]
     F.prototype.className = F.prototype.name.replace(/ /g, '-')

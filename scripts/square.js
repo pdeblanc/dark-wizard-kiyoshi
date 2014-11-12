@@ -99,7 +99,7 @@ Square.prototype.enter = function(newcomer) {
     if (newcomer instanceof Being) {
         this.plane.tree.insert(newcomer)
         if (this.items.length)
-            newcomer.tell("You find " + english.list(this.items) + ".")
+            newcomer.tell("You find " + english.list(this.items, newcomer) + ".")
     }
 }
 Square.prototype.permit_entry = function(hopeful) {

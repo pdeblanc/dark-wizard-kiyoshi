@@ -24,6 +24,7 @@ Being = WorldObject.variant({}, function(attributes) {
     this.hibernating = false
     this.level = Math.ceil(this.level)
     this.experience = this.experience_for_level(this.level)
+    this.knowledge = {} // which sorts of magical tea the being has identified
     universe.timeline.add_agent(this)
 })
 
@@ -113,8 +114,8 @@ Being.prototype.receive_damage = function(damage_package, attacker) {
     }
     damage_taken.sort(function(a, b) { return b[1] - a[1] })
     var verb = english.verbs[damage_taken[0][0]]
-    attacker.tell("You " + verb + " " + this.the() + ".")
-    this.tell(attacker.The() + " " + verb.s + " you.")
+    attacker.tell("You " + verb + " " + this.the(attacker) + ".")
+    this.tell(attacker.The(this) + " " + verb.s + " you.")
     attacker.square.announce_all_but([this, attacker], attacker.The() + ' ' + verb.s + ' ' + this.the() + '.')
     if (this.health <= 0) {
         this.die()

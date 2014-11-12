@@ -130,7 +130,7 @@ Controller.prototype.click = function(square) {
             this.being.tell("There is nothing there to " + action + ".")
             this.cancel_partial_commands()
         } else if (partial_command.length == 2) {
-            this.being.tell("There is nothing there to " + action + " " + partial_command[1].the() + " " + action.prep + ".")
+            this.being.tell("There is nothing there to " + action + " " + partial_command[1].the(this.being) + " " + action.prep + ".")
             this.cancel_partial_commands()
         }
     }

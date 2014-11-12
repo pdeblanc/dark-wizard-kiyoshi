@@ -12,7 +12,12 @@ english = {
         }
         return this
     },
-    list: function(array, nothing, connective) {
+    list: function(array, observer, nothing, connective) {
+        array = array.map(function(item) {
+            if (item.a)
+                return item.a(observer)
+            return item
+        })
         connective = connective || "and"
         if (array.length == 0)
             return (nothing || "nothing")
