@@ -166,11 +166,8 @@ button.action:hover span.key-label {
     background-color: white;
 }
 
-.cell-container {
-    display: inline-block;
-}
-
 .cell {
+    display: inline-block;
     position: relative;
     left: 0px;
     top: 0px;

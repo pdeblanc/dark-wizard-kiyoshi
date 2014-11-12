@@ -59,7 +59,6 @@ function PlayerViewport(attributes) {
                 var square = plane.square(new Coordinate({x: origin.coordinate.x + x, y: origin.coordinate.y + y}))
                 var cell = $('#_' + x + '_' + y)
                 square.blit(this.being, cell)
-                //square.reveal(this.being, this.being.visibility(square))
             }
         }
         $(".item").draggable({ opacity: 0.7, helper: "clone"})

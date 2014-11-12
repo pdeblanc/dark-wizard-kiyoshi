@@ -1,20 +1,17 @@
 function viewportCell(id, controller) {
     return $("<span />")
-        .addClass("cell-container")
-        .append(
-            $("<div />").addClass("cell")
-                .attr("id", id)
-                .droppable({
-                    accept: ".item",
-                    hoverClass: "drag-target",
-                    drop: function(event, ui) {
-                        var item = ui.draggable[0].item
-                        var square = this.childNodes[0].square
-                        controller.push_command([actions.put, item, square])
-                    }
-                })
-                .disableSelection()
-        )
+        .addClass("cell")
+        .attr("id", id)
+        .droppable({
+            accept: ".item",
+            hoverClass: "drag-target",
+            drop: function(event, ui) {
+                var item = ui.draggable[0].item
+                var square = this.childNodes[0].square
+                controller.push_command([actions.put, item, square])
+            }
+        })
+        .disableSelection()
         .dblclick(function() {
             var children = this.getElementsByClassName('item');
             var action, item
@@ -25,7 +22,7 @@ function viewportCell(id, controller) {
             }
         })
         .click(function() {
-            controller.click(this.childNodes[0].childNodes[0].square)
+            controller.click(this.square)
         })
 }
 
