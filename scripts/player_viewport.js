@@ -2,6 +2,7 @@ function PlayerViewport(attributes) {
     this.being = attributes.being
     this.controller = attributes.controller
     this.container = attributes.container
+    this.messages = []
 
     var profile_element, name_element, title_element, stats_element, map_element, inventory_element, region_element
     
@@ -16,7 +17,7 @@ function PlayerViewport(attributes) {
             .append(stats_element = $("<div />")))
         .append(map_element = $('<div />').addClass('panel'))
         .append(inventory_element = $('<div />').addClass('panel'))
-        .append($('<textarea></textarea>').attr('id', 'messages').attr('readonly', true))
+        .append($('<div></div>').attr('id', 'messages'))
     this.inventory_viewport = new PlaneViewport({plane: this.being.inventory, controller: this.controller, container: inventory_element})
     this.left = -4
     this.right = 4
@@ -67,7 +68,16 @@ function PlayerViewport(attributes) {
 }
 
 PlayerViewport.prototype.tell = function(message) {
-    var textArea = document.getElementById("messages")
-    textArea.textContent += message + '\n'
-    textArea.scrollTop = textArea.scrollHeight;
+    var messages_div = document.getElementById("messages")
+    var i
+    if ((i = this.messages.length - 1) >= 0 && this.messages[i].text == message) {
+        this.messages[i].count += 1
+        this.messages[i].p.textContent = message + ' <' + this.messages[i].count + 'x>'
+    } else {
+        var p = document.createElement('p')
+        p.textContent = message
+        this.messages.push({p: p, text: message, count: 1})
+        messages_div.appendChild(p)
+    }
+    messages_div.scrollTop = messages_div.scrollHeight
 }

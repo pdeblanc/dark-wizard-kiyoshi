@@ -118,13 +118,26 @@ button.action:hover span.key-label {
 
 #messages {
     display: inline-block;
-    width: 100%;
+    width: 800px;
     height: 150px;
     background-color: #101010;
     text-align: left;
     margin-top: 5px;
     color: silver;
     font-family: monospace;
+    overflow: scroll;
+    cursor: text;
+    border: 1px solid gray;
+    padding: 3px;
+    border-radius: 10px;
+}
+
+#messages p {
+    margin: 0;
+}
+
+#messages p:last-child {
+    color: white;
 }
 
 .inventory-label {

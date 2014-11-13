@@ -93,7 +93,7 @@ Controller.prototype.set_partial_command = function(partial_command) {
         this.viewport.inventory_viewport.show_labels(this.being, action)
     }
     else if (partial_command.length == 2) {
-        this.being.tell(' ...' + action.prep + ' <' + action.iobj.prototype.name + '>')
+        this.being.tell('\xA0...' + action.prep + ' <' + action.iobj.prototype.name + '>')
         this.viewport.inventory_viewport.show_labels(this.being, action, partial_command[1])
     }
 }
@@ -159,6 +159,6 @@ Controller.prototype.button = function(action, label) {
 // button functions
 Controller.prototype.cancel = function() {
     if (this.partial_command)
-        this.being.tell(' ...canceled.')
+        this.being.tell('\xA0...canceled.')
     this.cancel_partial_commands()
 }
