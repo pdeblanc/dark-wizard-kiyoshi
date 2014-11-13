@@ -35,5 +35,5 @@ PlaneViewport.prototype.show_labels = function(subject, action, dobj) {
 }
 
 PlaneViewport.prototype.hide_labels = function() {
-    $(".inventory_label").remove()
+    $(".inventory-label").remove()
 }
