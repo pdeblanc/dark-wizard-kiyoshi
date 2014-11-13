@@ -173,6 +173,22 @@ actions.take.execute = function(subject, square) {
     return false
 }
 
+
+actions.drop = new Action({name: 'drop', dobj: Item})
+actions.drop.accept_dobj = function(subject, item) {
+    if (item.square.plane != subject.inventory)
+        return "You are not holding " + item.the(subject) + "."
+    return true
+}
+actions.drop.execute = function(subject, item) {
+    var success = item.moveto(subject.square)
+    if (success)
+        subject.tell("You drop " + item.the(subject) + " in " + subject.square.the(subject) + ".")
+    else
+        subject.tell("There is no room for " + item.the(subject) + " in " + subject.square.the() + ".")
+}
+
+
 actions.eat = new Action({name: 'eat', dobj: Item})
 actions.eat.accept_dobj = function(subject, item) {
     return (item.fat > 0)

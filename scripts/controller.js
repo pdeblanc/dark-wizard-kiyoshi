@@ -4,7 +4,7 @@ function Controller(attributes) {
     this.commands = []
     this.command_callbacks = []
     this.partial_command = false
-    this.action_chars = {e: actions.eat, g: actions.get, l: actions.look, n: actions.drink, p: actions.rest, t: actions.take, u: actions.put, w: actions.wield, '.': actions.wait, ' ': actions.wait, '<': actions.ascend, '>': actions.descend}
+    this.action_chars = {d: actions.drop, e: actions.eat, g: actions.get, l: actions.look, n: actions.drink, p: actions.rest, t: actions.take, u: actions.put, w: actions.wield, '.': actions.wait, ' ': actions.wait, '<': actions.ascend, '>': actions.descend}
     // set up event listeners
     var controller = this
     document.body.addEventListener(
@@ -55,6 +55,7 @@ function Controller(attributes) {
     $(this.container).append(
         $('<div />').addClass('panel')
         .append(this.button(actions.drink, 'driNk'))
+        .append(this.button(actions.drop, 'Drop'))
         .append(this.button(actions.eat, 'Eat'))
         .append(this.button(actions.get, 'Get'))
         .append(this.button(actions.look, 'Look'))
