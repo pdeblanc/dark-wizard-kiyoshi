@@ -13,13 +13,14 @@ Action.prototype.execute = function() {
 // return a square, item, or being within the given square that is a valid target for this action.
 // If no valid target is available, return a string explaining why, or return false.
 Action.prototype.select_dobj = function(subject, square) {
-    if (this.dobj == Square && this.accept_dobj(subject, square) == true)
+    var acceptance = false
+    if (this.dobj == Square && (acceptance = this.accept_dobj(subject, square)) == true)
         return square
-    if (this.dobj == Being && square.beings.length && this.accept_dobj(subject, square.beings[0]) == true)
+    if (this.dobj == Being && square.beings.length && (acceptance = this.accept_dobj(subject, square.beings[0])) == true)
         return square.beings[0]
-    if (this.dobj == Item && square.items.length && this.accept_dobj(subject, square.items[0]) == true)
+    if (this.dobj == Item && square.items.length && (acceptance = this.accept_dobj(subject, square.items[0])) == true)
         return square.items[0]
-    return false
+    return acceptance
 }
 
 // return a square, item, or being within the given square that is a valid indirect target for this action.
@@ -141,6 +142,34 @@ actions.get.execute = function(subject) {
         subject.tell("You do not have space for " + english.list(subject.square.items, subject) + ".")
     else
         subject.tell("There is nothing to get.")
+    return false
+}
+
+actions.take = new Action({name: 'take', dobj: Square})
+actions.take.accept_dobj = function(subject, square) {
+    if (square.items.length == 0)
+        return "There is nothing to take."
+    if (subject.inventory == square.plane)
+        return "You are already holding " + english.list(square.items.map(function(item) { return item.the(subject) }), subject) + "."
+    if (!subject.can_reach(square))
+        return "You cannot reach that far."
+    return true
+}
+actions.take.execute = function(subject, square) {
+    var gotten_items, item, vacancy
+    gotten_items = []
+    while ((item = square.items[0]) && (vacancy = subject.inventory.vacancy(item))) {
+        item.moveto(vacancy)
+        gotten_items.push(item)
+    }
+    if (gotten_items.length) {
+        subject.tell("You take " + english.list(gotten_items, subject) + ".")
+        return true
+    }
+    if (square.items.length)
+        subject.tell("You do not have space for " + english.list(square.items, subject) + ".")
+    else
+        subject.tell("There is nothing to take.")
     return false
 }
 

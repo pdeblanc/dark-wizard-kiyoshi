@@ -28,7 +28,7 @@ PlaneViewport.prototype.show_labels = function(subject, action, dobj) {
         for (var y = 0; y < this.plane.height; y++) {
             var coordinate = new Coordinate({x: x, y: y})
             var square = this.plane.square(coordinate)
-            if (dobj && action.select_iobj(subject, dobj, square) || !dobj && action.select_dobj(subject, square))
+            if (dobj && action.select_iobj(subject, dobj, square) instanceof WorldObject || !dobj && action.select_dobj(subject, square) instanceof WorldObject)
                 $('#_' + this.name + '_' + x + '_' + y).append($('<div />').addClass('inventory-label').text(this.plane.label_for(coordinate)))
         }
     }

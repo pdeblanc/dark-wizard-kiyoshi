@@ -27,6 +27,10 @@ Coordinate.prototype.max_distance = function(other) {
     return Math.max(Math.abs(other.x - this.x), Math.abs(other.y - this.y))
 }
 
+Coordinate.prototype.taxicab_distance = function(other) {
+    return Math.abs(other.x - this.x) + Math.abs(other.y - this.y)
+}
+
 Coordinate.prototype.line = function(other) {
     // Construct a line segment from the center of this to the center of other;
     // return an array of [coordinate, length] pairs, where length is the length

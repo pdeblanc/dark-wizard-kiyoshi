@@ -219,3 +219,11 @@ Being.prototype.visibility = function(square) {
         total_obstacles += this.square.plane.square(line[i][0]).opacity * line[i][1]
     return Math.max(1 - total_obstacles, 0)
 }
+
+Being.prototype.can_reach = function(square) {
+    if (square.plane == this.square.plane && square.coordinate.taxicab_distance(this.square.coordinate) <= 1)
+        return true
+    if (square.plane == this.inventory)
+        return true
+    return false
+}
