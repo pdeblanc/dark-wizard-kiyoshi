@@ -2,9 +2,9 @@
 
 .katana { color: silver; }
 
-.longsword { color: silver; }
+.longsword { color: silver; font-weight: bold; }
 
-.rapier { color: silver; }
+.rapier { color: whitesmoke; }
 
 .meat { color: red; }
 
