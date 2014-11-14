@@ -110,6 +110,11 @@ Being.prototype.act = function(callback) {
             actions.rest.execute(this)
             return callback()
         }
+        // collect items
+        if (this.square.items.length && this.inventory.vacancy(this.square.items[0])) {
+            actions.get.execute(this)
+            return callback()
+        }
         // move
         if (!this.thoughts.direction || !this.square[this.thoughts.direction]().permit_entry(this) || Math.random() < .03)
             this.thoughts.direction = ['north', 'south', 'east', 'west'][Math.floor(Math.random()*4)]
@@ -157,6 +162,9 @@ Being.prototype.redraw = function() {
 Being.prototype.die = function() {
     this.square.announce_all_but([this], this.The() + ' dies.')
     this.tell("You die.")
+    var items = this.inventory.items()
+    for (var i = 0; i < items.length; i++)
+        actions.drop.execute(this, items[i])
     if (this.corpse)
         this.corpse.create({square: this.square, fat: this.corpse.prototype.fat * (this.body_fat + this.lean_weight * .2)})
     this.square.exit(this)

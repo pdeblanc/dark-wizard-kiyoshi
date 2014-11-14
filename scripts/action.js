@@ -136,6 +136,7 @@ actions.get.execute = function(subject) {
     }
     if (gotten_items.length) {
         subject.tell("You get " + english.list(gotten_items, subject) + ".")
+        subject.square.announce_all_but([subject], subject.The() + " gets " + english.list(gotten_items) + ".")
         return true
     }
     if (subject.square.items.length)
@@ -182,8 +183,10 @@ actions.drop.accept_dobj = function(subject, item) {
 }
 actions.drop.execute = function(subject, item) {
     var success = item.moveto(subject.square)
-    if (success)
+    if (success) {
         subject.tell("You drop " + item.the(subject) + " in " + subject.square.the(subject) + ".")
+        subject.square.announce_all_but([subject], subject.The() + " drops " + item.the() + ".")
+    }
     else
         subject.tell("There is no room for " + item.the(subject) + " in " + subject.square.the() + ".")
 }
