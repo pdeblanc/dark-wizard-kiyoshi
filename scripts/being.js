@@ -98,7 +98,7 @@ Being.prototype.act = function(callback) {
         // eat
         if (this.hunger() > 0) {
             var possible_food = this.reachable_items()
-            for (var i = 0; i < this.square.items.length; i++) {
+            for (var i = 0; i < possible_food.length; i++) {
                 if (possible_food[i].fat) {
                     actions.eat.execute(this, possible_food[i])
                     return callback()
