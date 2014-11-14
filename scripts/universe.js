@@ -2,6 +2,7 @@ function Universe(attributes) {
     this.clades = {}
     this.products = {}
     this.biomes = {}
+    this.attacks = {}
     this.affinities = {}
     this.game_over = false
     this.players = {}

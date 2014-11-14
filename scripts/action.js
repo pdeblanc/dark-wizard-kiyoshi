@@ -236,16 +236,29 @@ actions.attack = new Action({name: 'attack', dobj: Square})
 actions.attack.execute = function(subject, target_square) {
     for (var i = 0; i < target_square.beings.length; i++) {
         var being = target_square.beings[i]
+        var attacks = []
+        for (var i = 0; i < subject.attacks.length; i++) {
+            attacks.push(subject.attacks[i].create({attacker: subject, target: being}))
+        }
         if (subject.wielding) {
-            being.receive_damage(subject.wielding.attacks[0], subject)
+            for (var i = 0; i < subject.wielding.attacks.length; i++) {
+                attacks.push(subject.wielding.attacks[i].create({attacker: subject, target: being, weapon: subject.wielding}))
+            }
         }
-        else {
-            var attack = subject.attacks[0]
-            being.receive_damage(attack, subject)
+        var best_attack = false
+        var best_damage = 0
+        for (var i = 0; i < attacks.length; i++) {
+            if (attacks[i].damage > best_damage) {
+                best_attack = attacks[i]
+                best_damage = attacks[i].damage
+            }
         }
-        if (being.dead)
-            subject.gain_experience(being.level)
-        return true
+        if (best_attack) {
+            best_attack.execute()
+            if (being.dead)
+                subject.gain_experience(being.level)
+            return true
+        }
     }
     return false;
 }

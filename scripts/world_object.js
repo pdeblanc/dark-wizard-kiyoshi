@@ -14,6 +14,7 @@ WorldObject.prototype.continuous = false // continuous objects will not be refer
 WorldObject.prototype.habitat = {}
 WorldObject.prototype.bias = -5 // the higher the number, the more common this object class will be
 WorldObject.prototype.level = 1
+WorldObject.prototype.attacks = []
 
 WorldObject.prototype.constructor = WorldObject
 
@@ -49,7 +50,7 @@ WorldObject.prototype.weapon_quality = function(observer) {
     var quality = 0
     if (this.attacks) {
         for (var i = 0; i < this.attacks.length; i++) {
-            var attack = this.attacks[i]
+            var attack = this.attacks[i].create({attacker: observer, target: observer, weapon: this})
             var total_damage = 0
             for (var damage_type in attack)
                 total_damage += attack[damage_type]

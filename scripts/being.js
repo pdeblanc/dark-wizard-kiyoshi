@@ -154,18 +154,8 @@ Being.prototype.hostile = function(other) {
     return true;
 }
 
-Being.prototype.receive_damage = function(damage_package, attacker) {
-    var damage_taken = []
-    for (var damage_type in damage_package) {
-        var amount = damage_package[damage_type]
-        damage_taken.push([damage_type, amount])
-        this.health -= amount / this.vigor
-    }
-    damage_taken.sort(function(a, b) { return b[1] - a[1] })
-    var verb = english.verbs[damage_taken[0][0]]
-    attacker.tell("You " + verb + " " + this.the(attacker) + ".")
-    this.tell(attacker.The(this) + " " + verb.s + " you.")
-    attacker.square.announce_all_but([this, attacker], attacker.The() + ' ' + verb.s + ' ' + this.the() + '.')
+Being.prototype.receive_damage = function(damage, attacker) {
+    this.health -= damage / this.vigor
     if (this.health <= 0) {
         this.die()
     }
