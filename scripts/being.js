@@ -89,6 +89,20 @@ Being.prototype.act = function(callback) {
         })
     }
     else {
+        // wield weapons
+        if (this.hands) {
+            var quality = this.weapon_quality(this)
+            if (this.wielding)
+                quality = this.wielding.weapon_quality(this)
+            var possible_weapons = this.reachable_items()
+            for (var i = 0; i < possible_weapons.length; i++) {
+                if (possible_weapons[i].weapon_quality(this) > quality) {
+                    var success = actions.wield.execute(this, possible_weapons[i])
+                    if (success)
+                        return callback()
+                }
+            }
+        }
         // attack
         var squares = [this.square.north(), this.square.south(), this.square.east(), this.square.west()]
         for (var i = 0; i < squares.length; i++) {

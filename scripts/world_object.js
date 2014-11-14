@@ -45,6 +45,20 @@ WorldObject.prototype.suffix = function(observer) {
     return " of " + this.effect.name
 }
 
+WorldObject.prototype.weapon_quality = function(observer) {
+    var quality = 0
+    if (this.attacks) {
+        for (var i = 0; i < this.attacks.length; i++) {
+            var attack = this.attacks[i]
+            var total_damage = 0
+            for (var damage_type in attack)
+                total_damage += attack[damage_type]
+            quality = Math.max(quality, total_damage)
+        }
+    }
+    return quality
+}
+
 WorldObject.weird_heritable_stuff = ['weird_heritable_stuff', 'specificity', 'set_name', 'variant', 'create', 'variant_of_given_specificity', 'kingdom', 'phylum', 'clazz', 'order', 'family', 'genus', 'species']
 
 WorldObject.specificity = -100 // more abstract classes have lower specificity
@@ -117,3 +131,4 @@ WorldObject.species = function(attributes, f) {
 WorldObject.create = function(attributes) {
     return new this(attributes)
 }
+

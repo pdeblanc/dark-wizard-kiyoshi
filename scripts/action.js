@@ -237,7 +237,7 @@ actions.attack.execute = function(subject, target_square) {
     for (var i = 0; i < target_square.beings.length; i++) {
         var being = target_square.beings[i]
         if (subject.wielding) {
-            being.receive_damage(subject.wielding.attack, subject)
+            being.receive_damage(subject.wielding.attacks[0], subject)
         }
         else {
             var attack = subject.attacks[0]
@@ -275,7 +275,8 @@ actions.wield.execute = function(subject, item) {
         subject.wielding.wielded_by = false
     subject.wielding = item
     item.wielded_by = subject
-    subject.tell('Now wielding ' + item.a(subject) + '.')
+    subject.tell('You wield ' + item.the(subject) + '.')
+    subject.square.announce_all_but([subject], subject.The() + ' wields ' + item.the() + '.')
     return true
 }
 

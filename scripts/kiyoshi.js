@@ -2,12 +2,12 @@ PUBLIC_STATS = ['power', 'speed', 'vigor', 'level', 'experience']
 STATS = ['power', 'speed', 'vigor', 'lean_weight']
 
 Item
-    .kingdom({name: 'katana', symbol: '刀', action: actions.toggle_wield, attack: {cut: 5}, level: 3})
-        .phylum({name: 'bokutō', attack: {hit: 2}, level: 1})
-    .kingdom({name: 'sword', symbol: '剣', action: actions.toggle_wield, attack: {cut: 5}, generic: true, level: 3})
-        .phylum({name: 'longsword', symbol: '剣', action: actions.toggle_wield, attack: {cut: 5}})
-        .phylum({name: 'rapier', symbol: '剣', action: actions.toggle_wield, attack: {stab: 3}, level: 2})
-    .kingdom({name: 'meat', symbol: '肉', fat: 1, action: actions.eat, attack: {slap: .5}})
+    .kingdom({name: 'katana', symbol: '刀', action: actions.toggle_wield, attacks: [{cut: 5, stab: 5}], level: 3})
+        .phylum({name: 'bokutō', attacks: [{hit: 2}], level: 1})
+    .kingdom({name: 'sword', symbol: '剣', action: actions.toggle_wield, attacks: [{cut: 5, stab: 5}], generic: true, level: 3})
+        .phylum({name: 'longsword', symbol: '剣'})
+        .phylum({name: 'rapier', symbol: '剣', attacks: [{stab: 3, cut: 1}], level: 2})
+    .kingdom({name: 'meat', symbol: '肉', fat: 1, action: actions.eat, attacks: [{slap: .5}]})
     .kingdom({name: 'ash', symbol: '灰', bias: -10})
     .kingdom({name: 'iron', symbol: '鉄', bias: -10})
     .kingdom({name: 'tea', symbol: '茶', action: actions.drink, drinkable: true, generic: true, random_effects: [effects.healing, effects.healing, effects.poison]})
