@@ -42,3 +42,11 @@ Plane.prototype.place_randomly = function(hopeful) {
     }
     return false
 }
+Plane.prototype.random_being = function() {
+    while (true) {
+        var coordinate = new Coordinate({x: Math.floor(Math.random() * this.width), y: Math.floor(Math.random() * this.height)})
+        var square = this.square(coordinate)
+        if (square.beings.length)
+            return square.beings[0]
+    }
+}

@@ -49,25 +49,35 @@ Being.prototype.notify = function() {
     this.viewports.forEach(function(viewport) {viewport.render()})
 }
 
+Being.prototype.digest = function() {
+    // lose a bit over one pound per day due to very active lifestyle
+    // remove leading 10000 when done testing
+    weight_lost = 1000 * (this.body_fat + this.lean_weight) / (86400 * 100)
+    if (this.controllers.length)
+        weight_lost *= 4
+    if (this.viewports.length)
+        weight_lost *= 2.5
+    this.body_fat -= weight_lost
+    if (this.body_fat < 0) {
+        this.tell('You have starved.')
+        this.notify()
+        this.die()
+    }
+}
+
 Being.prototype.act = function(callback) {
+    this.digest()
     this.notify()
     this.hibernating = this.should_hibernate()
     if (this.hibernating)
         return callback()
     var subject = this
+
     if (this.controllers.length > 0) {
         this.disturb_others()
         this.controllers[0].set_callback(function(command) {
             var success = command[0].execute(subject, command[1], command[2])
             if (success) {
-                // lose a bit over one pound per day due to very active lifestyle
-                // remove leading 10000 when done testing
-                subject.body_fat -= 10000 * (subject.body_fat + subject.lean_weight) / (86400 * 100)
-                if (subject.body_fat < 0) {
-                    subject.tell('You have starved.')
-                    subject.notify()
-                    subject.die()
-                }
                 callback() 
             }
             else
@@ -133,8 +143,13 @@ Being.prototype.die = function() {
         this.corpse.create({square: this.square, fat: this.corpse.prototype.fat * (this.body_fat + this.lean_weight * .2)})
     this.square.exit(this)
     this.dead = 1
-    if (this.controllers.length > 0)
-        this.universe.game_over = true
+    this.notify()
+    if (this.viewports.length > 0) {
+        $("#game-over").css('display', 'table').click(function() { location.reload() })
+        universe.game_over = true
+        var new_being = this.square.plane.random_being()
+        this.viewports[0].set_being(new_being)
+    }
 }
 
 Being.prototype.tell = function(message) {

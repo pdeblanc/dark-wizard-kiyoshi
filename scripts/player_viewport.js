@@ -4,7 +4,7 @@ function PlayerViewport(attributes) {
     this.container = attributes.container
     this.messages = []
 
-    var profile_element, name_element, title_element, stats_element, map_element, inventory_element, region_element
+    var profile_element, name_element, title_element, stats_element, map_element, region_element
     
     $(container)
         .append($('<div />').attr('id', 'profile').addClass('panel')
@@ -16,9 +16,9 @@ function PlayerViewport(attributes) {
             .append(region_element = $("<div />").attr('id', 'region'))
             .append(stats_element = $("<div />")))
         .append(map_element = $('<div />').addClass('panel'))
-        .append(inventory_element = $('<div />').addClass('panel'))
+        .append(this.inventory_element = $('<div />').addClass('panel'))
         .append($('<div></div>').attr('id', 'messages'))
-    this.inventory_viewport = new PlaneViewport({plane: this.being.inventory, controller: this.controller, container: inventory_element})
+    this.inventory_viewport = new PlaneViewport({plane: this.being.inventory, controller: this.controller, container: this.inventory_element})
     this.left = -4
     this.right = 4
     this.top = -4
@@ -80,4 +80,13 @@ PlayerViewport.prototype.tell = function(message) {
         messages_div.appendChild(p)
     }
     messages_div.scrollTop = messages_div.scrollHeight
+}
+
+PlayerViewport.prototype.set_being = function(being) {
+    this.being = being
+    this.inventory_viewport = new PlaneViewport({plane: this.being.inventory, controller: this.controller, container: this.inventory_element})
+    being.viewports.push(this)
+    universe.players[being.id] = being
+    being.disturb()
+    being.disturb_others()
 }

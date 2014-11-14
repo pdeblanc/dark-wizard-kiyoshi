@@ -10,7 +10,7 @@ Timeline.prototype.add_agent = function(agent) {
 }
 Timeline.prototype.simulate = function() {
     var agent = this.queue.dequeue()
-    var ms = (agent.next_action_time - this.time) * 10
+    var ms = (agent.next_action_time - this.time) * 20
     this.time = agent.next_action_time
     var obj = this
     this.universe.delay_if_game_over(ms, function() {
