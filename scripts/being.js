@@ -93,6 +93,16 @@ Being.prototype.act = function(callback) {
                 return callback()
             }
         }
+        // eat
+        if (this.hunger() > 0) {
+            var possible_food = this.reachable_items()
+            for (var i = 0; i < this.square.items.length; i++) {
+                if (possible_food[i].fat) {
+                    actions.eat.execute(this, possible_food[i])
+                    return callback()
+                }
+            }
+        }
         // move randomly
         var my_actions = [actions.north, actions.south, actions.east, actions.west]
         my_actions[Math.floor(Math.random() * 4)].execute(this)
@@ -241,4 +251,17 @@ Being.prototype.can_reach = function(square) {
     if (square.plane == this.inventory)
         return true
     return false
+}
+
+Being.prototype.reachable_items = function() {
+    return this.square.items
+        .concat(this.inventory.items())
+        .concat(this.square.north().items)
+        .concat(this.square.south().items)
+        .concat(this.square.east().items)
+        .concat(this.square.west().items)
+}
+
+Being.prototype.hunger = function() {
+    return this.lean_weight * .3 - this.body_fat
 }

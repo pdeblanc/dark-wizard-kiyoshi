@@ -195,6 +195,7 @@ actions.eat.accept_dobj = function(subject, item) {
 }
 actions.eat.execute = function(subject, item) {
     subject.tell("You eat " + item.the(subject) + ".")
+    subject.square.announce_all_but([subject], subject.The() + ' eats ' + item.the() + '.')
     subject.body_fat += item.fat
     item.destroy()
     return true;

@@ -22,3 +22,13 @@ InventoryPlane.prototype.get_by_label = function(label) {
     return false
 }
 
+InventoryPlane.prototype.items = function() {
+    var items = []
+    var coordinate = new Coordinate({x: 0, y: 0})
+    for (coordinate.y = 0; coordinate.y < this.height; coordinate.y++) {
+        for (coordinate.x = 0; coordinate.x < this.height; coordinate.x++) {
+            Array.prototype.push.apply(items, this.square(coordinate).items)
+        }
+    }
+    return items
+}
