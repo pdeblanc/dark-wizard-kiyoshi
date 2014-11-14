@@ -260,6 +260,10 @@ actions.toggle_wield.execute = function(subject, item) {
 
 actions.wield = new Action({name: 'wield', dobj: Item})
 actions.wield.execute = function(subject, item) {
+    if (!subject.hands) {
+        subject.tell("You cannot wield anything because you do not have hands.")
+        return false
+    }
     if (!subject.is_holding(item)) {
         var vacancy = subject.inventory.vacancy(item)
         if (!(vacancy && item.moveto(vacancy))) {

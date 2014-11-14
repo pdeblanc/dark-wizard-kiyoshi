@@ -45,6 +45,8 @@ Being.prototype.can_fly = false
 Being.prototype.playable = false
 Being.prototype.habitat = {}
 
+Being.prototype.hands = 0
+
 
 // methods
 Being.prototype.notify = function() {
