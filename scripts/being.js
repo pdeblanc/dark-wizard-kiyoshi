@@ -25,6 +25,7 @@ Being = WorldObject.variant({}, function(attributes) {
     this.level = Math.ceil(this.level)
     this.experience = this.experience_for_level(this.level)
     this.knowledge = {} // which sorts of magical tea the being has identified
+    this.thoughts = {}
     universe.timeline.add_agent(this)
 })
 
@@ -43,6 +44,7 @@ Being.prototype.can_swim = false
 Being.prototype.can_fly = false
 Being.prototype.playable = false
 Being.prototype.habitat = {}
+
 
 // methods
 Being.prototype.notify = function() {
@@ -103,9 +105,15 @@ Being.prototype.act = function(callback) {
                 }
             }
         }
-        // move randomly
-        var my_actions = [actions.north, actions.south, actions.east, actions.west]
-        my_actions[Math.floor(Math.random() * 4)].execute(this)
+        // rest if not hungry
+        if (this.hunger() <= 0 && this.health < 1) {
+            actions.rest.execute(this)
+            return callback()
+        }
+        // move
+        if (!this.thoughts.direction || !this.square[this.thoughts.direction]().permit_entry(this) || Math.random() < .03)
+            this.thoughts.direction = ['north', 'south', 'east', 'west'][Math.floor(Math.random()*4)]
+        actions[this.thoughts.direction].execute(this)
         callback()
     }
 }
