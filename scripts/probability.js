@@ -14,3 +14,12 @@ Probability.sample = function(list) {
     return list[0][0]
 }
 
+Probability.gauss = function() {
+    var x, y, mag2
+    do {
+        x = Math.random() * 2 - 1
+        y = Math.random() * 2 - 1
+    } while ((mag2 = x * x + y * y) > 1)
+    return Math.sqrt(-2 * Math.log(mag2) / mag2) * x
+}
+

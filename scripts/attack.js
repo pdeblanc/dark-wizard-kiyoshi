@@ -20,12 +20,14 @@ Attack = WorldObject.variant({}, function(attributes) {
     if (this.weapon && this.weapon.sharpness) {
         this.damage *= Math.pow(this.weapon.sharpness, this.sharpness_dependence)
     }
+    this.damage *= Math.exp(Probability.gauss() * this.randomness)
 })
 
 Attack.prototype.damage_type = 'hit'
 Attack.prototype.damage_base = 0.1
 Attack.prototype.power_dependence = 1
 Attack.prototype.sharpness_dependence = 0
+Attack.prototype.randomness = 1
 Attack.set_name = 'attacks'
 
 Attack.prototype.execute = function() {
