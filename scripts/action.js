@@ -234,15 +234,20 @@ actions.look.execute = function(subject, square) {
 
 actions.attack = new Action({name: 'attack', dobj: Square})
 actions.attack.execute = function(subject, target_square) {
+    var shared_variance = 10 / (10 + subject.tactics)
+    var shared_sd = Math.sqrt(shared_variance)
+    var tactical_randomness = Math.sqrt(1 - shared_variance)
+    var to_hit_bonus = Probability.gauss() * shared_sd
+    var damage_bonus = Probability.gauss() * shared_sd
     for (var i = 0; i < target_square.beings.length; i++) {
         var being = target_square.beings[i]
         var attacks = []
         for (var i = 0; i < subject.attacks.length; i++) {
-            attacks.push(subject.attacks[i].create({attacker: subject, target: being}))
+            attacks.push(subject.attacks[i].create({attacker: subject, target: being, tactical_randomness: tactical_randomness, to_hit_bonus: to_hit_bonus, damage_bonus: damage_bonus}))
         }
         if (subject.wielding) {
             for (var i = 0; i < subject.wielding.attacks.length; i++) {
-                attacks.push(subject.wielding.attacks[i].create({attacker: subject, target: being, weapon: subject.wielding}))
+                attacks.push(subject.wielding.attacks[i].create({attacker: subject, target: being, weapon: subject.wielding, tactical_randomness: tactical_randomness, to_hit_bonus: to_hit_bonus, damage_bonus: damage_bonus}))
             }
         }
         var best_attack = false

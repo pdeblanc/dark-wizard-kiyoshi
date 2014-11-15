@@ -8,6 +8,7 @@
 
 Attack = WorldObject.variant({}, function(attributes) {
     WorldObject.apply(this, arguments)
+    this.randomness *= this.__proto__.randomness
     this.damage = this.damage_base
     if (this.attacker && this.attacker.power) {
         this.damage *= Math.pow(this.attacker.power, this.power_dependence)
@@ -15,9 +16,10 @@ Attack = WorldObject.variant({}, function(attributes) {
     if (this.weapon && this.weapon.sharpness) {
         this.damage *= Math.pow(this.weapon.sharpness, this.sharpness_dependence)
     }
-    this.damage *= Math.exp(Probability.gauss() * this.randomness)
+    this.damage *= Math.exp(this.randomness * (Probability.gauss() * this.tactical_randomness + this.damage_bonus))
     // some attacks will fail entirely
-    if (Math.random() < 0.5 && this.randomness)
+    var miss_chance = 0.5
+    if (jStat.normal(0, 1).cdf(Probability.gauss() * this.tactical_randomness + this.to_hit_bonus) <= miss_chance && this.randomness > 0)
         this.damage = 0
 })
 
@@ -25,7 +27,10 @@ Attack.prototype.damage_type = 'hit'
 Attack.prototype.damage_base = 0.1
 Attack.prototype.power_dependence = 1
 Attack.prototype.sharpness_dependence = 0
-Attack.prototype.randomness = 0.25
+Attack.prototype.randomness = 0.25 // This is a STANDARD DEVIATION
+Attack.prototype.tactical_randomness = 0
+Attack.prototype.damage_bonus = 0 // should only be set by constructor -- situational
+Attack.prototype.to_hit_bonus = 0 // only set by constructor -- situational
 Attack.set_name = 'attacks'
 
 Attack.prototype.execute = function() {

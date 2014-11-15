@@ -38,6 +38,7 @@ Being.prototype.name = 'being'
 Being.prototype.power = 10
 Being.prototype.speed = 10
 Being.prototype.vigor = 10
+Being.prototype.tactics = 10
 
 Being.prototype.inventory = {width: 1, height: 1}
 Being.prototype.can_walk = true
