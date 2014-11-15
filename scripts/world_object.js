@@ -51,10 +51,7 @@ WorldObject.prototype.weapon_quality = function(observer) {
     if (this.attacks) {
         for (var i = 0; i < this.attacks.length; i++) {
             var attack = this.attacks[i].create({attacker: observer, target: observer, weapon: this})
-            var total_damage = 0
-            for (var damage_type in attack)
-                total_damage += attack[damage_type]
-            quality = Math.max(quality, total_damage)
+            quality = Math.max(quality, attack.damage)
         }
     }
     return quality
