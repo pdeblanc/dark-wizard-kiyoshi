@@ -248,7 +248,7 @@ actions.attack.execute = function(subject, target_square) {
         var best_attack = false
         var best_damage = 0
         for (var i = 0; i < attacks.length; i++) {
-            if (attacks[i].damage > best_damage) {
+            if (attacks[i].damage > best_damage || !best_attack) {
                 best_attack = attacks[i]
                 best_damage = attacks[i].damage
             }

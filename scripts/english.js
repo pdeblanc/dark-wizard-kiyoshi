@@ -45,4 +45,5 @@ english.verb('cut', 'cuts', 'cut')
     .verb('stab', 'stabs', 'stabbed')
     .verb('shoot', 'shoots', 'shot')
     .verb('trample', 'tramples', 'trampled')
+    .verb('miss', 'misses', 'missed')
 
