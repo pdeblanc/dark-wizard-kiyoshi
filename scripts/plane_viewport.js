@@ -19,7 +19,7 @@ PlaneViewport.prototype.render = function() {
         for (var y = 0; y < this.plane.height; y++) {
             var cell = $('#_' + this.name + '_' + x + '_' + y)
             var square = this.plane.square(new Coordinate({x: x, y: y}))
-            square.blit(this.controller.being, cell)
+            square.blit(this.plane.being, cell)
         }
     }
 }

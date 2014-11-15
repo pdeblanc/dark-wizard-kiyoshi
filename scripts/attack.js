@@ -32,14 +32,16 @@ Attack.set_name = 'attacks'
 
 Attack.prototype.execute = function() {
     var verb = english.verbs[this.damage_type]
+    var damage_string = ""
+    // damage_string = " for " + this.damage + " damage"
     if (!this.weapon) {
-        this.attacker.tell("You " + this.name + " " + this.target.the() + ".")
-        this.target.tell(this.attacker.The() + " " + verb.s + " you.")
-        this.attacker.square.announce_all_but([this.target, this.attacker], this.attacker.The() + ' ' + verb.s + ' ' + this.target.the() + '.')
+        this.attacker.tell("You " + this.name + " " + this.target.the() + damage_string + ".")
+        this.target.tell(this.attacker.The() + " " + verb.s + " you" + damage_string + ".")
+        this.attacker.square.announce_all_but([this.target, this.attacker], this.attacker.The() + ' ' + verb.s + ' ' + this.target.the() + damage_string + ".")
     } else {
-        this.attacker.tell("You " + this.name + " " + this.target.the() + " with " + this.weapon.the(this.attacker) + ".")
-        this.target.tell(this.attacker.The() + " " + verb.s + " you with " + this.weapon.a(this.target) + ".")
-        this.attacker.square.announce_all_but([this.target, this.attacker], this.attacker.The() + ' ' + verb.s + ' ' + this.target.the() + ' with ' + this.weapon.a() + ".")
+        this.attacker.tell("You " + this.name + " " + this.target.the() + " with " + this.weapon.the(this.attacker) + damage_string + ".")
+        this.target.tell(this.attacker.The() + " " + verb.s + " you with " + this.weapon.a(this.target) + damage_string + ".")
+        this.attacker.square.announce_all_but([this.target, this.attacker], this.attacker.The() + ' ' + verb.s + ' ' + this.target.the() + ' with ' + this.weapon.a() + damage_string + ".")
     }
     this.target.receive_damage(this.damage)
 }

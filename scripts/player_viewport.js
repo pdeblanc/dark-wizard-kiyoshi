@@ -4,7 +4,7 @@ function PlayerViewport(attributes) {
     this.container = attributes.container
     this.messages = []
 
-    var profile_element, name_element, title_element, stats_element, map_element, region_element
+    var profile_element, name_element, title_element, map_element, region_element
     
     $(container)
         .append($('<div />').attr('id', 'profile').addClass('panel')
@@ -14,7 +14,7 @@ function PlayerViewport(attributes) {
                 .append(title_element = $("<span />"))
             )
             .append(region_element = $("<div />").attr('id', 'region'))
-            .append(stats_element = $("<div />")))
+            .append(this.stats_element = $("<div />")))
         .append(map_element = $('<div />').addClass('panel'))
         .append(this.inventory_element = $('<div />').addClass('panel'))
         .append($('<div></div>').attr('id', 'messages'))
@@ -35,36 +35,6 @@ function PlayerViewport(attributes) {
         title_element.text(this.being.__proto__.name).attr("class", this.being.className)
         region_element.text("Region " + this.being.square.plane.level)
     }
-    this.render = function() {
-        this.inventory_viewport.render()
-        this.render_profile()
-        stats_element[0].innerHTML = ''
-        for (var i = 0; i < PUBLIC_STATS.length; i++) {
-            var stat_div = document.createElement('div')
-            var stat_label = document.createElement('span')
-            stat_label.textContent = PUBLIC_STATS[i] + ': '
-            var stat_value = document.createElement('span')
-            stat_value.className = 'stat-value'
-            stat_value.id = PUBLIC_STATS[i]
-            stat_value.textContent = Math.floor(this.being[PUBLIC_STATS[i]])
-            stat_div.appendChild(stat_label)
-            stat_div.appendChild(stat_value)
-            stats_element.append(stat_div)
-        }
-        stats_element.append(
-            $("<div />").text("Body fat: " + (''+this.being.body_fat).substring(0,5))
-        )
-        var origin = this.being.square
-        var plane = origin.plane
-        for (var x = this.left; x <= this.right; x++) {
-            for (var y = this.top; y <= this.bottom; y++) {
-                var square = plane.square(new Coordinate({x: origin.coordinate.x + x, y: origin.coordinate.y + y}))
-                var cell = $('#_' + x + '_' + y)
-                square.blit(this.being, cell)
-            }
-        }
-        $(".item").draggable({ opacity: 0.7, helper: "clone"})
-    }
 }
 
 PlayerViewport.prototype.tell = function(message) {
@@ -80,6 +50,37 @@ PlayerViewport.prototype.tell = function(message) {
         messages_div.appendChild(p)
     }
     messages_div.scrollTop = messages_div.scrollHeight
+}
+
+PlayerViewport.prototype.render = function() {
+    this.inventory_viewport.render()
+    this.render_profile()
+    this.stats_element[0].innerHTML = ''
+    for (var i = 0; i < PUBLIC_STATS.length; i++) {
+        var stat_div = document.createElement('div')
+        var stat_label = document.createElement('span')
+        stat_label.textContent = PUBLIC_STATS[i] + ': '
+        var stat_value = document.createElement('span')
+        stat_value.className = 'stat-value'
+        stat_value.id = PUBLIC_STATS[i]
+        stat_value.textContent = Math.floor(this.being[PUBLIC_STATS[i]])
+        stat_div.appendChild(stat_label)
+        stat_div.appendChild(stat_value)
+        this.stats_element.append(stat_div)
+    }
+    this.stats_element.append(
+        $("<div />").text("Body fat: " + (''+this.being.body_fat).substring(0,5))
+    )
+    var origin = this.being.square
+    var plane = origin.plane
+    for (var x = this.left; x <= this.right; x++) {
+        for (var y = this.top; y <= this.bottom; y++) {
+            var square = plane.square(new Coordinate({x: origin.coordinate.x + x, y: origin.coordinate.y + y}))
+            var cell = $('#_' + x + '_' + y)
+            square.blit(this.being, cell)
+        }
+    }
+    $(".item").draggable({ opacity: 0.7, helper: "clone"})
 }
 
 PlayerViewport.prototype.set_being = function(being) {
