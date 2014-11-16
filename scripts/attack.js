@@ -19,7 +19,7 @@ Attack = WorldObject.variant({}, function(attributes) {
     }
     this.damage *= Math.exp(this.randomness * (Probability.gauss() * self_sd + this.damage_bonus * shared_sd))
     // some attacks will fail entirely
-    var miss_chance = 0.5
+    var miss_chance = 0.3
     if (jStat.normal(0, 1).cdf(Probability.gauss() * self_sd + this.to_hit_bonus * shared_sd) <= miss_chance && this.randomness > 0)
         this.damage = 0
 })
