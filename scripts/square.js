@@ -125,6 +125,10 @@ Square.prototype.affinity = function(tags) {
     for (this_tag in this.tags)
         for (other_tag in tags)
             total += universe.affinity(this_tag, other_tag) * this.tags[this_tag] * tags[other_tag]
+    if (this.plane instanceof InventoryPlane) {
+       if (this.plane.being.__proto__.name in tags)
+          total += tags[this.plane.being.__proto__.name] 
+    }
     return total;
 }
 Square.prototype.next_to = function(other) {
