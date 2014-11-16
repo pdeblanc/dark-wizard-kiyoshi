@@ -185,7 +185,7 @@ actions.drop.execute = function(subject, item) {
     var success = item.moveto(subject.square)
     if (success) {
         subject.tell("You drop " + item.the(subject) + " in " + subject.square.the(subject) + ".")
-        subject.square.announce_all_but([subject], subject.The() + " drops " + item.the() + ".")
+        subject.square.announce_all_but([subject], subject.The() + " drops " + item.a() + ".")
     }
     else
         subject.tell("There is no room for " + item.the(subject) + " in " + subject.square.the() + ".")
@@ -237,22 +237,23 @@ actions.attack.execute = function(subject, target_square) {
     var shared_variance = 10 / (10 + subject.tactics)
     var shared_sd = Math.sqrt(shared_variance)
     var tactical_randomness = Math.sqrt(1 - shared_variance)
-    var to_hit_bonus = Probability.gauss() * shared_sd
-    var damage_bonus = Probability.gauss() * shared_sd
+    var to_hit_bonus = Probability.gauss()
+    var damage_bonus = Probability.gauss()
     for (var i = 0; i < target_square.beings.length; i++) {
         var being = target_square.beings[i]
         var attacks = []
         for (var i = 0; i < subject.attacks.length; i++) {
-            attacks.push(subject.attacks[i].create({attacker: subject, target: being, tactical_randomness: tactical_randomness, to_hit_bonus: to_hit_bonus, damage_bonus: damage_bonus}))
+            attacks.push(subject.attacks[i].create({attacker: subject, target: being, to_hit_bonus: to_hit_bonus, damage_bonus: damage_bonus}))
         }
         if (subject.wielding) {
             for (var i = 0; i < subject.wielding.attacks.length; i++) {
-                attacks.push(subject.wielding.attacks[i].create({attacker: subject, target: being, weapon: subject.wielding, tactical_randomness: tactical_randomness, to_hit_bonus: to_hit_bonus, damage_bonus: damage_bonus}))
+                attacks.push(subject.wielding.attacks[i].create({attacker: subject, target: being, weapon: subject.wielding, to_hit_bonus: to_hit_bonus, damage_bonus: damage_bonus}))
             }
         }
         var best_attack = false
         var best_damage = 0
         for (var i = 0; i < attacks.length; i++) {
+            //subject.tell("Possible attack: " + attacks[i].a() + " for " + attacks[i].damage + " damage.")
             if (attacks[i].damage > best_damage || !best_attack) {
                 best_attack = attacks[i]
                 best_damage = attacks[i].damage

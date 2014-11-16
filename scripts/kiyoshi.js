@@ -1,4 +1,4 @@
-PUBLIC_STATS = ['power', 'speed', 'vigor', 'level', 'experience']
+PUBLIC_STATS = ['power', 'speed', 'vigor', 'tactics', 'level', 'experience']
 STATS = ['power', 'speed', 'vigor', 'lean_weight']
 
 Attack
@@ -13,6 +13,7 @@ Attack
     .kingdom({name: 'burn', damage_type: 'burn'})
     .kingdom({name: 'peck', damage_type: 'peck'})
 
+Item.prototype.attacks = [universe.attacks.hit]
 Item
     .kingdom({name: 'katana', symbol: '刀', action: actions.toggle_wield, attacks: [universe.attacks.cut, universe.attacks.stab], sharpness: 5, level: 3})
         .phylum({name: 'bokutō', sharpness: 2, level: 1})
@@ -40,7 +41,7 @@ Item
 
 Being
     .kingdom({name: 'animal', generic: true, bias: -5, corpse: universe.products.meat})
-        .phylum({name: 'human', symbol: '人', lean_weight: 100, hands: 2, attacks: [universe.attacks.punch], inventory: {width: 2, height: 9}, level: 0.5, playable: true, bias: -6, habitat: {town: 2}, power: 10, speed: 10, vigor: 10})
+        .phylum({name: 'human', symbol: '人', lean_weight: 100, hands: 2, tactics: 10, attacks: [universe.attacks.punch, universe.attacks.kick], inventory: {width: 2, height: 9}, level: 0.5, playable: true, bias: -6, habitat: {town: 2}, power: 10, speed: 10, vigor: 10})
             .clazz({name: 'samurai', symbol: '侍', power: 15, vigor: 14, speed: 13, playable: false, level: 1.365})
         .phylum({name: 'three-clawed dragon', symbol: '竜', hands: 2, lean_weight: 10000, power: 100, vigor: 100, attacks: [universe.attacks.claw], can_fly: true, inventory: {width: 1, height: 3}, level: 50})
             .clazz({name: 'four-clawed dragon', symbol: '龍', lean_weight: 20000, vigor: 141, power: 141, level: 99})
