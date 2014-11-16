@@ -3,6 +3,7 @@ STATS = ['power', 'speed', 'vigor', 'lean_weight']
 
 Attack
     .kingdom({name: 'hit', damage_type: 'hit'})
+    .kingdom({name: 'bokutō_hit', damage_type: 'hit', damage_base: 0.2})
     .kingdom({name: 'punch', damage_type: 'punch'})
     .kingdom({name: 'kick', damage_type: 'kick'})
     .kingdom({name: 'cut', damage_type: 'cut', sharpness_dependence: 1})
@@ -10,13 +11,13 @@ Attack
     .kingdom({name: 'bite', damage_type: 'bite'})
     .kingdom({name: 'slap', damage_type: 'slap'})
     .kingdom({name: 'stab', damage_type: 'stab', sharpness_dependence: 1})
-    .kingdom({name: 'burn', damage_type: 'burn'})
+    .kingdom({name: 'burn', damage_type: 'burn', damage_base: 0.3})
     .kingdom({name: 'peck', damage_type: 'peck'})
 
 Item.prototype.attacks = [universe.attacks.hit]
 Item
     .kingdom({name: 'katana', symbol: '刀', action: actions.toggle_wield, attacks: [universe.attacks.cut, universe.attacks.stab], sharpness: 5, level: 3})
-        .phylum({name: 'bokutō', sharpness: 2, level: 1})
+        .phylum({name: 'bokutō', sharpness: 2, level: 1, attacks: [universe.attacks.bokutō_hit]})
     .kingdom({name: 'sword', symbol: '剣', action: actions.toggle_wield, attacks: [universe.attacks.cut, universe.attacks.stab], sharpness: 5, generic: true, level: 3})
         .phylum({name: 'longsword', symbol: '剣'})
         .phylum({name: 'rapier', symbol: '剣'})
