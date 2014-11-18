@@ -71,8 +71,9 @@ Being.prototype.digest = function() {
     }
 }
 
-Being.prototype.act = function(callback) {
-    this.digest()
+Being.prototype.act = function(callback, retry) {
+    if (!retry)
+        this.digest()
     this.notify()
     this.hibernating = this.should_hibernate()
     if (this.hibernating)
@@ -87,7 +88,7 @@ Being.prototype.act = function(callback) {
                 callback() 
             }
             else
-                subject.act(callback)
+                subject.act(callback, true)
         })
     }
     else {
