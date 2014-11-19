@@ -5,7 +5,7 @@ function Timeline(attributes) {
 }
 
 Timeline.prototype.add_agent = function(agent) {
-    agent.next_action_time = this.time + Math.random() * 10 / agent.speed
+    agent.next_action_time = this.time + Math.random() * 10 / agent.speed.current()
     this.queue.queue(agent)
 }
 Timeline.prototype.simulate = function() {
@@ -19,7 +19,7 @@ Timeline.prototype.simulate = function() {
             obj.simulate()
         } else {
             agent.act(function() {
-                agent.next_action_time = obj.time + 10 / agent.speed
+                agent.next_action_time = obj.time + 10 / agent.speed.current()
                 if (agent.dead == 0)
                     obj.queue.queue(agent)
                 obj.simulate()

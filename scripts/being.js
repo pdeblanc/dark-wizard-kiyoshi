@@ -1,5 +1,9 @@
 Being = WorldObject.variant({}, function(attributes) {
     WorldObject.apply(this, arguments)
+    for (var i = 0; i < this.scalar_attributes.length; i++) {
+        var attribute = this.scalar_attributes[i]
+        this[attribute] = new ScalarAttribute({base: this[attribute]})
+    }
     // graphics
     this.skin = $('<div />').addClass(this.className).text(this.symbol).addClass('skin')
     this.blood = $('<div />').addClass("blood being").text(this.symbol)
@@ -39,6 +43,7 @@ Being.prototype.power = 10
 Being.prototype.speed = 10
 Being.prototype.vigor = 10
 Being.prototype.tactics = 10
+Being.prototype.scalar_attributes = ['power', 'speed', 'vigor', 'tactics']
 
 Being.prototype.inventory = {width: 1, height: 1}
 Being.prototype.can_walk = true
@@ -158,7 +163,7 @@ Being.prototype.hostile = function(other) {
 }
 
 Being.prototype.receive_damage = function(damage, attacker) {
-    this.health -= damage / this.vigor
+    this.health -= damage / this.vigor.current()
     if (this.health <= 0) {
         this.die()
     }
@@ -236,8 +241,8 @@ Being.prototype.gain_experience = function(exp) {
 Being.prototype.set_level = function(level) {
     var old_level = this.level
     this.level = level
-    this.speed *= (level - Math.ceil(this.__proto__.level)) + 9
-    this.speed /= (old_level - Math.ceil(this.__proto__.level)) + 9
+    this.speed.base *= (level - Math.ceil(this.__proto__.level)) + 9
+    this.speed.base /= (old_level - Math.ceil(this.__proto__.level)) + 9
 }
 
 Being.prototype.experience_for_level = function(level) {

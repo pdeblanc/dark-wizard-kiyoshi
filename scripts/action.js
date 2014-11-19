@@ -234,9 +234,6 @@ actions.look.execute = function(subject, square) {
 
 actions.attack = new Action({name: 'attack', dobj: Square})
 actions.attack.execute = function(subject, target_square) {
-    var shared_variance = 10 / (10 + subject.tactics)
-    var shared_sd = Math.sqrt(shared_variance)
-    var tactical_randomness = Math.sqrt(1 - shared_variance)
     var to_hit_bonus = Probability.gauss()
     var damage_bonus = Probability.gauss()
     for (var i = 0; i < target_square.beings.length; i++) {
