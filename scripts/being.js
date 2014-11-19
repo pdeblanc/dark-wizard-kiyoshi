@@ -2,7 +2,7 @@ Being = WorldObject.variant({}, function(attributes) {
     WorldObject.apply(this, arguments)
     for (var i = 0; i < this.scalar_attributes.length; i++) {
         var attribute = this.scalar_attributes[i]
-        this[attribute] = new ScalarAttribute({base: this[attribute]})
+        this[attribute] = new ScalarAttribute({base: this[attribute], being: this, name: attribute})
     }
     // graphics
     this.skin = $('<div />').addClass(this.className).text(this.symbol).addClass('skin')
@@ -31,6 +31,7 @@ Being = WorldObject.variant({}, function(attributes) {
     this.experience = this.experience_for_level(this.level)
     this.knowledge = {} // which sorts of magical tea the being has identified
     this.thoughts = {}
+    this.conditions = {}
     universe.timeline.add_agent(this)
 })
 
@@ -77,8 +78,10 @@ Being.prototype.digest = function() {
 }
 
 Being.prototype.act = function(callback, retry) {
-    if (!retry)
+    if (!retry) {
         this.digest()
+        this.check_conditions()
+    }
     this.notify()
     this.hibernating = this.should_hibernate()
     if (this.hibernating)
@@ -294,4 +297,22 @@ Being.prototype.reachable_items = function() {
 
 Being.prototype.hunger = function() {
     return this.lean_weight * .3 - this.body_fat
+}
+
+Being.prototype.add_condition = function(condition) {
+    var message
+    this.conditions[condition.id] = condition
+    if (message = condition.activation_message)
+        this.tell(message)
+}
+
+Being.prototype.check_conditions = function() {
+    var message
+    for (var key in this.conditions) {
+        if (this.conditions[key].expiration <= universe.timeline.time) {
+            if (message = this.conditions[key].deactivation_message)
+                this.tell(message)
+            delete this.conditions[key]
+        }
+    }
 }

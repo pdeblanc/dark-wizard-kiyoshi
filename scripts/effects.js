@@ -26,3 +26,10 @@ effects.poison.execute = function(being) {
     return true
 }
 
+effects.empowerment = new Effect({name: 'empowerment'})
+effects.empowerment.execute = function(being) {
+    being.add_condition(universe.conditions.empowerment.create())
+        this.conditions = {}
+    return true
+}
+

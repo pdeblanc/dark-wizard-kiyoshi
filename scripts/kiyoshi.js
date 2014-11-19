@@ -1,6 +1,9 @@
 PUBLIC_STATS = ['power', 'speed', 'vigor', 'tactics', 'level', 'experience']
 STATS = ['power', 'speed', 'vigor', 'lean_weight']
 
+Condition
+    .kingdom({name: 'empowerment', power_bonus: 5, duration: 50, activation_message: "You feel empowered!", deactivation_message: "You no longer feel empowered."})
+
 Attack
     .kingdom({name: 'hit', damage_type: 'hit'})
     .kingdom({name: 'bokutō_hit', damage_type: 'hit', damage_base: 0.2})
@@ -24,7 +27,7 @@ Item
     .kingdom({name: 'meat', symbol: '肉', fat: 1, action: actions.eat, attacks: [universe.attacks.slap]})
     .kingdom({name: 'ash', symbol: '灰', bias: -10})
     .kingdom({name: 'iron', symbol: '鉄', bias: -10})
-    .kingdom({name: 'tea', symbol: '茶', action: actions.drink, drinkable: true, generic: true, random_effects: [effects.healing, effects.healing, effects.poison]})
+    .kingdom({name: 'tea', symbol: '茶', action: actions.drink, drinkable: true, generic: true, random_effects: [effects.healing, effects.empowerment, effects.poison]})
         .phylum({name: 'green tea'})
         .phylum({name: 'black tea'})
         .phylum({name: 'thai iced tea'})
