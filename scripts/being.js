@@ -17,6 +17,9 @@ Being = WorldObject.variant({}, function(attributes) {
     // highly mutable attributes
     this.inventory = new InventoryPlane(this.inventory)
     this.inventory.being = this
+    this.inventory.level = this.level
+    if (this.square && this.square.plane)
+        this.inventory.level = Math.max(this.square.plane.level, this.inventory.level)
     for (var x = 0; x < this.inventory.width; x++) {
         for (var y = 0; y < this.inventory.height; y++) {
             this.inventory.square(new Coordinate({x: x, y: y})).reveal(this, 1)
