@@ -8,6 +8,8 @@
 
 .dog { color: white; }
 
+.golden-retriever { color: lightsalmon; }
+
 .cat { color: black; }
 
 .three-clawed-dragon { color: green; }
@@ -60,6 +62,27 @@
         0px 0px 7px red;
 }
 
-.elephant {
-    color: darkgray;
+.elephant { color: darkgray; }
+
+.car { color: yellow; }
+
+.floating-brain { color: darksalmon; }
+
+.psychic-brain { color: lime; }
+
+.superior-brain { color: blue; }
+
+.cosmic-brain {
+    color: black;
+    text-shadow:
+        0px 0px 1px purple,
+        0px 0px 2px purple,
+        0px 0px 3px purple,
+        0px 0px 4px purple,
+        0px 0px 5px purple,
+        0px 0px 6px purple,
+        0px 0px 7px purple;
 }
+
+.crocodile { color: darkkhaki; }
+

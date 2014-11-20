@@ -16,6 +16,9 @@ Attack
     .kingdom({name: 'stab', damage_type: 'stab', sharpness_dependence: 1})
     .kingdom({name: 'burn', damage_type: 'burn', damage_base: 0.3})
     .kingdom({name: 'peck', damage_type: 'peck'})
+    .kingdom({name: 'trample', damage_type: 'trample'})
+    .kingdom({name: 'ram', damage_type: 'ram'})
+    .kingdom({name: 'zap', damage_type: 'zap', damage_base: 4, power_dependence: 0})
 
 Item.prototype.attacks = [universe.attacks.hit]
 Item
@@ -52,6 +55,7 @@ Being
                 .order({name: 'five-clawed dragon', symbol: '龍', lean_weight: 40000, vigor: 200, power: 141, level: 200})
         .phylum({name: 'cat', symbol: '猫', lean_weight: 10, vigor: 3, power: 3, attacks: [universe.attacks.claw], playable: true, level: 0.15})
         .phylum({name: 'dog', symbol: '犬', lean_weight: 30, vigor: 5, power: 5, attacks: [universe.attacks.bite], playable: true, level: 0.25})
+            .clazz({name: 'golden retriever', lean_weight: 50, vigor: 6, power: 7, playable: false, level: 0.35})
         .phylum({name: 'mouse', symbol: '鼠', lean_weight: 0.1, vigor: 0.3, speed: 30, power: 0.3, attacks: [universe.attacks.bite], level: 0.0045})
             .clazz({name: 'rat', symbol: '鼠', lean_weight: 1, vigor: 1, speed: 20, power: 1, level: 0.02})
         .phylum({name: 'bird', symbol: '鳥', lean_weight: 0.1, vigor: 0.2, power: 0.2, speed: 30, attacks: [universe.attacks.peck], can_fly: true, playable: true, level: 0.003})
@@ -66,6 +70,13 @@ Being
         .phylum({name: 'battleship', symbol: '艦', lean_weight: 20000000, vigor: 4472, power: 4472, attacks: [universe.attacks.burn], can_walk: false, can_swim: true, level: 67080, inventory: {width: 4, height: 9}, corpse: universe.products.iron})
         .phylum({name: 'fire being', symbol: '火', lean_weight: 100, speed: 15, attacks: [universe.attacks.burn], level: 2.25, corpse: universe.products.ash})
         .phylum({name: 'elephant', symbol: '象', lean_weight: 10000, vigor: 100, power: 100, attacks: [universe.attacks.trample], playable: false, level: 50})
+        .phylum({name: 'car', symbol: '車', lean_weight: 3000, vigor: 55, power: 55, speed: 20, attacks: [universe.attacks.ram], playable: false, level: 50})
+        .phylum({name: 'crocodile', symbol: '鰐', lean_weight: 1500, vigor: 40, power: 80, speed: 10, attacks: [universe.attacks.bite], playable: false, can_swim: true, level: 30})
+        .phylum({name: 'brain', symbol: '脳', lean_weight: 3, vigor: 2, power: 1, speed: 15, attacks: [universe.attacks.zap], playable: false, can_fly: true, level: 2, generic: true})
+            .clazz({name: 'floating brain', vigor: 2, power: 1, speed: 15, level: 2})
+            .clazz({name: 'psychic brain', vigor: 4, power: 1, speed: 15, level: 4})
+            .clazz({name: 'superior brain', vigor: 4, power: 1, speed: 30, level: 8})
+            .clazz({name: 'cosmic brain', vigor: 8, power: 1, speed: 30, level: 16})
 
 Square
     .kingdom({name: 'ground', symbol: '土', continuous: true, walkable: true, flyable: true, generic: true})
