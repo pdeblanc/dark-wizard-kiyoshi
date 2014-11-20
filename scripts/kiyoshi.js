@@ -8,6 +8,7 @@ Condition
 
 Attack
     .kingdom({name: 'hit', damage_type: 'hit'})
+    .kingdom({name: 'buffet', damage_type: 'buffet'})
     .kingdom({name: 'bokutō_hit', damage_type: 'hit', damage_base: 0.2})
     .kingdom({name: 'punch', damage_type: 'punch'})
     .kingdom({name: 'kick', damage_type: 'kick'})
@@ -74,7 +75,8 @@ Being
                 .order({name: 'megalodon', lean_weight: 90000, vigor: 300, power: 300, level: 450})
         .phylum({name: 'battleship', symbol: '艦', lean_weight: 20000000, vigor: 4472, power: 4472, attacks: [universe.attacks.burn], can_walk: false, can_swim: true, level: 67080, inventory: {width: 4, height: 9}, corpse: universe.products.iron})
         .phylum({name: 'fire being', symbol: '火', lean_weight: 100, speed: 15, attacks: [universe.attacks.burn], level: 2.25, corpse: universe.products.ash})
-        .phylum({name: 'cloud being', symbol: '雲', lean_weight: 100, speed: 15, attacks: [universe.attacks.choke], level: 2.25, corpse: universe.products.ash})
+        .phylum({name: 'cloud being', symbol: '雲', lean_weight: 100, speed: 15, attacks: [universe.attacks.choke], level: 2.25, can_fly: true, corpse: universe.products.ash})
+        .phylum({name: 'wind being', symbol: '風', lean_weight: 100, speed: 25, attacks: [universe.attacks.buffet], level: 2.25, can_fly: true, corpse: universe.products.ash})
         .phylum({name: 'elephant', symbol: '象', lean_weight: 10000, vigor: 100, power: 100, attacks: [universe.attacks.trample], playable: false, level: 50})
         .phylum({name: 'car', symbol: '車', lean_weight: 3000, vigor: 55, power: 55, speed: 20, attacks: [universe.attacks.ram], playable: false, level: 50})
         .phylum({name: 'crocodile', symbol: '鰐', lean_weight: 1500, vigor: 40, power: 80, speed: 10, attacks: [universe.attacks.bite], playable: false, can_swim: true, level: 30})

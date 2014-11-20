@@ -49,4 +49,5 @@ english.verb('cut', 'cuts', 'cut')
     .verb('ram', 'rams', 'rammed')
     .verb('zap', 'zaps', 'zapped')
     .verb('choke', 'chokes', 'choked')
+    .verb('buffet', 'buffets', 'buffeted')
 
