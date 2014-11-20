@@ -48,4 +48,5 @@ english.verb('cut', 'cuts', 'cut')
     .verb('miss', 'misses', 'missed')
     .verb('ram', 'rams', 'rammed')
     .verb('zap', 'zaps', 'zapped')
+    .verb('choke', 'chokes', 'choked')
 

@@ -2,7 +2,9 @@ PUBLIC_STATS = ['power', 'speed', 'vigor', 'tactics', 'level', 'experience']
 STATS = ['power', 'speed', 'vigor', 'lean_weight']
 
 Condition
-    .kingdom({name: 'empowerment', power_bonus: 5, duration: 50, activation_message: "You feel empowered!", deactivation_message: "You no longer feel empowered."})
+    .kingdom({name: 'empowerment', power_bonus: 5, duration: 50, activation_message: "You feel empowered!", deactivation_message: "The empowerment has worn off."})
+    .kingdom({name: 'acceleration', speed_bonus: 5, duration: 50, activation_message: "You feel accelerated!", deactivation_message: "The acceleration has worn off."})
+    .kingdom({name: 'invigoration', vigor_bonus: 5, duration: 50, activation_message: "You feel invigorated!", deactivation_message: "The invigoration has worn off."})
 
 Attack
     .kingdom({name: 'hit', damage_type: 'hit'})
@@ -15,6 +17,7 @@ Attack
     .kingdom({name: 'slap', damage_type: 'slap'})
     .kingdom({name: 'stab', damage_type: 'stab', sharpness_dependence: 1})
     .kingdom({name: 'burn', damage_type: 'burn', damage_base: 0.3})
+    .kingdom({name: 'choke', damage_type: 'choke', damage_base: 0.3})
     .kingdom({name: 'peck', damage_type: 'peck'})
     .kingdom({name: 'trample', damage_type: 'trample'})
     .kingdom({name: 'ram', damage_type: 'ram'})
@@ -30,10 +33,12 @@ Item
     .kingdom({name: 'meat', symbol: '肉', fat: 1, action: actions.eat, attacks: [universe.attacks.slap]})
     .kingdom({name: 'ash', symbol: '灰', bias: -10})
     .kingdom({name: 'iron', symbol: '鉄', bias: -10})
-    .kingdom({name: 'tea', symbol: '茶', action: actions.drink, drinkable: true, generic: true, random_effects: [effects.healing, effects.empowerment, effects.poison]})
+    .kingdom({name: 'tea', symbol: '茶', action: actions.drink, drinkable: true, generic: true, random_effects: [effects.healing, effects.empowerment, effects.poison, effects.acceleration, effects.invigoration]})
         .phylum({name: 'green tea'})
         .phylum({name: 'black tea'})
         .phylum({name: 'thai iced tea'})
+        .phylum({name: 'pu-erh tea'})
+        .phylum({name: 'white tea'})
     .kingdom({name: 'bean', symbol: '豆', action: actions.eat, fat: 1, generic: true})
         .phylum({name: 'soybean'})
         .phylum({name: 'azuki bean'})
@@ -69,6 +74,7 @@ Being
                 .order({name: 'megalodon', lean_weight: 90000, vigor: 300, power: 300, level: 450})
         .phylum({name: 'battleship', symbol: '艦', lean_weight: 20000000, vigor: 4472, power: 4472, attacks: [universe.attacks.burn], can_walk: false, can_swim: true, level: 67080, inventory: {width: 4, height: 9}, corpse: universe.products.iron})
         .phylum({name: 'fire being', symbol: '火', lean_weight: 100, speed: 15, attacks: [universe.attacks.burn], level: 2.25, corpse: universe.products.ash})
+        .phylum({name: 'cloud being', symbol: '雲', lean_weight: 100, speed: 15, attacks: [universe.attacks.choke], level: 2.25, corpse: universe.products.ash})
         .phylum({name: 'elephant', symbol: '象', lean_weight: 10000, vigor: 100, power: 100, attacks: [universe.attacks.trample], playable: false, level: 50})
         .phylum({name: 'car', symbol: '車', lean_weight: 3000, vigor: 55, power: 55, speed: 20, attacks: [universe.attacks.ram], playable: false, level: 50})
         .phylum({name: 'crocodile', symbol: '鰐', lean_weight: 1500, vigor: 40, power: 80, speed: 10, attacks: [universe.attacks.bite], playable: false, can_swim: true, level: 30})

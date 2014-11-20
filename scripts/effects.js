@@ -33,3 +33,17 @@ effects.empowerment.execute = function(being) {
     return true
 }
 
+effects.invigoration = new Effect({name: 'invigoration'})
+effects.invigoration.execute = function(being) {
+    being.add_condition(universe.conditions.invigoration.create())
+        this.conditions = {}
+    return true
+}
+
+effects.acceleration = new Effect({name: 'acceleration'})
+effects.acceleration.execute = function(being) {
+    being.add_condition(universe.conditions.acceleration.create())
+        this.conditions = {}
+    return true
+}
+
