@@ -55,10 +55,10 @@ Item
 Being
     .kingdom({name: 'animal', generic: true, bias: -5, corpse: universe.products.meat})
         .phylum({name: 'human', symbol: '人', lean_weight: 100, hands: 2, tactics: 10, attacks: [universe.attacks.punch, universe.attacks.kick], inventory: {width: 2, height: 9}, level: 0.5, playable: true, bias: -6, habitat: {town: 2}, power: 10, speed: 10, vigor: 10})
-            .clazz({name: 'samurai', symbol: '侍', tactics: 12, power: 15, vigor: 14, speed: 13, playable: false, level: 1.5})
+            .clazz({name: 'samurai', symbol: '侍', tactics: 12, power: 15, vigor: 14, speed: 13, playable: false, level: 2})
         .phylum({name: 'three-clawed dragon', symbol: '竜', hands: 2, lean_weight: 10000, power: 100, vigor: 100, attacks: [universe.attacks.claw], can_fly: true, inventory: {width: 1, height: 3}, level: 50})
-            .clazz({name: 'four-clawed dragon', symbol: '龍', lean_weight: 20000, vigor: 141, power: 141, level: 99})
-                .order({name: 'five-clawed dragon', symbol: '龍', lean_weight: 40000, vigor: 200, power: 141, level: 200})
+            .clazz({name: 'four-clawed dragon', symbol: '龍', lean_weight: 20000, vigor: 141, power: 141, level: 100})
+                .order({name: 'five-clawed dragon', symbol: '龍', lean_weight: 40000, vigor: 200, power: 141, level: 210})
         .phylum({name: 'cat', symbol: '猫', lean_weight: 10, vigor: 3, power: 3, attacks: [universe.attacks.claw], playable: true, level: 0.15})
         .phylum({name: 'dog', symbol: '犬', lean_weight: 30, vigor: 5, power: 5, attacks: [universe.attacks.bite], playable: true, level: 0.25})
             .clazz({name: 'golden retriever', lean_weight: 50, vigor: 6, power: 7, playable: false, level: 0.35})
