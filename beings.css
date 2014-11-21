@@ -8,7 +8,9 @@
 
 .dog { color: white; }
 
-.golden-retriever { color: lightsalmon; }
+.golden-retriever { color: gold; }
+
+.rottweiler { color: black; }
 
 .cat { color: black; }
 
@@ -66,7 +68,7 @@
 
 .car { color: yellow; }
 
-.floating-brain { color: darksalmon; }
+.floating-brain { color: lightsalmon; }
 
 .psychic-brain { color: lime; }
 
