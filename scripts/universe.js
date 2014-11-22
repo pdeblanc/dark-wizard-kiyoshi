@@ -39,7 +39,7 @@ Universe.prototype.foes = function(a, b) {
 }
 
 Universe.prototype.delay_if_game_over = function(milliseconds, callback) {
-    if (this.game_over)
+    if (this.game_over && (milliseconds >= 1 || Math.random() < milliseconds))
         setTimeout(callback, milliseconds)
     else
         callback()
