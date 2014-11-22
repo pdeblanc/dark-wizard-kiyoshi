@@ -82,6 +82,11 @@ WorldObject.variant = function(attributes, f) {
         F[this.weird_heritable_stuff[i]] = this[this.weird_heritable_stuff[i]]
     if ('name' in attributes && !F.prototype.generic)
         universe[this.set_name][attributes.name] = F
+    // check for bad data
+    for (var i = 0; i < F.prototype.attacks.length; i++) {
+        if (!F.prototype.attacks[i])
+            throw("undefined attack for " + F.prototype.name)
+    }
     return F
 }
 
