@@ -26,8 +26,8 @@ Attack
 
 Item.prototype.attacks = [universe.attacks.hit]
 Item
-    .kingdom({name: 'katana', symbol: '刀', action: actions.toggle_wield, attacks: [universe.attacks.cut, universe.attacks.stab], sharpness: 5, level: 3, habitat: {samurai: 4}})
-        .phylum({name: 'bokutō', sharpness: 2, level: 1, attacks: [universe.attacks.bokutō_hit], habitat: {samurai: 2}})
+    .kingdom({name: 'katana', symbol: '刀', action: actions.toggle_wield, attacks: [universe.attacks.cut, universe.attacks.stab], sharpness: 5, level: 3, habitat: {samurai: 2.5}})
+        .phylum({name: 'bokutō', sharpness: 2, level: 1, attacks: [universe.attacks.bokutō_hit]})
     .kingdom({name: 'sword', symbol: '剣', action: actions.toggle_wield, attacks: [universe.attacks.cut, universe.attacks.stab], sharpness: 5, generic: true, level: 3})
         .phylum({name: 'longsword', symbol: '剣'})
         .phylum({name: 'rapier', symbol: '剣'})
