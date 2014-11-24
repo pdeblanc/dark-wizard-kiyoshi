@@ -47,3 +47,10 @@ effects.acceleration.execute = function(being) {
     return true
 }
 
+effects.xray_vision = new Effect({name: 'X-ray vision'})
+effects.xray_vision.execute = function(being) {
+    being.add_condition(universe.conditions.xray_vision.create())
+        this.conditions = {}
+    return true
+}
+

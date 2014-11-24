@@ -47,7 +47,10 @@ Being.prototype.power = 10
 Being.prototype.speed = 10
 Being.prototype.vigor = 10
 Being.prototype.tactics = 10
-Being.prototype.scalar_attributes = ['power', 'speed', 'vigor', 'tactics']
+
+Being.prototype.xray_vision = 0
+
+Being.prototype.scalar_attributes = ['power', 'speed', 'vigor', 'tactics', 'xray_vision']
 
 Being.prototype.inventory = {width: 1, height: 1}
 Being.prototype.can_walk = true
@@ -274,7 +277,7 @@ Being.prototype.level_from_experience = function(experience) {
 Being.prototype.visibility = function(square) {
     if (square.plane != this.square.plane) // probably in inventory
         return 1
-    var total_obstacles = 0
+    var total_obstacles = -this.xray_vision.current()
     var line = this.square.coordinate.line(square.coordinate)
     for (var i = 1; i < line.length-1; i++)
         total_obstacles += this.square.plane.square(line[i][0]).opacity * line[i][1]

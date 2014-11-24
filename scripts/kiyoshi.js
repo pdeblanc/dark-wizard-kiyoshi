@@ -5,6 +5,7 @@ Condition
     .kingdom({name: 'empowerment', power_bonus: 5, duration: 50, activation_message: "You feel empowered!", deactivation_message: "The empowerment has worn off."})
     .kingdom({name: 'acceleration', speed_bonus: 5, duration: 50, activation_message: "You feel accelerated!", deactivation_message: "The acceleration has worn off."})
     .kingdom({name: 'invigoration', vigor_bonus: 5, duration: 50, activation_message: "You feel invigorated!", deactivation_message: "The invigoration has worn off."})
+    .kingdom({name: 'xray_vision', xray_vision_bonus: 5, duration: 50, activation_message: "You gain the ability to see through objects!", deactivation_message: "The X-ray vision has worn off."})
 
 Attack
     .kingdom({name: 'hit', damage_type: 'hit'})
@@ -34,7 +35,7 @@ Item
     .kingdom({name: 'meat', symbol: '肉', fat: 1, action: actions.eat, attacks: [universe.attacks.slap]})
     .kingdom({name: 'ash', symbol: '灰', bias: -10})
     .kingdom({name: 'iron', symbol: '鉄', bias: -10})
-    .kingdom({name: 'tea', symbol: '茶', action: actions.drink, drinkable: true, generic: true, random_effects: [effects.healing, effects.empowerment, effects.poison, effects.acceleration, effects.invigoration]})
+    .kingdom({name: 'tea', symbol: '茶', action: actions.drink, drinkable: true, generic: true, random_effects: [effects.healing, effects.empowerment, effects.poison, effects.acceleration, effects.invigoration, effects.xray_vision]})
         .phylum({name: 'green tea'})
         .phylum({name: 'black tea'})
         .phylum({name: 'thai iced tea'})
