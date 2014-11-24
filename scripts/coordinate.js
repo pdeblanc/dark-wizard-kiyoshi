@@ -31,6 +31,10 @@ Coordinate.prototype.taxicab_distance = function(other) {
     return Math.abs(other.x - this.x) + Math.abs(other.y - this.y)
 }
 
+Coordinate.prototype.euclidean_distance = function(other, z_offset) {
+    return Math.sqrt(Math.pow(other.x - this.x, 2) + Math.pow(other.y - this.y, 2) + z_offset * z_offset)
+}
+
 Coordinate.prototype.line = function(other) {
     // Construct a line segment from the center of this to the center of other;
     // return an array of [coordinate, length] pairs, where length is the length

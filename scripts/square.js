@@ -51,6 +51,17 @@ Square.prototype.tags = []
 Square.prototype.bias = 0
 Square.prototype.clumpiness = 1
 
+Square.prototype.light = function() {
+    var light = this.plane.light
+    var radius = 4
+    var coordinate = this.coordinate
+    var sources = this.plane.light_sources.search([coordinate.x - radius, coordinate.y - radius, coordinate.x + radius, coordinate.y + radius])
+    for (var i = 0; i < sources.length; i++) {
+        console.log('hey')
+        light += sources[i].brightness / Math.pow(sources[i].square.coordinate.euclidean_distance(this.coordinate, .5), 2)
+    }
+    return Math.max(0, Math.min(1, light))
+}
 
 // index is an object whose keys are things that may be placed in the square
 Square.prototype.sample_contents = function(index) {
@@ -92,6 +103,8 @@ Square.prototype.exit = function(departee) {
         array.splice(index, 1)
     if (departee instanceof Being)
         this.plane.tree.remove(departee)
+    if (departee.brightness)
+        this.plane.light_sources.remove(departee)
 }
 Square.prototype.enter = function(newcomer) {
     var array = (newcomer instanceof Being) ? this.beings : this.items
@@ -101,6 +114,8 @@ Square.prototype.enter = function(newcomer) {
         if (this.items.length)
             newcomer.tell("You find " + english.list(this.items, newcomer) + ".")
     }
+    if (newcomer.brightness)
+        this.plane.light_sources.insert(newcomer)
 }
 Square.prototype.permit_entry = function(hopeful) {
     if (hopeful instanceof Being && this.beings.length < this.max_beings)

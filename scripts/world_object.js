@@ -15,6 +15,7 @@ WorldObject.prototype.habitat = {}
 WorldObject.prototype.bias = -5 // the higher the number, the more common this object class will be
 WorldObject.prototype.level = 1
 WorldObject.prototype.attacks = []
+WorldObject.prototype.brightness = 0
 
 WorldObject.prototype.constructor = WorldObject
 

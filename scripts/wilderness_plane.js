@@ -12,6 +12,7 @@ WildernessPlane.prototype = Object.create(Plane.prototype)
 WildernessPlane.prototype.feature_size_limit = 1024
 WildernessPlane.prototype.width = 1024
 WildernessPlane.prototype.height = 1024
+WildernessPlane.prototype.light = 1
 
 
 WildernessPlane.prototype.generate_square = function(coordinate) {
