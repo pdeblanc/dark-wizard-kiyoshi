@@ -62,8 +62,6 @@ WorldObject.weird_heritable_stuff = ['weird_heritable_stuff', 'specificity', 'se
 
 WorldObject.specificity = -100 // more abstract classes have lower specificity
 
-WorldObject.set_name = 'classes'
-
 WorldObject.variant = function(attributes, f) {
     var constructor = this
     function F() {
@@ -81,7 +79,7 @@ WorldObject.variant = function(attributes, f) {
     F.prototype.className = F.prototype.name.replace(/ /g, '-')
     for (var i = 0; i < this.weird_heritable_stuff.length; i++)
         F[this.weird_heritable_stuff[i]] = this[this.weird_heritable_stuff[i]]
-    if ('name' in attributes && !F.prototype.generic)
+    if ('name' in attributes && !F.prototype.generic && this.set_name)
         universe[this.set_name][attributes.name] = F
     // check for bad data
     for (var i = 0; i < F.prototype.attacks.length; i++) {

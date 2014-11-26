@@ -1,6 +1,7 @@
 actions = {}
 
 Action = WorldObject.variant({}, function() {})
+Incantation = WorldObject.variant({name: 'incantation'})
 
 // action.execute(subject, direct_object, indirect_object)
 // return true if action is successful
@@ -302,5 +303,11 @@ actions.unwield.execute = function(subject, item) {
         subject.wielding.wielded_by = false
     subject.wielding = false
     subject.tell('No longer wielding ' + item.the(subject) + '.')
+    return true
+}
+
+actions.magic = new Action({name: 'magic', dobj: Incantation})
+actions.magic.execute = function(subject, incantation) {
+    subject.tell('You chant, "' + incantation.name + '"')
     return true
 }

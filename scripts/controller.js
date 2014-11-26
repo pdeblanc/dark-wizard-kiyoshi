@@ -4,7 +4,7 @@ function Controller(attributes) {
     this.commands = []
     this.command_callbacks = []
     this.partial_command = false
-    this.action_chars = {d: actions.drop, e: actions.eat, g: actions.get, l: actions.look, n: actions.drink, p: actions.rest, t: actions.take, u: actions.put, w: actions.wield, '.': actions.wait, ' ': actions.wait, '<': actions.ascend, '>': actions.descend}
+    this.action_chars = {d: actions.drop, e: actions.eat, g: actions.get, l: actions.look, m: actions.magic, n: actions.drink, p: actions.rest, t: actions.take, u: actions.put, w: actions.wield, '.': actions.wait, ' ': actions.wait, '<': actions.ascend, '>': actions.descend}
     // set up event listeners
     var controller = this
     document.body.addEventListener(
@@ -13,18 +13,21 @@ function Controller(attributes) {
             var being = controller.being
             if (event.keyCode == 27) { // esc
                 controller.cancel()
-            } else if (event.keyCode == 37) {
-                controller.click(controller.being.square.west())
-                event.preventDefault()
-            } else if (event.keyCode == 38) {
-                controller.click(controller.being.square.north())
-                event.preventDefault()
-            } else if (event.keyCode == 39) {
-                controller.click(controller.being.square.east())
-                event.preventDefault()
-            } else if (event.keyCode == 40) {
-                controller.click(controller.being.square.south())
-                event.preventDefault()
+            }
+            if (event.target.tagName.toLowerCase() != 'input') {
+                if (event.keyCode == 37) {
+                    controller.click(controller.being.square.west())
+                    event.preventDefault()
+                } else if (event.keyCode == 38) {
+                    controller.click(controller.being.square.north())
+                    event.preventDefault()
+                } else if (event.keyCode == 39) {
+                    controller.click(controller.being.square.east())
+                    event.preventDefault()
+                } else if (event.keyCode == 40) {
+                    controller.click(controller.being.square.south())
+                    event.preventDefault()
+                }
             }
         },
         false
@@ -32,21 +35,23 @@ function Controller(attributes) {
     document.body.addEventListener(
         'keypress',
         function(event) {
-            var charStr = String.fromCharCode(event.which || event.keyCode)
-            if (controller.partial_command) {
-                var square = controller.being.inventory.get_by_label(charStr)
-                if (square) {
-                    controller.click(square)
-                    event.preventDefault()
-                    return
+            if (event.target.tagName.toLowerCase() != 'input') {
+                var charStr = String.fromCharCode(event.which || event.keyCode)
+                if (controller.partial_command) {
+                    var square = controller.being.inventory.get_by_label(charStr)
+                    if (square) {
+                        controller.click(square)
+                        event.preventDefault()
+                        return
+                    }
                 }
-            }
-            if (charStr == '.' && controller.partial_command) {
-                controller.click(controller.being.square)
-                event.preventDefault()
-            } else if (charStr in controller.action_chars) {
-                controller.push_command([controller.action_chars[charStr]])
-                event.preventDefault()
+                if (charStr == '.' && controller.partial_command) {
+                    controller.click(controller.being.square)
+                    event.preventDefault()
+                } else if (charStr in controller.action_chars) {
+                    controller.push_command([controller.action_chars[charStr]])
+                    event.preventDefault()
+                }
             }
         },
         false
@@ -62,6 +67,7 @@ function Controller(attributes) {
         .append(this.button(actions.rest, 'sleeP'))
         .append(this.button(actions.put, 'pUt'))
         .append(this.button(actions.take, 'Take'))
+        .append(this.button(actions.magic, 'use Magic'))
         .append(this.button(actions.wait, 'wait.'))
         .append(this.button(actions.wield, 'Wield'))
         .append(this.button(actions.ascend, '< ascend'))
@@ -91,11 +97,27 @@ Controller.prototype.set_partial_command = function(partial_command) {
     if (partial_command.length == 1) {
         this.being.tell(english.capitalize(partial_command[0].name) + ' <' + action.dobj.prototype.name + '>')
         this.viewport.inventory_viewport.show_labels(this.being, action)
+        if (action.dobj == Incantation)
+            this.query("\xA0...Enter an incantation")
     }
     else if (partial_command.length == 2) {
         this.being.tell('\xA0...' + action.prep + ' <' + action.iobj.prototype.name + '>')
         this.viewport.inventory_viewport.show_labels(this.being, action, partial_command[1])
     }
+}
+Controller.prototype.query = function(prompt_string) {
+    var controller = this
+    var input
+    $("<p />").text(prompt_string + ': ')
+        .appendTo($("#messages"))
+        .append(input = $("<input />")
+            .keydown(function(event) {
+                if (event.keyCode == 13) { // return
+                    this.disabled = true
+                    controller.push_command_token(Incantation.create({name: this.value}))
+                }
+            }))
+    input.focus()
 }
 Controller.prototype.cancel_partial_commands = function() {
     this.partial_command = false
@@ -125,9 +147,7 @@ Controller.prototype.click = function(square) {
             this.being.tell(next_item)
             this.cancel_partial_commands()
         } else if (next_item) {
-            this.partial_command = false
-            partial_command.push(next_item)
-            this.push_command(partial_command)
+            this.push_command_token(next_item)
         } else if (partial_command.length == 1) {
             this.being.tell("There is nothing there to " + action + ".")
             this.cancel_partial_commands()
@@ -139,6 +159,13 @@ Controller.prototype.click = function(square) {
     else if (this.being.square.next_to(square))
         this.push_command([actions.moveto_or_attack, square])
 
+}
+// add a token to the partial command
+Controller.prototype.push_command_token = function(token) {
+    var partial_command = this.partial_command
+    partial_command.push(token)
+    this.partial_command = false
+    this.push_command(partial_command)
 }
 // button creation method
 Controller.prototype.button = function(action, label) {

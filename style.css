@@ -140,6 +140,13 @@ button.action:hover span.key-label {
     color: white;
 }
 
+#messages input {
+    background-color: #101010;
+    color: lime;
+    border: 0;
+    font-family: monospace;
+}
+
 .inventory-label {
     display: block;
     position: absolute;
