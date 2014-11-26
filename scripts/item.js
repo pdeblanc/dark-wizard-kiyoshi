@@ -51,9 +51,10 @@ Item.prototype.check_wielding = function() {
 Item.variant = function(attributes, f) {
     var F = WorldObject.variant.apply(this, arguments)
     var proto = F.prototype
-    if (proto.random_effects && proto.random_effects.length) {
+    if (proto.random_effects && proto.random_effects.length && !proto.generic) {
         var i = Math.floor(Math.random() * proto.random_effects.length)
         proto.effect = proto.random_effects[i]
+        proto.level += proto.effect.level
         proto.random_effects.splice(i, 1)
     }
     return F
