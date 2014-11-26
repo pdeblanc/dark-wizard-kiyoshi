@@ -22,7 +22,7 @@ effects.healing.execute = function(being) {
 
 effects.poison = new Effect({name: 'poison'})
 effects.poison.execute = function(being) {
-    being.health -= 2 / being.vigor.current()
+    being.receive_damage(2)
     being.tell("You don't feel so good.")
     return true
 }
