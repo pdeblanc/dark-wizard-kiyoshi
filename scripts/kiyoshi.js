@@ -52,6 +52,7 @@ Item
         .phylum({name: 'lemon'})
         .phylum({name: 'lime'})
         .phylum({name: 'orange'})
+    .kingdom({name: 'book', symbol: '本'})
 
 Being
     .kingdom({name: 'animal', generic: true, bias: -5, corpse: universe.products.meat})
