@@ -120,6 +120,7 @@ Controller.prototype.query = function(prompt_string) {
     input.focus()
 }
 Controller.prototype.cancel_partial_commands = function() {
+    $('#messages input').attr('disabled', 'true')
     this.partial_command = false
     this.viewport.inventory_viewport.hide_labels()
 }
