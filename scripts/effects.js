@@ -30,28 +30,24 @@ effects.poison.execute = function(being) {
 effects.empowerment = new Effect({name: 'empowerment', level: 1})
 effects.empowerment.execute = function(being) {
     being.add_condition(universe.conditions.empowerment.create())
-        this.conditions = {}
     return true
 }
 
 effects.invigoration = new Effect({name: 'invigoration', level: 1})
 effects.invigoration.execute = function(being) {
     being.add_condition(universe.conditions.invigoration.create())
-        this.conditions = {}
     return true
 }
 
 effects.acceleration = new Effect({name: 'acceleration', level: 2})
 effects.acceleration.execute = function(being) {
     being.add_condition(universe.conditions.acceleration.create())
-        this.conditions = {}
     return true
 }
 
 effects.xray_vision = new Effect({name: 'X-ray vision', level: 1})
 effects.xray_vision.execute = function(being) {
     being.add_condition(universe.conditions.xray_vision.create())
-        this.conditions = {}
     return true
 }
 
