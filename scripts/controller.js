@@ -99,7 +99,7 @@ Controller.prototype.set_partial_command = function(partial_command) {
         this.being.tell(english.capitalize(partial_command[0].name) + ' <' + action.dobj.prototype.name + '>')
         this.viewport.inventory_viewport.show_labels(this.being, action)
         if (action.dobj == Incantation)
-            this.query("\xA0...Enter an incantation")
+            this.query("\xA0...Enter some magic words")
     }
     else if (partial_command.length == 2) {
         this.being.tell('\xA0...' + action.prep + ' <' + action.iobj.prototype.name + '>')
