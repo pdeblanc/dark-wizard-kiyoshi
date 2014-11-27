@@ -1,7 +1,6 @@
 actions = {}
 
 Action = WorldObject.variant({}, function() {})
-Incantation = WorldObject.variant({name: 'incantation'})
 
 // action.execute(subject, direct_object, indirect_object)
 // return true if action is successful
@@ -309,5 +308,11 @@ actions.unwield.execute = function(subject, item) {
 actions.magic = new Action({name: 'magic', dobj: Incantation})
 actions.magic.execute = function(subject, incantation) {
     subject.tell('You chant, "' + incantation.name + '"')
-    return true
+    for (key in incantations) {
+        var spell = incantations[key]
+        if (spell.match(incantation)) {
+            return spell.execute(subject)
+        }
+    }
+    return incantation.execute(subject)
 }
