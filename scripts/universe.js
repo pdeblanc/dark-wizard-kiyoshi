@@ -38,12 +38,5 @@ Universe.prototype.foes = function(a, b) {
     this.affinity(a, b, -1)
 }
 
-Universe.prototype.delay_if_game_over = function(milliseconds, callback) {
-    if (this.game_over && (milliseconds >= 1 || Math.random() < milliseconds))
-        setTimeout(callback, milliseconds)
-    else
-        callback()
-}
-
 var universe = new Universe()
 

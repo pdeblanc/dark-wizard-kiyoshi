@@ -67,6 +67,11 @@ Being.prototype.notify = function() {
     this.viewports.forEach(function(viewport) {viewport.render()})
 }
 
+// return true iff this.act() will not use any asynchronous callbacks
+Being.prototype.synchronous = function() {
+    return !this.controllers.length
+}
+
 Being.prototype.digest = function() {
     // lose a bit over one pound per day due to very active lifestyle
     // remove leading 10000 when done testing
@@ -91,9 +96,8 @@ Being.prototype.act = function(callback, retry) {
     this.notify()
     this.hibernating = this.should_hibernate()
     if (this.hibernating)
-        return callback()
+        return
     var subject = this
-
     if (this.controllers.length > 0) {
         this.disturb_others()
         this.controllers[0].set_callback(function(command) {
@@ -116,7 +120,7 @@ Being.prototype.act = function(callback, retry) {
                 if (possible_weapons[i].weapon_quality(this) > quality) {
                     var success = actions.wield.execute(this, possible_weapons[i])
                     if (success)
-                        return callback()
+                        return
                 }
             }
         }
@@ -125,7 +129,7 @@ Being.prototype.act = function(callback, retry) {
         for (var i = 0; i < squares.length; i++) {
             if (squares[i] && squares[i].beings.length && this.hostile(squares[i].beings[0])) {
                 actions.attack.execute(this, squares[i])
-                return callback()
+                return
             }
         }
         // eat
@@ -134,25 +138,24 @@ Being.prototype.act = function(callback, retry) {
             for (var i = 0; i < possible_food.length; i++) {
                 if (possible_food[i].fat) {
                     actions.eat.execute(this, possible_food[i])
-                    return callback()
+                    return
                 }
             }
         }
         // rest if not hungry
         if (this.hunger() <= 0 && this.health < 1) {
             actions.rest.execute(this)
-            return callback()
+            return
         }
         // collect items
         if (this.square.items.length && this.inventory.vacancy(this.square.items[0])) {
             actions.get.execute(this)
-            return callback()
+            return
         }
         // move
         if (!this.thoughts.direction || !this.square[this.thoughts.direction]().permit_entry(this) || Math.random() < .03)
             this.thoughts.direction = ['north', 'south', 'east', 'west'][Math.floor(Math.random()*4)]
         actions[this.thoughts.direction].execute(this)
-        callback()
     }
 }
 
@@ -215,6 +218,8 @@ Being.prototype.disturb = function() {
 }
 
 Being.prototype.should_hibernate = function() {
+    if (this.controllers.length)
+        return false
     for (player_id in universe.players)
         var player = universe.players[player_id]
         if (player.square.plane == this.square.plane && player.square.coordinate.max_distance(this.square.coordinate) <= 10)
