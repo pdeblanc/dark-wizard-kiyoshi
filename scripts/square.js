@@ -57,7 +57,6 @@ Square.prototype.light = function() {
     var coordinate = this.coordinate
     var sources = this.plane.light_sources.search([coordinate.x - radius, coordinate.y - radius, coordinate.x + radius, coordinate.y + radius])
     for (var i = 0; i < sources.length; i++) {
-        console.log('hey')
         light += sources[i].brightness / Math.pow(sources[i].square.coordinate.euclidean_distance(this.coordinate, .5), 2)
     }
     return Math.max(0, Math.min(1, light))
