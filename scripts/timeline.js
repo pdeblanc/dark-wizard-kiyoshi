@@ -31,10 +31,11 @@ Timeline.prototype.simulate = function() {
         }
         // possibly delay before next event
         if (universe.game_over && (agent = this.queue.peek())) { // only add delays in autoplay mode
+            var timeline = this
             var ms = (agent.next_action_time - this.time) * 20
             ms = Math.max(ms, Math.random() < ms)
             if (ms)
-                return setTimeout(this.simulate, ms)
+                return setTimeout(function() { timeline.simulate() }, ms)
         }
     }
 }
