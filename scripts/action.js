@@ -316,3 +316,19 @@ actions.magic.execute = function(subject, incantation) {
     }
     return incantation.execute(subject)
 }
+
+actions.read = new Action({name: 'read', dobj: Item})
+actions.read.accept_dobj = function(subject, dobj) {
+    return (dobj.text && dobj.text.length > 0)
+}
+actions.read.execute = function(subject, item) {
+    top.thing = item
+    console.log(top.thing)
+    var lines = item.text.split("\n")
+    subject.tell("You begin reading " + item.the() + ".")
+    for (var i = 0; i < lines.length; i++) {
+        subject.tell("\xA0" + lines[i])
+    }
+    subject.tell("You have finished reading " + item.the() + ".")
+    return true
+}
