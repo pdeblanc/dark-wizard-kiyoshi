@@ -14,7 +14,7 @@ function BuildCharacter(container, callback) {
         var name_input
         container
             .append($('<h1 />').text('Enter your name'))
-            .append(name_input = $('<input />').attr('id', 'character-name').keydown(function() {
+            .append(name_input = $('<input />').attr('id', 'character-name').keydown(function(event) {
                 if (event.keyCode == 13) { // return key
                     attributes.name = name_input.val()
                     if (attributes.name == '茅場晶彦')
@@ -22,7 +22,7 @@ function BuildCharacter(container, callback) {
                     next()
                 }
             }))
-            .append($('<button />').addClass('continue').text('continue').click(function() {
+            .append($('<button />').addClass('continue').text('continue').click(function(event) {
                 attributes.name = name_input.val()
                 if (attributes.name == '茅場晶彦')
                     attributes.cheater = true
