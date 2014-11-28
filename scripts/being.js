@@ -313,10 +313,15 @@ Being.prototype.hunger = function() {
 }
 
 Being.prototype.add_condition = function(condition) {
-    var message
-    this.conditions[condition.id] = condition
-    if (message = condition.activation_message)
-        this.tell(message)
+    if (condition.name in this.conditions) {
+        this.conditions[condition.name].expiration += condition.duration
+        if (condition.activation_message)
+            this.tell("The duration of your " + condition.name + " has been extended.")
+    } else {
+        this.conditions[condition.name] = condition
+        if (condition.activation_message)
+            this.tell(condition.activation_message)
+    }
 }
 
 Being.prototype.check_conditions = function() {
