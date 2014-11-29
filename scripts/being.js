@@ -47,6 +47,7 @@ Being.prototype.power = 10
 Being.prototype.speed = 10
 Being.prototype.vigor = 10
 Being.prototype.tactics = 10
+Being.prototype.magic = 0
 
 Being.prototype.xray_vision = 0
 

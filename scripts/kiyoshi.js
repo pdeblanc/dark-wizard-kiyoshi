@@ -1,4 +1,4 @@
-PUBLIC_STATS = ['power', 'speed', 'vigor', 'tactics', 'level', 'experience']
+PUBLIC_STATS = ['power', 'speed', 'vigor', 'magic', 'tactics', 'level', 'experience']
 STATS = ['power', 'speed', 'vigor', 'lean_weight']
 
 Condition
