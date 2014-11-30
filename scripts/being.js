@@ -202,6 +202,7 @@ Being.prototype.die = function() {
         $("#game-over").css('display', 'table').click(function() { location.reload() })
         universe.game_over = true
         var new_being = this.square.plane.random_being()
+        new_being.name = japanese.name(new_being)
         this.viewports[0].set_being(new_being)
     }
 }
