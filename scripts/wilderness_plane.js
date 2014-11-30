@@ -5,6 +5,7 @@ function WildernessPlane(attributes) {
         if (!("level" in attributes))
             this.level = this.upstairs.level + 1
     }
+    this.biomes = []
 }
 
 WildernessPlane.prototype = Object.create(Plane.prototype)
@@ -13,16 +14,22 @@ WildernessPlane.prototype.feature_size_limit = 1024
 WildernessPlane.prototype.width = 1024
 WildernessPlane.prototype.height = 1024
 WildernessPlane.prototype.light = 1
+WildernessPlane.prototype.seed = 0
 
 
 WildernessPlane.prototype.generate_square = function(coordinate) {
     if (coordinate.x % this.feature_size_limit == 0 && coordinate.y % this.feature_size_limit == 0)
         return universe.biomes.grass.create({plane: this, coordinate: coordinate})
+    if (this.biomes.length == 0) {
+        this.biomes = Object.keys(universe.biomes)
+        this.biomes.sort()
+    }
     var parents = coordinate.lattice_parents()
     var biomes_by_probability = []
     var probability_sum = 0
-    var make_stairs = Math.floor(1 + .001 - Math.random())
-    for (var b in universe.biomes) {
+    var make_stairs = Math.floor(1 + .001 - Probability.srandom(coordinate.seed() + 'make_stairs'))
+    for (var i = 0; i < this.biomes.length; i++) {
+        var b = this.biomes[i]
         var activation = universe.biomes[b].prototype.bias + universe.biomes[b].prototype.affinity(this.tags)
         for (var p = 0; p < parents.length; p++) {
             activation += universe.biomes[b].prototype.affinity(this.square(parents[p]).tags)
@@ -38,7 +45,7 @@ WildernessPlane.prototype.generate_square = function(coordinate) {
         probability_sum += probability
     }
     var biome = biomes_by_probability[0][0]
-    var R = Math.random() * probability_sum
+    var R = Probability.srandom(coordinate.seed() + 'biome' + this.seed) * probability_sum
     for (var b = 0; b < biomes_by_probability.length; b++) {
         if (R < biomes_by_probability[b][1]) {
             biome = biomes_by_probability[b][0]

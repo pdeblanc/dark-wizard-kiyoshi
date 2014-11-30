@@ -1,11 +1,11 @@
 Probability = {}
 
 // Take a list of ordered pairs [outcome, unscaled_probability] and return a sample
-Probability.sample = function(list) {
+Probability.sample = function(list, seed) {
     var total = 0
     for (var i = 0; i < list.length; i++)
         total += list[i][1]
-    var R = Math.random() * total
+    var R = Probability.srandom(seed) * total
     for (var i = 0; i < list.length; i++) {
         if (R < list[i][1])
             return list[i][0]
@@ -23,3 +23,10 @@ Probability.gauss = function() {
     return Math.sqrt(-2 * Math.log(mag2) / mag2) * x
 }
 
+Probability.hash_int = function (x) {
+    return murmurhash2_32_gc('' + x, 1234)
+}
+
+Probability.srandom = function(seed) {
+    return Probability.hash_int(seed) / Math.pow(2, 32)
+}

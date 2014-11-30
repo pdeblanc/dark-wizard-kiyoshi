@@ -70,3 +70,7 @@ Coordinate.prototype.line = function(other) {
     return pairs
 }
 
+Coordinate.prototype.seed = function() {
+    return Probability.hash_int(this.x + Probability.hash_int(this.y))
+}
+

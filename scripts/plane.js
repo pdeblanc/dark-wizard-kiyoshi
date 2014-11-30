@@ -35,9 +35,9 @@ Plane.prototype.vacancy = function(hopeful) {
         }
     }
 }
-Plane.prototype.place_randomly = function(hopeful) {
+Plane.prototype.place_randomly = function(hopeful, seed) {
     for (var attempt = 0; attempt < 100; attempt++) {
-        var coordinate = new Coordinate({x: Math.floor(Math.random() * this.width), y: Math.floor(Math.random() * this.height)})
+        var coordinate = new Coordinate({x: Math.floor(Probability.srandom(seed + 'x' + attempt) * this.width), y: Math.floor(Probability.srandom(seed + 'y' + attempt) * this.height)})
         var square = this.square(coordinate)
         if (square.permit_entry(hopeful))
             return hopeful.moveto(square)

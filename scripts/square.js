@@ -77,7 +77,7 @@ Square.prototype.sample_contents = function(index) {
             probability_array.push([object_class, p])
         }
     }
-    return Probability.sample(probability_array)
+    return Probability.sample(probability_array, this.coordinate.seed() + 'square_contents')
 }
 
 Square.prototype.offset = function(attributes) {
