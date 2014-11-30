@@ -63,7 +63,10 @@ PlayerViewport.prototype.render = function() {
         var stat_value = document.createElement('span')
         stat_value.className = 'stat-value'
         stat_value.id = PUBLIC_STATS[i]
-        stat_value.textContent = Math.floor(this.being[PUBLIC_STATS[i]])
+        if (PUBLIC_STATS[i] == 'magic')
+            stat_value.textContent = Math.floor(this.being.magic * this.being.energy) + '/' + Math.floor(this.being.magic)
+        else
+            stat_value.textContent = Math.floor(this.being[PUBLIC_STATS[i]])
         stat_div.appendChild(stat_label)
         stat_div.appendChild(stat_value)
         this.stats_element.append(stat_div)

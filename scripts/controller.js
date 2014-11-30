@@ -96,6 +96,17 @@ Controller.prototype.set_partial_command = function(partial_command) {
     this.partial_command = partial_command
     var action = partial_command[0]
     if (partial_command.length == 1) {
+        var accept = action.accept_subject(this.being)
+        if (accept == false) {
+            this.being.tell('You cannot ' + action.name + '.')
+            this.partial_command = false
+            return false
+        }
+        if (typeof(accept) == "string") {
+            this.being.tell(accept)
+            this.partial_command = false
+            return false
+        }
         this.being.tell(english.capitalize(partial_command[0].name) + ' <' + action.dobj.prototype.name + '>')
         this.viewport.inventory_viewport.show_labels(this.being, action)
         if (action.dobj == Incantation)

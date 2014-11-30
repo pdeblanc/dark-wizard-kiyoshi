@@ -27,6 +27,7 @@ Being = WorldObject.variant({}, function(attributes) {
     }
     this.dead = 0
     this.health = 1
+    this.energy = 1
     this.body_fat = this.lean_weight * .3
     this.wielding = false
     this.hibernating = false

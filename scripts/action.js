@@ -35,6 +35,10 @@ Action.prototype.select_iobj = function(subject, dobj, square) {
     return false
 }
 
+Action.prototype.accept_subject = function(subject) {
+    return true
+}
+
 // return true if dobj is acceptable.
 // otherwise, return a string explaining why, or return false.
 Action.prototype.accept_dobj = function(subject, dobj) {
@@ -103,7 +107,7 @@ actions.put.execute = function(subject, item, square) {
 
 actions.rest = new Action({name: 'rest'})
 actions.rest.execute = function(subject) {
-    if (subject.health >= 1) {
+    if (subject.health >= 1 && subject.energy >= 1) {
         subject.tell("You are already fully healed!")
         return false;
     }
@@ -122,8 +126,9 @@ actions.rest.execute = function(subject) {
     }
     subject.tell('You rest...')
     subject.health = Math.min(1, subject.health + 0.01)
+    subject.energy = Math.min(1, subject.energy + 0.01)
     subject.redraw()
-    return subject.health
+    return Math.min(subject.health, subject.energy)
 }
 
 actions.get = new Action({name: 'get'})
@@ -306,8 +311,15 @@ actions.unwield.execute = function(subject, item) {
 }
 
 actions.magic = new Action({name: 'magic', dobj: Incantation})
+actions.magic.accept_subject = function(subject) {
+    console.log('energy', subject.energy * subject.magic)
+    if (subject.energy * subject.magic < 1)
+        return "You do not have enough spell energy to use magic."
+    return true
+}
 actions.magic.execute = function(subject, incantation) {
     subject.tell('You chant, "' + incantation.name + '"')
+    subject.energy -= 1 / subject.magic
     for (key in incantations) {
         var spell = incantations[key]
         if (spell.match(incantation)) {
