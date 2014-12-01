@@ -21,38 +21,29 @@ WildernessPlane.prototype.generate_square = function(coordinate) {
     if (coordinate.x % this.feature_size_limit == 0 && coordinate.y % this.feature_size_limit == 0)
         return universe.biomes.grass.create({plane: this, coordinate: coordinate})
     if (this.biomes.length == 0) {
-        this.biomes = Object.keys(universe.biomes)
-        this.biomes.sort()
+        this.biomes = values_by_sorted_keys(universe.biomes)
     }
     var parents = coordinate.lattice_parents()
     var biomes_by_probability = []
     var probability_sum = 0
     var make_stairs = Math.floor(1 + .001 - Probability.srandom(coordinate.seed() + 'make_stairs'))
     for (var i = 0; i < this.biomes.length; i++) {
-        var b = this.biomes[i]
-        var activation = universe.biomes[b].prototype.bias + universe.biomes[b].prototype.affinity(this.tags)
+        var biome = this.biomes[i]
+        var activation = biome.prototype.bias + biome.prototype.affinity(this.tags)
         for (var p = 0; p < parents.length; p++) {
-            activation += universe.biomes[b].prototype.affinity(this.square(parents[p]).tags)
+            activation += biome.prototype.affinity(this.square(parents[p]).tags)
         }
         var probability = Math.exp(activation)
-        if (universe.biomes[b].prototype.can_descend && !this.downstairs || universe.biomes[b].prototype.can_ascend && !this.upstairs)
+        if (biome.prototype.can_descend && !this.downstairs || biome.prototype.can_ascend && !this.upstairs)
             probability = 0
-        if (this.upstairs && (universe.biomes[b].prototype.can_ascend != this.upstairs.square(coordinate).can_descend))
+        if (this.upstairs && (biome.prototype.can_ascend != this.upstairs.square(coordinate).can_descend))
             probability = 0
-        if (universe.biomes[b].prototype.can_descend && make_stairs)
+        if (biome.prototype.can_descend && make_stairs)
             probability *= 1000000
-        biomes_by_probability.push([universe.biomes[b], probability])
+        biomes_by_probability.push([biome, probability])
         probability_sum += probability
     }
-    var biome = biomes_by_probability[0][0]
-    var R = Probability.srandom(coordinate.seed() + 'biome' + this.seed) * probability_sum
-    for (var b = 0; b < biomes_by_probability.length; b++) {
-        if (R < biomes_by_probability[b][1]) {
-            biome = biomes_by_probability[b][0]
-            break
-        }
-        R -= biomes_by_probability[b][1]
-    }
+    var biome = Probability.sample(biomes_by_probability, coordinate.seed() + 'biome' + this.seed)
     return biome.create({plane: this, coordinate: new Coordinate({x: coordinate.x, y: coordinate.y})})
 }
 
