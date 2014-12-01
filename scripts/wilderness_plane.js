@@ -6,6 +6,8 @@ function WildernessPlane(attributes) {
             this.level = this.upstairs.level + 1
     }
     this.biomes = []
+    this.suggestions = {}
+    this.seed = this.level
 }
 
 WildernessPlane.prototype = Object.create(Plane.prototype)
@@ -16,8 +18,24 @@ WildernessPlane.prototype.height = 1024
 WildernessPlane.prototype.light = 1
 WildernessPlane.prototype.seed = 0
 
-
 WildernessPlane.prototype.generate_square = function(coordinate) {
+    // suggest a square, which may be stairs
+    var square = this.suggestion(coordinate, 1)
+    // filter out squares that don't have matching stairs
+    if (square.can_descend && !this.downstairs.suggestion(coordinate, 1).can_ascend || square.can_ascend && !this.upstairs.suggestion(coordinate, 1).can_descend)
+        square = this.suggestion(coordinate, 2)
+    return square
+}
+
+WildernessPlane.prototype.suggestion = function(coordinate, trial) {
+    var key = coordinate.x + '_' + coordinate.y + '_' + trial
+    if (!(key in this.suggestions))
+        this.suggestions[key] = this.suggest(coordinate, trial)
+    return this.suggestions[key]
+}
+
+WildernessPlane.prototype.suggest = function(coordinate, trial) {
+    trial = trial || 1
     if (coordinate.x % this.feature_size_limit == 0 && coordinate.y % this.feature_size_limit == 0)
         return universe.biomes.grass.create({plane: this, coordinate: coordinate})
     if (this.biomes.length == 0) {
@@ -26,7 +44,6 @@ WildernessPlane.prototype.generate_square = function(coordinate) {
     var parents = coordinate.lattice_parents()
     var biomes_by_probability = []
     var probability_sum = 0
-    var make_stairs = Math.floor(1 + .001 - Probability.srandom(coordinate.seed() + 'make_stairs'))
     for (var i = 0; i < this.biomes.length; i++) {
         var biome = this.biomes[i]
         var activation = biome.prototype.bias + biome.prototype.affinity(this.tags)
@@ -34,12 +51,8 @@ WildernessPlane.prototype.generate_square = function(coordinate) {
             activation += biome.prototype.affinity(this.square(parents[p]).tags)
         }
         var probability = Math.exp(activation)
-        if (biome.prototype.can_descend && !this.downstairs || biome.prototype.can_ascend && !this.upstairs)
+        if (biome.prototype.can_descend && (trial > 1 || !this.downstairs) || biome.prototype.can_ascend && (trial > 1 || !this.upstairs))
             probability = 0
-        if (this.upstairs && (biome.prototype.can_ascend != this.upstairs.square(coordinate).can_descend))
-            probability = 0
-        if (biome.prototype.can_descend && make_stairs)
-            probability *= 1000000
         biomes_by_probability.push([biome, probability])
         probability_sum += probability
     }
