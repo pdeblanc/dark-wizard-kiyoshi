@@ -8,6 +8,7 @@ function Universe(attributes) {
     this.game_over = false
     this.players = {}
     this.timeline = new Timeline({start_time: 0, universe: this})
+    this.planes = []
 } 
 
 Universe.prototype.simulate = function() {
@@ -37,6 +38,15 @@ Universe.prototype.friends = function(a, b) {
 Universe.prototype.foes = function(a, b) {
     this.affinity(a, b, -1)
 }
+
+Universe.prototype.add_plane = function(attributes) {
+    attributes = Object.copy(attributes)
+    attributes.level = this.planes.length + 1
+    if (this.planes.length)
+        attributes.upstairs = this.planes[this.planes.length - 1]
+    this.planes.push(new WildernessPlane(attributes))
+}
+
 
 var universe = new Universe()
 
