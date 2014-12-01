@@ -40,7 +40,7 @@ Universe.prototype.foes = function(a, b) {
 }
 
 Universe.prototype.add_plane = function(attributes) {
-    attributes = Object.copy(attributes)
+    attributes = Object.create(attributes)
     attributes.level = this.planes.length + 1
     if (this.planes.length)
         attributes.upstairs = this.planes[this.planes.length - 1]
