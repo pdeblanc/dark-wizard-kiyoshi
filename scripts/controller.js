@@ -74,6 +74,7 @@ function Controller(attributes) {
         .append(this.button(actions.ascend, '< ascend'))
         .append(this.button(actions.descend, '> descend'))
         .append($('<button />').addClass('action').addClass('cancel').html('cancel <span class="key-label">(esc)</span>').click(function() { controller.cancel() }))
+        .append($('<button />').addClass('action').html('save game').click(function() { controller.save_game() }))
     )
 
     // set up display
@@ -201,4 +202,9 @@ Controller.prototype.cancel = function() {
     if (this.partial_command)
         this.being.tell('\xA0...canceled.')
     this.cancel_partial_commands()
+}
+
+Controller.prototype.save_game = function() {
+    var blob = new Blob([universe.serialize()], {type: 'text/plain;charset=utf-8'})
+    saveAs(blob, this.being.name + '.sav')
 }
