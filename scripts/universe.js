@@ -47,6 +47,13 @@ Universe.prototype.add_plane = function(attributes) {
     this.planes.push(new WildernessPlane(attributes))
 }
 
+Universe.prototype.serialize = function() {
+    var output = {planes: []}
+    for (var i = 0; i < this.planes.length; i++) {
+        output.planes.push(this.planes[i].serialize())
+    }
+    return JSON.stringify(output, undefined, 2)
+}
 
 var universe = new Universe()
 

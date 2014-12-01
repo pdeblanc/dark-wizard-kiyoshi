@@ -16,6 +16,7 @@ Square = WorldObject.variant({}, function(attributes) {
     if (item = this.sample_contents(universe.products))
         item.create({square: this})
     this.name = this.name.replace(/[0-9]/g, "")
+    this.state_changed = false
 })
 
 Square.variant = function(attributes, f) {
@@ -104,6 +105,7 @@ Square.prototype.exit = function(departee) {
         this.plane.tree.remove(departee)
     if (departee.brightness)
         this.plane.light_sources.remove(departee)
+    this.state_changed = true
 }
 Square.prototype.enter = function(newcomer) {
     var array = (newcomer instanceof Being) ? this.beings : this.items
@@ -115,6 +117,7 @@ Square.prototype.enter = function(newcomer) {
     }
     if (newcomer.brightness)
         this.plane.light_sources.insert(newcomer)
+    this.state_changed = true
 }
 Square.prototype.permit_entry = function(hopeful) {
     if (hopeful instanceof Being && this.beings.length < this.max_beings)
@@ -172,4 +175,15 @@ Square.prototype.blit = function(being, cell) {
 
 Square.prototype.neighbors = function() {
     return {north: this.north(), south: this.south(), east: this.east(), west: this.west()}
+}
+
+Square.prototype.serialize = function() {
+    if (!this.state_changed)
+        return false
+    var output = {beings: [], items: []}
+    for (var i = 0; i < this.beings.length; i++)
+        output.beings.push(this.beings[i].serialize())
+    for (var i = 0; i < this.items.length; i++)
+        output.items.push(this.items[i].serialize())
+    return output
 }

@@ -60,3 +60,13 @@ WildernessPlane.prototype.suggest = function(coordinate, trial) {
     return biome.create({plane: this, coordinate: new Coordinate({x: coordinate.x, y: coordinate.y})})
 }
 
+WildernessPlane.prototype.serialize = function() {
+    var output = {}
+    for (key in this.squares) {
+        var value = this.squares[key].serialize()
+        if (value)
+            output[key] = value
+    }
+    return output
+}
+
