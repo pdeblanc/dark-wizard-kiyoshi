@@ -347,5 +347,14 @@ Being.prototype.serialize = function() {
     }
     if (this.next_action_time && !this.hibernating)
         output.next_action_time = this.next_action_time
+    if (this.health != 1)
+        output.health = this.health
+    if (this.energy != 1)
+        output.energy = this.energy
+    output.body_fat = this.body_fat
+    if (this.wielding)
+        output.wielding = this.wielding.id
+    if (this.knowledge.length > 0)
+        output.knowledge = this.knowledge
     return output
 }
