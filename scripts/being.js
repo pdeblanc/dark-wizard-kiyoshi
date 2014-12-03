@@ -361,5 +361,7 @@ Being.prototype.serialize = function() {
         for (var key in this.conditions)
             output.conditions[key] = this.conditions[key].expiration
     }
+    if (this.experience != this.experience_for_level(Math.ceil(this.__proto__.level)))
+        output.experience = this.experience
     return output
 }
