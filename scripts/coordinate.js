@@ -74,3 +74,6 @@ Coordinate.prototype.seed = function() {
     return Probability.hash_int(this.x + Probability.hash_int(this.y))
 }
 
+Coordinate.prototype.serialize = function() {
+    return {x: this.x, y: this.y}
+}

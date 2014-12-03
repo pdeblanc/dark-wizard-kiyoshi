@@ -32,3 +32,7 @@ InventoryPlane.prototype.items = function() {
     }
     return items
 }
+
+InventoryPlane.prototype.serialize_items = function() {
+    return this.items().map(function(item) { return item.serialize() })
+}

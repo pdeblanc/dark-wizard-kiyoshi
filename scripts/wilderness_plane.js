@@ -88,6 +88,8 @@ WildernessPlane.prototype.serialize_items = function() {
         var square = this.squares[key]
         for (var i = 0; i < square.items.length; i++)
             output.push(square.items[i].serialize())
+        for (var i = 0; i < square.beings.length; i++)
+            output.push.apply(output, square.beings[i].inventory.serialize_items())
     }
     return output
 }

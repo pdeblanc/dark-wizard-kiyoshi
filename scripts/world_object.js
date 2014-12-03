@@ -62,6 +62,13 @@ WorldObject.prototype.weapon_quality = function(observer) {
 
 WorldObject.prototype.serialize = function() {
     var output = {type: this.__proto__.name, id: this.id}
+    if (this.square) {
+        output.coordinate = this.square.coordinate.serialize()
+        if (this.square.plane instanceof InventoryPlane)
+            output.plane = this.square.plane.being.id
+        else
+            output.plane = this.square.plane.level
+    }
     return output
 }
 
