@@ -337,3 +337,15 @@ Being.prototype.check_conditions = function() {
         }
     }
 }
+
+Being.prototype.serialize = function() {
+    var output = WorldObject.prototype.serialize.apply(this, arguments)
+    for (var i = 0; i < this.scalar_attributes.length; i++) {
+        var attribute = this.scalar_attributes[i]
+        if (this[attribute].base != this.__proto__[attribute])
+            output[attribute] = this[attribute].base
+    }
+    if (this.next_action_time && !this.hibernating)
+        output.next_action_time = this.next_action_time
+    return output
+}

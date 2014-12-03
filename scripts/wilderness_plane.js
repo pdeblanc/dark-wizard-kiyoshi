@@ -61,12 +61,33 @@ WildernessPlane.prototype.suggest = function(coordinate, trial) {
 }
 
 WildernessPlane.prototype.serialize = function() {
-    var output = {}
-    for (key in this.squares) {
-        var value = this.squares[key].serialize()
-        if (value)
-            output[key] = value
+    // returns a list of squares in which items or beings have been revealed.
+    // this allows us to avoid creating duplicates of things that have moved
+    var output = []
+    for (var key in this.squares) {
+        if (this.squares[key].populated)
+            output.push(key)
+    }
+    output.sort()
+    return output
+}
+
+WildernessPlane.prototype.serialize_beings = function() {
+    var output = []
+    for (var key in this.squares) {
+        var square = this.squares[key]
+        for (var i = 0; i < square.beings.length; i++)
+            output.push(square.beings[i].serialize())
     }
     return output
 }
 
+WildernessPlane.prototype.serialize_items = function() {
+    var output = []
+    for (var key in this.squares) {
+        var square = this.squares[key]
+        for (var i = 0; i < square.items.length; i++)
+            output.push(square.items[i].serialize())
+    }
+    return output
+}

@@ -7,6 +7,8 @@ function WorldObject(attributes) {
     if (attributes)
         for (key in attributes)
             this[key] = attributes[key]
+    if (attributes)
+        this.init_attributes = attributes
 }
 
 WorldObject.prototype.name = 'object'
@@ -59,7 +61,8 @@ WorldObject.prototype.weapon_quality = function(observer) {
 }
 
 WorldObject.prototype.serialize = function() {
-    return this.name
+    var output = {type: this.__proto__.name, id: this.id}
+    return output
 }
 
 WorldObject.weird_heritable_stuff = ['weird_heritable_stuff', 'specificity', 'set_name', 'variant', 'create', 'variant_of_given_specificity', 'kingdom', 'phylum', 'clazz', 'order', 'family', 'genus', 'species']

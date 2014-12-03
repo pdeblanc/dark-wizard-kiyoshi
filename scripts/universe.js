@@ -48,10 +48,15 @@ Universe.prototype.add_plane = function(attributes) {
 }
 
 Universe.prototype.serialize = function() {
-    var output = {planes: []}
+    var output = {planes: [], beings: [], items: []}
     for (var i = 0; i < this.planes.length; i++) {
-        output.planes.push(this.planes[i].serialize())
+        var plane = this.planes[i]
+        output.planes.push(plane.serialize())
+        Array.prototype.push.apply(output.beings, plane.serialize_beings())
+        Array.prototype.push.apply(output.items, plane.serialize_items())
     }
+    output.beings.sort(function(a, b) {return (a.id < b.id)})
+    output.items.sort(function(a, b) {return (a.id < b.id)})
     return JSON.stringify(output, undefined, 2)
 }
 
