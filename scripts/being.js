@@ -356,5 +356,10 @@ Being.prototype.serialize = function() {
         output.wielding = this.wielding.id
     if (this.knowledge.length > 0)
         output.knowledge = this.knowledge
+    if (this.conditions.length > 0) {
+        output.conditions = {}
+        for (var key in this.conditions)
+            output.conditions[key] = this.conditions[key].expiration
+    }
     return output
 }
