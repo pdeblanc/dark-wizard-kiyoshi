@@ -133,11 +133,29 @@ universe.add_plane({tags: {water: .25}})
 for (var i = 4; i < 100; i++)
     universe.add_plane({})
 
-initialize = function() {
-    BuildCharacter($('#container'), function(being) {
-        universe.planes[0].place_randomly(being)
-        new Controller({being: being, container: document.getElementById('container')})
-        universe.simulate()
+title_screen = function() {
+    $('#container')
+        .append($('<button />').addClass('continue').text("new game").click(function(event) {
+            BuildCharacter($('#container'), function(being) {
+                universe.planes[0].place_randomly(being)
+                new Controller({being: being, container: document.getElementById('container')})
+                universe.simulate()
+            })
+        }))
+        .append($('<div />').addClass('load').text('load game')
+            .append($('<input />').attr('id', 'upload').attr('type', 'file').attr('id', 'uploader'))
+        )
+    FileReaderJS.setupInput($('#uploader')[0], {
+        readAsDefault: 'Text',
+        on: {
+            load: function(event, file) {
+                console.log(event.target.result)
+            }
+        }
     })
+}
+
+initialize = function() {
+    title_screen()
 }
 

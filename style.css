@@ -41,7 +41,7 @@ input#character-name {
     text-align: center;
 }
 
-button.continue {
+button.continue, div.load {
     position: relative;
     left: 50%;
     width: 300px;
