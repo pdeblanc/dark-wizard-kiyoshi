@@ -57,6 +57,7 @@ Universe.prototype.serialize = function() {
     }
     output.beings.sort(function(a, b) {return (a.id < b.id)})
     output.items.sort(function(a, b) {return (a.id < b.id)})
+    output.players = Object.keys(this.players)
     return JSON.stringify(output, undefined, 2)
 }
 
