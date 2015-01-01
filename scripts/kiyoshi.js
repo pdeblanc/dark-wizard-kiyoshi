@@ -149,7 +149,10 @@ title_screen = function() {
         readAsDefault: 'Text',
         on: {
             load: function(event, file) {
-                console.log(event.target.result)
+                $('#container').empty()
+                var player = universe.load_game(event.target.result)
+                new Controller({being: player, container: document.getElementById('container')})
+                universe.simulate()
             }
         }
     })

@@ -12,6 +12,7 @@ Plane.prototype.height = 9
 Plane.prototype.level = 1
 Plane.prototype.tags = []
 Plane.prototype.light = 1
+Plane.prototype.emptied_square_keys = {}
 
 Plane.prototype.square = function(coordinate) {
     var index_string = '_' + coordinate.x + '_' + coordinate.y
@@ -35,6 +36,7 @@ Plane.prototype.vacancy = function(hopeful) {
         }
     }
 }
+
 Plane.prototype.place_randomly = function(hopeful, seed) {
     for (var attempt = 0; attempt < 100; attempt++) {
         var coordinate = new Coordinate({x: Math.floor(Probability.srandom(seed + 'x' + attempt) * this.width), y: Math.floor(Probability.srandom(seed + 'y' + attempt) * this.height)})

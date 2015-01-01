@@ -57,7 +57,8 @@ WildernessPlane.prototype.suggest = function(coordinate, trial) {
         probability_sum += probability
     }
     var biome = Probability.sample(biomes_by_probability, coordinate.seed() + 'biome' + this.seed)
-    return biome.create({plane: this, coordinate: new Coordinate({x: coordinate.x, y: coordinate.y})})
+    var generate_contents = !this.emptied_square_keys['_' + coordinate.x + '_' + coordinate.y]
+    return biome.create({plane: this, coordinate: new Coordinate({x: coordinate.x, y: coordinate.y}), generate_contents: generate_contents})
 }
 
 WildernessPlane.prototype.serialize = function() {

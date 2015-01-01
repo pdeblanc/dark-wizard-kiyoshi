@@ -11,10 +11,12 @@ Square = WorldObject.variant({}, function(attributes) {
     this.plane = attributes.plane
     this.coordinate = attributes.coordinate
     var being, item
-    if (being = this.sample_contents(universe.clades))
-        being.create({square: this})
-    if (item = this.sample_contents(universe.products))
-        item.create({square: this})
+    if (this.generate_contents) {
+        if (being = this.sample_contents(universe.clades))
+            being.create({square: this})
+        if (item = this.sample_contents(universe.products))
+            item.create({square: this})
+    }
     this.name = this.name.replace(/[0-9]/g, "")
     this.populated = (this.beings.length > 0 || this.items.length > 0)
 })
@@ -43,6 +45,8 @@ Square.prototype.swimmable = false
 Square.prototype.flyable = false
 Square.prototype.can_descend = false
 Square.prototype.can_ascend = false
+
+Square.prototype.generate_contents = true
 
 Square.prototype.opacity = 0
 

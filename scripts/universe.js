@@ -61,6 +61,30 @@ Universe.prototype.serialize = function() {
     return JSON.stringify(output, undefined, 2)
 }
 
+Universe.prototype.load_game = function(save_file) {
+    var game = JSON.parse(save_file)
+    var beings = {}
+    // deserialize planes
+    for (var i = 0; i < game.planes.length; i++) {
+        var keys_array = game.planes[i]
+        for (var j = 0; j < keys_array.length; j++)
+            this.planes[i].emptied_square_keys[keys_array[j]] = 1
+    }
+    // deserialize beings
+    for (var i = 0; i < game.beings.length; i++) {
+        var attributes = game.beings[i]
+        var clade = this.clades[attributes.type]
+        // build coordinate
+        attributes.coordinate = new Coordinate(attributes.coordinate)
+        attributes.square = universe.planes[attributes.plane].square(attributes.coordinate)
+        delete attributes.coordinate
+        // create being
+        beings[attributes.id] = clade.create(attributes)
+    }
+    // return player
+    return beings[game.players[0]]
+}
+
 var universe = new Universe()
 
 function values_by_sorted_keys(object) {
