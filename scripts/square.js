@@ -18,6 +18,8 @@ Square = WorldObject.variant({}, function(attributes) {
             item.create({square: this})
     }
     this.name = this.name.replace(/[0-9]/g, "")
+    this.starting_items = this.items.map(function(item) { return item.id })
+    this.starting_beings = this.beings.map(function(being) { return being.id })
     this.populated = (this.beings.length > 0 || this.items.length > 0)
 })
 
@@ -179,3 +181,17 @@ Square.prototype.neighbors = function() {
     return {north: this.north(), south: this.south(), east: this.east(), west: this.west()}
 }
 
+// return true if the square's state has changed from its initial state
+Square.prototype.state_changed = function() {
+    if (this.items.length != this.starting_items.length || this.beings.length != this.starting_beings.length)
+        return true
+    for (var i = 0; i < this.items.length; i++) {
+        if (this.items[i].id != this.starting_items[i])
+            return true
+    }
+    for (var i = 0; i < this.beings.length; i++) {
+        if (this.beings[i].id != this.starting_beings[i])
+            return true
+    }
+    return false
+}

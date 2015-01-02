@@ -66,7 +66,7 @@ WildernessPlane.prototype.serialize = function() {
     // this allows us to avoid creating duplicates of things that have moved
     var output = []
     for (var key in this.squares) {
-        if (this.squares[key].populated)
+        if (this.squares[key].state_changed())
             output.push(key)
     }
     output.sort()

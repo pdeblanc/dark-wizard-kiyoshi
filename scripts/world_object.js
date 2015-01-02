@@ -44,7 +44,7 @@ WorldObject.prototype.the = function(observer) {
 }
 
 WorldObject.prototype.suffix = function(observer) {
-    if (!observer || !this.effect || !observer.knowledge[this.class_id])
+    if (!observer || !this.effect || !observer.knowledge || !observer.knowledge[this.class_id])
         return ""
     return " of " + this.effect.name
 }
