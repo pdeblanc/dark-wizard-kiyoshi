@@ -78,6 +78,7 @@ Universe.prototype.load_game = function(save_file) {
         attributes.coordinate = new Coordinate(attributes.coordinate)
         attributes.square = universe.planes[attributes.region - 1].square(attributes.coordinate)
         delete attributes.coordinate
+        attributes.generate_inventory_contents = false
         // create being
         beings[attributes.id] = clade.create(attributes)
     }

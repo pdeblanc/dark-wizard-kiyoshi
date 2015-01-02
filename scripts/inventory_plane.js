@@ -4,10 +4,11 @@ function InventoryPlane(attributes) {
 
 InventoryPlane.prototype = Object.create(Plane.prototype)
 InventoryPlane.prototype.label_symbols = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+InventoryPlane.prototype.generate_contents = true
 
 InventoryPlane.prototype.generate_square = function(coordinate) {
     if (coordinate.x >= 0 && coordinate.y >= 0 && coordinate.x < this.width && coordinate.y < this.height)
-        return universe.biomes['inventory slot'].create({plane: this, coordinate: coordinate})
+        return universe.biomes['inventory slot'].create({plane: this, coordinate: coordinate, generate_contents: this.generate_contents})
     return universe.biomes.void.create({plane: this, coordinate: coordinate})
 }
 
