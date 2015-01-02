@@ -65,9 +65,9 @@ WorldObject.prototype.serialize = function() {
     if (this.square) {
         output.coordinate = this.square.coordinate.serialize()
         if (this.square.plane instanceof InventoryPlane)
-            output.plane = this.square.plane.being.id
+            output.held_by = this.square.plane.being.id
         else
-            output.plane = this.square.plane.level
+            output.region = this.square.plane.level
     }
     return output
 }

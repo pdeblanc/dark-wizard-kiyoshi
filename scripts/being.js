@@ -208,9 +208,11 @@ Being.prototype.die = function() {
 }
 
 Being.prototype.tell = function(message) {
-    this.viewports.forEach(function(viewport) {
-        viewport.tell(message)
-    })
+    if (this.viewports) {
+        this.viewports.forEach(function(viewport) {
+            viewport.tell(message)
+        })
+    }
 }
 
 Being.prototype.disturb = function() {

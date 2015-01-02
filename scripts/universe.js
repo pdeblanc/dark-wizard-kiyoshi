@@ -76,7 +76,7 @@ Universe.prototype.load_game = function(save_file) {
         var clade = this.clades[attributes.type]
         // build coordinate
         attributes.coordinate = new Coordinate(attributes.coordinate)
-        attributes.square = universe.planes[attributes.plane].square(attributes.coordinate)
+        attributes.square = universe.planes[attributes.region - 1].square(attributes.coordinate)
         delete attributes.coordinate
         // create being
         beings[attributes.id] = clade.create(attributes)
