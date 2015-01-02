@@ -367,5 +367,7 @@ Being.prototype.serialize = function() {
     }
     if (this.experience != this.experience_for_level(Math.ceil(this.__proto__.level)))
         output.experience = this.experience
+    if (this.name != this.__proto__.name)
+        output.name = this.name
     return output
 }

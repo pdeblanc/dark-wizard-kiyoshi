@@ -48,7 +48,7 @@ Item.prototype.check_wielding = function() {
         actions.unwield.execute(subject, this)
 }
 
-Being.prototype.serialize = function() {
+Item.prototype.serialize = function() {
     var output = WorldObject.prototype.serialize.apply(this, arguments)
     if (this.fat != this.__proto__.fat)
         output.fat = this.fat
