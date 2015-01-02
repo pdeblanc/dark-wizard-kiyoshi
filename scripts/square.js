@@ -72,7 +72,10 @@ Square.prototype.light = function() {
 // index is an object whose keys are things that may be placed in the square
 Square.prototype.sample_contents = function(index) {
     var probability_array = [[false, 1]]
-    for (key in index) {
+    var keys = Object.keys(index)
+    keys.sort() // for great determinism
+    for (var i = 0; i < keys.length; i++) {
+        var key = keys[i]
         var object_class = index[key]
         if (this.permit_entry(object_class.prototype)) {
             var p = Math.exp(object_class.prototype.bias + this.affinity(object_class.prototype.habitat))

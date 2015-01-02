@@ -77,8 +77,10 @@ WildernessPlane.prototype.serialize_beings = function() {
     var output = []
     for (var key in this.squares) {
         var square = this.squares[key]
-        for (var i = 0; i < square.beings.length; i++)
-            output.push(square.beings[i].serialize())
+        if (square.state_changed()) {
+            for (var i = 0; i < square.beings.length; i++)
+                output.push(square.beings[i].serialize())
+        }
     }
     return output
 }
@@ -87,10 +89,12 @@ WildernessPlane.prototype.serialize_items = function() {
     var output = []
     for (var key in this.squares) {
         var square = this.squares[key]
-        for (var i = 0; i < square.items.length; i++)
-            output.push(square.items[i].serialize())
-        for (var i = 0; i < square.beings.length; i++)
-            output.push.apply(output, square.beings[i].inventory.serialize_items())
+        if (square.state_changed()) {
+            for (var i = 0; i < square.items.length; i++)
+                output.push(square.items[i].serialize())
+            for (var i = 0; i < square.beings.length; i++)
+                output.push.apply(output, square.beings[i].inventory.serialize_items())
+        }
     }
     return output
 }
