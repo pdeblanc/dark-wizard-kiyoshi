@@ -81,6 +81,19 @@ Universe.prototype.load_game = function(save_file) {
         // create being
         beings[attributes.id] = clade.create(attributes)
     }
+    // deserialize items
+    for (var i = 0; i < game.items.length; i++) {
+        var attributes = game.items[i]
+        var product = this.products[attributes.type]
+        // build coordinate
+        attributes.coordinate = new Coordinate(attributes.coordinate)
+        if ('region' in attributes)
+            attributes.square = universe.planes[attributes.region - 1].square(attributes.coordinate)
+        else if ('held_by' in attributes)
+            attributes.square = beings[attributes.held_by].inventory.square(attributes.coordinate)
+        delete attributes.coordinate
+        product.create(attributes)
+    }
     // return player
     return beings[game.players[0]]
 }
