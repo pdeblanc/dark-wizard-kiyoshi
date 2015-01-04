@@ -11,15 +11,13 @@ Square = WorldObject.variant({}, function(attributes) {
     this.plane = attributes.plane
     this.coordinate = attributes.coordinate
     var being, item
-    if (this.generate_contents) {
-        if (being = this.sample_contents(universe.clades))
-            being.create({square: this})
-        if (item = this.sample_contents(universe.products))
-            item.create({square: this})
+    this.starting_beings = this.sample_contents(universe.clades)
+    this.starting_items = this.sample_contents(universe.products)
+    if (!this.generate_contents) {
+        this.beings = []
+        this.items = []
     }
     this.name = this.name.replace(/[0-9]/g, "")
-    this.starting_items = this.items.map(function(item) { return item.id })
-    this.starting_beings = this.beings.map(function(being) { return being.id })
     this.populated = (this.beings.length > 0 || this.items.length > 0)
 })
 
@@ -87,7 +85,10 @@ Square.prototype.sample_contents = function(index) {
             probability_array.push([object_class, p])
         }
     }
-    return Probability.sample(probability_array, this.coordinate.seed() + 'square_contents' + this.plane.seed)
+    var thingClass = Probability.sample(probability_array, this.coordinate.seed() + 'square_contents' + this.plane.seed)
+    if (thingClass)
+        return [thingClass.create({square: this})]
+    return []
 }
 
 Square.prototype.offset = function(attributes) {
@@ -186,15 +187,8 @@ Square.prototype.neighbors = function() {
 
 // return true if the square's state has changed from its initial state
 Square.prototype.state_changed = function() {
-    if (this.items.length != this.starting_items.length || this.beings.length != this.starting_beings.length)
-        return true
-    for (var i = 0; i < this.items.length; i++) {
-        if (this.items[i].id != this.starting_items[i])
-            return true
+    function map_ids (L) {
+        return L.map(function(item) { return item.id }).join(", ")
     }
-    for (var i = 0; i < this.beings.length; i++) {
-        if (this.beings[i].id != this.starting_beings[i])
-            return true
-    }
-    return false
+    return (map_ids(this.items) != map_ids(this.starting_items) || map_ids(this.beings) != map_ids(this.starting_beings))
 }

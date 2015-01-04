@@ -369,5 +369,7 @@ Being.prototype.serialize = function() {
         output.experience = this.experience
     if (this.name != this.__proto__.name)
         output.name = this.name
+    if (this.next_action_time)
+        output.next_action_time = this.next_action_time
     return output
 }

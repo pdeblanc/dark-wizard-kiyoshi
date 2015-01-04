@@ -5,7 +5,7 @@ function Timeline(attributes) {
 }
 
 Timeline.prototype.add_agent = function(agent) {
-    agent.next_action_time = this.time + Math.random() * 10 / agent.speed.current()
+    agent.next_action_time = agent.next_action_time || this.time + Math.random() * 10 / agent.speed.current()
     this.queue.queue(agent)
 }
 
@@ -13,7 +13,7 @@ Timeline.prototype.simulate = function() {
     var agent
     while (agent = this.queue.dequeue()) {
         this.time = agent.next_action_time
-        if (agent.dead || agent.hibernating)
+        if (agent.dead || agent.hibernating || !agent.square)
             delete agent.next_action_time
         else if (agent.synchronous()) {
             agent.act()

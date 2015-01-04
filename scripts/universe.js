@@ -59,6 +59,7 @@ Universe.prototype.serialize = function() {
     output.beings.sort(function(a, b) {return (a.id < b.id)})
     output.items.sort(function(a, b) {return (a.id < b.id)})
     output.players = Object.keys(this.players)
+    output.time = this.timeline.time
     return JSON.stringify(output, undefined, 2)
 }
 
@@ -96,6 +97,8 @@ Universe.prototype.load_game = function(save_file) {
         delete attributes.coordinate
         product.create(attributes)
     }
+    // deserialize time
+    this.timeline.time = game.time
     // return player
     return beings[game.players[0]]
 }
