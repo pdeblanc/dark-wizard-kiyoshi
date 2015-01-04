@@ -10,6 +10,7 @@ Square = WorldObject.variant({}, function(attributes) {
     this.beings = []
     this.plane = attributes.plane
     this.coordinate = attributes.coordinate
+    this.id = this.plane.id + this.coordinate.stringify()
     var being, item
     this.starting_beings = this.sample_contents(universe.clades)
     this.starting_items = this.sample_contents(universe.products)
@@ -87,7 +88,7 @@ Square.prototype.sample_contents = function(index) {
     }
     var thingClass = Probability.sample(probability_array, this.coordinate.seed() + 'square_contents' + this.plane.seed)
     if (thingClass)
-        return [thingClass.create({square: this})]
+        return [thingClass.create({square: this, id: this.id + '_' + thingClass.prototype.name})]
     return []
 }
 

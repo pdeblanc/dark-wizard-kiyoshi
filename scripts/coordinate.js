@@ -77,3 +77,7 @@ Coordinate.prototype.seed = function() {
 Coordinate.prototype.serialize = function() {
     return {x: this.x, y: this.y}
 }
+
+Coordinate.prototype.stringify = function() {
+    return '_' + this.x + '_' + this.y
+}

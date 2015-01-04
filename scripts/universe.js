@@ -43,6 +43,7 @@ Universe.prototype.foes = function(a, b) {
 Universe.prototype.add_plane = function(attributes) {
     attributes = Object.create(attributes)
     attributes.level = this.planes.length + 1
+    attributes.id = '_' + this.planes.length + 1
     if (this.planes.length)
         attributes.upstairs = this.planes[this.planes.length - 1]
     this.planes.push(new WildernessPlane(attributes))

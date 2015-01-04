@@ -17,6 +17,7 @@ Being = WorldObject.variant({}, function(attributes) {
     // highly mutable attributes
     if ('generate_inventory_contents' in attributes)
         this.inventory.generate_contents = attributes.generate_inventory_contents
+    this.inventory.id = this.id + '_inv'
     this.inventory = new InventoryPlane(this.inventory)
     this.inventory.being = this
     this.inventory.level = this.level
