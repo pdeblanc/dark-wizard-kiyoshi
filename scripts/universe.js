@@ -9,6 +9,7 @@ function Universe(attributes) {
     this.players = {}
     this.timeline = new Timeline({start_time: 0, universe: this})
     this.planes = []
+    this.seed = 0
 } 
 
 Universe.prototype.simulate = function() {
