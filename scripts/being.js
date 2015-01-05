@@ -100,8 +100,10 @@ Being.prototype.act = function(callback, retry) {
     }
     this.notify()
     this.hibernating = this.should_hibernate()
-    if (this.hibernating)
+    if (this.hibernating) {
+        delete this.next_action_time
         return
+    }
     var subject = this
     if (this.controllers.length > 0) {
         this.disturb_others()
