@@ -20,7 +20,6 @@ Timeline.prototype.simulate = function() {
         var agent = action.agent
         if (action.time != agent.next_action_time)
             continue
-        console.log(this.time, agent.next_action_time)
         this.time = agent.next_action_time
         if (agent.dead || agent.hibernating || !agent.square)
             delete agent.next_action_time
