@@ -12,6 +12,7 @@ Timeline.prototype.add_agent = function(agent) {
 Timeline.prototype.simulate = function() {
     var agent
     while (agent = this.queue.dequeue()) {
+        console.log(this.time, agent.next_action_time)
         this.time = agent.next_action_time
         if (agent.dead || agent.hibernating || !agent.square)
             delete agent.next_action_time

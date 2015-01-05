@@ -66,7 +66,8 @@ Universe.prototype.serialize = function() {
 
 Universe.prototype.load_game = function(save_file) {
     var game = JSON.parse(save_file)
-    var beings = {}
+    // deserialize time
+    this.timeline.time = game.time
     // deserialize planes
     for (var i = 0; i < game.planes.length; i++) {
         var keys_array = game.planes[i]
@@ -74,6 +75,7 @@ Universe.prototype.load_game = function(save_file) {
             this.planes[i].emptied_square_keys[keys_array[j]] = 1
     }
     // deserialize beings
+    var beings = {}
     for (var i = 0; i < game.beings.length; i++) {
         var attributes = game.beings[i]
         var clade = this.clades[attributes.type]
@@ -98,8 +100,6 @@ Universe.prototype.load_game = function(save_file) {
         delete attributes.coordinate
         product.create(attributes)
     }
-    // deserialize time
-    this.timeline.time = game.time
     // return player
     return beings[game.players[0]]
 }
