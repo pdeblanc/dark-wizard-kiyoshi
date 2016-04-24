@@ -43,8 +43,7 @@ Timeline.prototype.simulate = function() {
             var timeline = this
             var ms = (agent.next_action_time - this.time) * 20
             ms = Math.max(ms, Math.random() < ms)
-            if (ms)
-                return setTimeout(function() { timeline.simulate() }, ms)
+            return setTimeout(function() { timeline.simulate() }, ms)
         }
     }
 }
