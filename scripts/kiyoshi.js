@@ -60,6 +60,7 @@ Being
     .kingdom({name: 'animal', generic: true, bias: -5, corpse: universe.products.meat})
         .phylum({name: 'human', symbol: '人', lean_weight: 100, hands: 2, tactics: 10, magic: 2, attacks: [universe.attacks.punch, universe.attacks.kick], inventory: {width: 2, height: 9}, level: 0.5, playable: true, bias: -6, habitat: {town: 2}, power: 10, speed: 10, vigor: 10})
             .clazz({name: 'samurai', symbol: '侍', tactics: 12, power: 15, vigor: 14, speed: 13, playable: false, level: 2})
+            .clazz({name: 'child', symbol: '子', power: 6, vigor: 6, playable: false})
         .phylum({name: 'monkey', symbol: '猿', lean_weight: 60, hands: 2, tactics: 10, attacks: [universe.attacks.slap, universe.attacks.kick], inventory: {width: 2, height: 3}, level: 0.5, playable: true, bias: -6, power: 10, speed: 12, vigor: 10})
         .phylum({name: 'three-clawed dragon', symbol: '竜', hands: 2, lean_weight: 10000, power: 100, vigor: 100, attacks: [universe.attacks.claw], can_fly: true, inventory: {width: 1, height: 3}, level: 50})
             .clazz({name: 'four-clawed dragon', symbol: '龍', lean_weight: 20000, vigor: 141, power: 141, level: 100})
