@@ -120,6 +120,7 @@ Square
         .phylum({name: 'shop', symbol: '店', bias: -1})
         .phylum({name: 'temple', symbol: '寺', bias: -3, generic: true})
             .clazz({name: 'temple of light'})
+            .clazz({name: 'temple of shadow'})
             .clazz({name: 'temple of nature'})
             .clazz({name: 'temple of fire'})
     .kingdom({name: 'void', symbol: '無', bias: -100, continuous: true})
