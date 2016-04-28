@@ -1,3 +1,6 @@
+VIEWPORT_WIDTH = 13
+VIEWPORT_HEIGHT = 13
+
 function PlayerViewport(attributes) {
     this.being = attributes.being
     this.controller = attributes.controller
@@ -19,10 +22,10 @@ function PlayerViewport(attributes) {
         .append(this.inventory_element = $('<div />').addClass('panel'))
         .append($('<div></div>').attr('id', 'messages'))
     this.inventory_viewport = new PlaneViewport({plane: this.being.inventory, controller: this.controller, container: this.inventory_element})
-    this.left = -4
-    this.right = 4
-    this.top = -4
-    this.bottom = 4
+    this.left = (1 - VIEWPORT_WIDTH) / 2
+    this.right = (VIEWPORT_WIDTH - 1) / 2
+    this.top = (1 - VIEWPORT_HEIGHT) / 2
+    this.bottom = (VIEWPORT_HEIGHT - 1) / 2
     for (var y = this.top; y <= this.bottom; y++) {
         var row = $("<div />").addClass("row")
         map_element.append(row)
