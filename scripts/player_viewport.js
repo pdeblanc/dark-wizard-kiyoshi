@@ -1,5 +1,5 @@
-VIEWPORT_WIDTH = 13
-VIEWPORT_HEIGHT = 13
+VIEWPORT_WIDTH = 9
+VIEWPORT_HEIGHT = 9
 
 function PlayerViewport(attributes) {
     this.being = attributes.being
