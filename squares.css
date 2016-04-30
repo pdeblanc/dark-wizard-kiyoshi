@@ -21,6 +21,9 @@
 .temple-of-nature { background: #202000; color: lime; }
 .temple-of-fire { background: #202000; color: red; }
 
+.fire-trap { background: #202000; color: red; }
+.lightning-trap { background: #202000; color: cyan; }
+
 .inventory-slot { background: #404040; color: #808080; }
 
 .upward-staircase { background: #002000; color: white; }

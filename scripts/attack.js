@@ -8,11 +8,13 @@
 
 Attack = WorldObject.variant({}, function(attributes) {
     WorldObject.apply(this, arguments)
-    var shared_sd = Math.sqrt(40 / (40 + this.attacker.tactics.current()))
-    var self_sd = Math.sqrt(1 - 40 / (40 + this.attacker.tactics.current()))
+    var tactics = this.attacker.tactics ? this.attacker.tactics.current() : 10
+    var power = this.attacker.power ? this.attacker.power.current() : 10
+    var shared_sd = Math.sqrt(40 / (40 + tactics))
+    var self_sd = Math.sqrt(1 - 40 / (40 + tactics))
     this.damage = this.damage_base
     if (this.attacker && this.attacker.power) {
-        this.damage *= Math.pow(this.attacker.power.current(), this.power_dependence)
+        this.damage *= Math.pow(power, this.power_dependence)
     }
     if (this.weapon && this.weapon.sharpness) {
         this.damage *= Math.pow(this.weapon.sharpness, this.sharpness_dependence)

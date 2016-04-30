@@ -72,6 +72,9 @@ WorldObject.prototype.serialize = function() {
     return output
 }
 
+WorldObject.prototype.tell = function(message) {
+}
+
 WorldObject.weird_heritable_stuff = ['weird_heritable_stuff', 'specificity', 'set_name', 'variant', 'create', 'variant_of_given_specificity', 'kingdom', 'phylum', 'clazz', 'order', 'family', 'genus', 'species']
 
 WorldObject.specificity = -100 // more abstract classes have lower specificity

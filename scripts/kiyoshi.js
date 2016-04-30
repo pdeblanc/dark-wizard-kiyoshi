@@ -104,6 +104,7 @@ Being
             .clazz({name: 'weird thing', vigor: 72, power: 72, level: 64})
             .clazz({name: 'ultimate thing', vigor: 102, power: 102, level: 128})
 
+Square.prototype.attacks = []  // for traps
 Square
     .kingdom({name: 'ground', symbol: '土', continuous: true, walkable: true, flyable: true, generic: true})
         .phylum({name: 'grass', symbol: '草'})
@@ -111,6 +112,9 @@ Square
         .phylum({name: 'forest', symbol: '森', continuous: false, opacity: .1})
         .phylum({name: 'downward staircase', symbol: '＞', can_descend: true, clumpiness: 0, bias: 1.5})
         .phylum({name: 'upward staircase', symbol: '＜', can_ascend: true, clumpiness: 0, bias: 1.5})
+        .phylum({name: 'trap', symbol: '罠', bias: 1, clumpiness: 0, generic: true, continuous: false})
+          .clazz({name: 'fire trap', generic: false, attacks: [universe.attacks.burn]})
+          .clazz({name: 'lightning trap', generic: false, attacks: [universe.attacks.zap]})
     .kingdom({name: 'obstacle', symbol: '壁', continuous: false, flyable: true, generic: true, max_items: 0})
         .phylum({name: 'tree', symbol: '木', bias: -1, opacity: .4})
     .kingdom({name: 'liquid', symbol: '液', continuous: true, flyable: true, swimmable: true, generic: true})

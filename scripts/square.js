@@ -1,5 +1,6 @@
 Square = WorldObject.variant({}, function(attributes) {
     WorldObject.apply(this, arguments)
+    this.square = this
     this.background = document.createElement('div')
     this.background.className = 'square-background ' + this.className
     this.foreground = document.createElement('div')
@@ -124,6 +125,9 @@ Square.prototype.enter = function(newcomer) {
         this.plane.tree.insert(newcomer)
         if (this.items.length)
             newcomer.tell("You find " + english.list(this.items, newcomer) + ".")
+        for (var i = 0; i < this.attacks.length; i++) {
+            new this.attacks[i]({attacker: this, target: newcomer}).execute()
+        }
     }
     if (newcomer.brightness)
         this.plane.light_sources.insert(newcomer)
