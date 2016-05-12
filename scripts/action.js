@@ -312,7 +312,6 @@ actions.unwield.execute = function(subject, item) {
 
 actions.magic = new Action({name: 'magic', dobj: Incantation})
 actions.magic.accept_subject = function(subject) {
-    console.log('energy', subject.energy * subject.magic)
     if (subject.energy * subject.magic < 1)
         return "You do not have enough spell energy to use magic."
     return true
@@ -335,7 +334,6 @@ actions.read.accept_dobj = function(subject, dobj) {
 }
 actions.read.execute = function(subject, item) {
     top.thing = item
-    console.log(top.thing)
     var lines = item.text.split("\n")
     subject.tell("You begin reading " + item.the() + ".")
     for (var i = 0; i < lines.length; i++) {

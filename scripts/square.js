@@ -190,6 +190,10 @@ Square.prototype.neighbors = function() {
     return {north: this.north(), south: this.south(), east: this.east(), west: this.west()}
 }
 
+Square.prototype.neighbors_list = function() {
+    return [this.north(), this.south(), this.east(), this.west()]
+}
+
 // return true if the square's state has changed from its initial state
 Square.prototype.state_changed = function() {
     function map_ids (L) {

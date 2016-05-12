@@ -160,10 +160,59 @@ Being.prototype.act = function(callback, retry) {
             return
         }
         // move
-        if (!this.thoughts.direction || !this.square[this.thoughts.direction]().permit_entry(this) || Math.random() < .03)
-            this.thoughts.direction = ['north', 'south', 'east', 'west'][Math.floor(Math.random()*4)]
-        actions[this.thoughts.direction].execute(this)
+        actions.moveto_or_attack.execute(this, this.choose_direction())
     }
+}
+
+Being.prototype.choose_direction = function() {
+    var horizon_distance = 3
+    var location_judgments = {}
+    var square
+    var squares_by_distance = [[this.square]]
+    location_judgments[this.square.coordinate.stringify()] = [0, 0]
+    for (var d = 0; d < horizon_distance; d++) {
+        squares_by_distance.push([])
+        for (var i = 0; i < squares_by_distance[d].length; i++) {
+            if ((square = squares_by_distance[d][i]).permit_entry(this) || d == 0) {
+                var neighbors = square.neighbors_list()
+                for (var n = 0; n < neighbors.length; n++) {
+                    var neighbor = neighbors[n];
+                    if (!(neighbor.coordinate.stringify() in location_judgments)) {
+                        location_judgments[neighbor.coordinate.stringify()] = [d + 1, this.judge_square(neighbor)]
+                        squares_by_distance[d + 1].push(neighbor)
+                    }
+                }
+            }
+        }
+    }
+    var judgment
+    for (var d = horizon_distance; d > 0; d--) {
+        for (var i = 0; i < squares_by_distance[d].length; i++) {
+            square = squares_by_distance[d][i]
+            var neighbors = square.neighbors_list()
+            for (var n = 0; n < neighbors.length; n++) {
+                var neighbor = neighbors[n];
+                if (neighbor.permit_entry(this) && (judgment = location_judgments[neighbor.coordinate.stringify()])) {
+                    if (judgment[0] == d - 1) {
+                        judgment[1] = Math.max(judgment[1], location_judgments[square.coordinate.stringify()][1])
+                    }
+                }
+            }
+        }
+    }
+    var being = this
+    return argmax(function(sq) { return location_judgments[sq.coordinate.stringify()][1] * sq.permit_entry(being); }, squares_by_distance[1]);
+}
+
+Being.prototype.judge_square = function(square) {
+    var value = 0
+    if (square.items.length) {
+        value += 1
+    }
+    if (square.beings.length) {
+        value += 1
+    }
+    return value
 }
 
 Being.prototype.moveto = function(square) {
