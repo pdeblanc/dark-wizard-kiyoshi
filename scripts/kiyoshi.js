@@ -1,11 +1,11 @@
-PUBLIC_STATS = ['power', 'speed', 'vigor', 'magic', 'tactics', 'level', 'experience']
-STATS = ['power', 'speed', 'vigor', 'lean_weight']
+PUBLIC_STATS = ['power', 'speed', 'vigor', 'magic', 'tactics', 'level', 'experience'];
+STATS = ['power', 'speed', 'vigor', 'lean_weight'];
 
 Condition
     .kingdom({name: 'empowerment', power_bonus: 5, duration: 50, activation_message: "You feel empowered!", deactivation_message: "The empowerment has worn off."})
     .kingdom({name: 'acceleration', speed_bonus: 5, duration: 50, activation_message: "You feel accelerated!", deactivation_message: "The acceleration has worn off."})
     .kingdom({name: 'invigoration', vigor_bonus: 5, duration: 50, activation_message: "You feel invigorated!", deactivation_message: "The invigoration has worn off."})
-    .kingdom({name: 'xray_vision', xray_vision_bonus: 5, duration: 50, activation_message: "You gain the ability to see through objects!", deactivation_message: "The X-ray vision has worn off."})
+    .kingdom({name: 'xray_vision', xray_vision_bonus: 5, duration: 50, activation_message: "You gain the ability to see through objects!", deactivation_message: "The X-ray vision has worn off."});
 
 Attack
     .kingdom({name: 'hit', damage_type: 'hit'})
@@ -23,9 +23,9 @@ Attack
     .kingdom({name: 'peck', damage_type: 'peck'})
     .kingdom({name: 'trample', damage_type: 'trample'})
     .kingdom({name: 'ram', damage_type: 'ram'})
-    .kingdom({name: 'zap', damage_type: 'zap', damage_base: 4, power_dependence: 0})
+    .kingdom({name: 'zap', damage_type: 'zap', damage_base: 4, power_dependence: 0});
 
-Item.prototype.attacks = [universe.attacks.hit]
+Item.prototype.attacks = [universe.attacks.hit];
 Item
     .kingdom({name: 'katana', symbol: '刀', action: actions.toggle_wield, attacks: [universe.attacks.cut, universe.attacks.stab], sharpness: 5, level: 3, habitat: {samurai: 2.5}})
         .phylum({name: 'bokutō', sharpness: 2, level: 1, attacks: [universe.attacks.bokutō_hit]})
@@ -54,7 +54,7 @@ Item
         .phylum({name: 'orange'})
     .kingdom({name: 'potato', symbol: '芋', action: actions.eat, fat: 1, generic: false})
     .kingdom({name: 'book', symbol: '本', action: actions.read, generic: true})
-        .phylum({name: 'book of spells', text: "'Power': level 1 spell. Incantation: 'chikara'"})
+        .phylum({name: 'book of spells', text: "'Power': level 1 spell. Incantation: 'chikara'"});
 
 Being
     .kingdom({name: 'animal', generic: true, bias: -5, corpse: universe.products.meat})
@@ -75,8 +75,8 @@ Being
             .clazz({name: 'rat', symbol: '鼠', lean_weight: 1, vigor: 1, speed: 20, power: 1, level: 0.02})
         .phylum({name: 'bird', symbol: '鳥', lean_weight: 0.1, vigor: 0.2, power: 0.2, speed: 30, attacks: [universe.attacks.peck], can_fly: true, playable: true, level: 0.003})
         .phylum({name: 'rabbit', symbol: '兎', lean_weight: 4, vigor: 2, speed: 15, attacks: [universe.attacks.bite], level: 0.06})
-        .phylum({name: 'horse', symbol: '馬', lean_weight: 850, vigor: 29, speed: 13, attacks: [universe.attacks.kick], level: 2, habitat: {grass: 5}, bias: -9, level: 3.77})
-        .phylum({name: 'cow', symbol: '牛', lean_weight: 1000, vigor: 32, speed: 8, attacks: [universe.attacks.kick], level: 2, habitat: {grass: 5}, bias: -9, level: 2.56})
+        .phylum({name: 'horse', symbol: '馬', lean_weight: 850, vigor: 29, speed: 13, attacks: [universe.attacks.kick], habitat: {grass: 5}, bias: -9, level: 3.77})
+        .phylum({name: 'cow', symbol: '牛', lean_weight: 1000, vigor: 32, speed: 8, attacks: [universe.attacks.kick], habitat: {grass: 5}, bias: -9, level: 2.56})
         .phylum({name: 'fish', symbol: '魚', lean_weight: 2, vigor: 2, power: 0.2, attacks: [universe.attacks.bite], can_walk: false, can_swim: true, level: 0.02})
             .clazz({name: 'orca', symbol: '鯱', lean_weight: 10000, vigor: 100, power: 100, level: 50})
             .clazz({name: 'shark', symbol: '鮫', generic: true})
@@ -102,26 +102,26 @@ Being
             .clazz({name: 'unfriendly thing', vigor: 36, power: 36, level: 16})
             .clazz({name: 'boring thing', vigor: 51, power: 51, level: 32})
             .clazz({name: 'weird thing', vigor: 72, power: 72, level: 64})
-            .clazz({name: 'ultimate thing', vigor: 102, power: 102, level: 128})
+            .clazz({name: 'ultimate thing', vigor: 102, power: 102, level: 128});
 
-Square.prototype.attacks = []  // for traps
+Square.prototype.attacks = [];  // for traps
 Square
     .kingdom({name: 'ground', symbol: '土', continuous: true, walkable: true, flyable: true, generic: true})
         .phylum({name: 'grass', symbol: '草'})
-        .phylum({name: 'woods', symbol: '林', opacity: .1})
-        .phylum({name: 'forest', symbol: '森', continuous: false, opacity: .1})
+        .phylum({name: 'woods', symbol: '林', opacity: 0.1})
+        .phylum({name: 'forest', symbol: '森', continuous: false, opacity: 0.1})
         .phylum({name: 'downward staircase', symbol: '＞', can_descend: true, clumpiness: 0, bias: 1.5})
         .phylum({name: 'upward staircase', symbol: '＜', can_ascend: true, clumpiness: 0, bias: 1.5})
         .phylum({name: 'trap', symbol: '罠', bias: 1, clumpiness: 0, generic: true, continuous: false})
           .clazz({name: 'fire trap', generic: false, attacks: [universe.attacks.burn]})
           .clazz({name: 'lightning trap', generic: false, attacks: [universe.attacks.zap]})
     .kingdom({name: 'obstacle', symbol: '壁', continuous: false, flyable: true, generic: true, max_items: 0})
-        .phylum({name: 'tree', symbol: '木', bias: -1, opacity: .4})
+        .phylum({name: 'tree', symbol: '木', bias: -1, opacity: 0.4})
     .kingdom({name: 'liquid', symbol: '液', continuous: true, flyable: true, swimmable: true, generic: true})
         .phylum({name: 'water', symbol: '水', drinkable: true, bias: 1})
     .kingdom({name: 'town', symbol: '町', continuous: false, flyable: true, walkable: true, generic: true, tags: {town: 1}, clumpiness: 0})
         .phylum({name: 'grass2', symbol: '草'})
-        .phylum({name: 'house', symbol: '家', bias: -.5})
+        .phylum({name: 'house', symbol: '家', bias: -0.5})
         .phylum({name: 'shop', symbol: '店', bias: -1})
         .phylum({name: 'temple', symbol: '寺', bias: -3, generic: true})
             .clazz({name: 'temple of light'})
@@ -129,46 +129,46 @@ Square
             .clazz({name: 'temple of nature'})
             .clazz({name: 'temple of fire'})
     .kingdom({name: 'void', symbol: '無', bias: -100, continuous: true})
-        .phylum({name: 'inventory slot', max_items: 1, continuous: false})
+        .phylum({name: 'inventory slot', max_items: 1, continuous: false});
 
-universe.friends('woods', 'forest')
-universe.friends('woods', 'tree')
-universe.friends('forest', 'tree')
-universe.friends('town', 'town')
+universe.friends('woods', 'forest');
+universe.friends('woods', 'tree');
+universe.friends('forest', 'tree');
+universe.friends('town', 'town');
 
-universe.add_plane({tags: {woods: 1, town: -1}})
-universe.add_plane({tags: {grass: 1, town: -1}})
-universe.add_plane({})
-universe.add_plane({tags: {water: .25}})
+universe.add_plane({tags: {woods: 1, town: -1}});
+universe.add_plane({tags: {grass: 1, town: -1}});
+universe.add_plane({});
+universe.add_plane({tags: {water: 0.25}});
 for (var i = 4; i < 100; i++)
-    universe.add_plane({})
+    universe.add_plane({});
 
 title_screen = function() {
     $('#container')
         .append($('<button />').addClass('continue').text("new game").click(function(event) {
             BuildCharacter($('#container'), function(being) {
-                universe.planes[0].place_randomly(being)
-                new Controller({being: being, container: document.getElementById('container')})
-                universe.simulate()
-            })
+                universe.planes[0].place_randomly(being);
+                new Controller({being: being, container: document.getElementById('container')});
+                universe.simulate();
+            });
         }))
         .append($('<div />').addClass('load').text('load game')
             .append($('<input />').attr('id', 'upload').attr('type', 'file').attr('id', 'uploader'))
-        )
+        );
     FileReaderJS.setupInput($('#uploader')[0], {
         readAsDefault: 'Text',
         on: {
             load: function(event, file) {
-                $('#container').empty()
-                var player = universe.load_game(event.target.result)
-                new Controller({being: player, container: document.getElementById('container')})
-                universe.simulate()
+                $('#container').empty();
+                var player = universe.load_game(event.target.result);
+                new Controller({being: player, container: document.getElementById('container')});
+                universe.simulate();
             }
         }
-    })
-}
+    });
+};
 
 initialize = function() {
-    title_screen()
-}
+    title_screen();
+};
 
