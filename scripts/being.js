@@ -403,7 +403,7 @@ Being.prototype.serialize = function() {
     var output = WorldObject.prototype.serialize.apply(this, arguments);
     for (var i = 0; i < this.scalar_attributes.length; i++) {
         var attribute = this.scalar_attributes[i];
-        if (this[attribute].base != object.getPrototypeOf(this)[attribute])
+        if (this[attribute].base != Object.getPrototypeOf(this)[attribute])
             output[attribute] = this[attribute].base;
     }
     if (this.next_action_time && !this.hibernating)
