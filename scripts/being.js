@@ -285,7 +285,7 @@ Being.prototype.should_hibernate = function() {
         return false;
     for (var player_id in universe.players) {
         var player = universe.players[player_id];
-        if (player.square.plane == this.square.plane && player.square.coordinate.max_distance(this.square.coordinate) <= 10);
+        if (player.square.plane == this.square.plane && player.square.coordinate.max_distance(this.square.coordinate) <= 10)
             return false;
     }
     return true;
