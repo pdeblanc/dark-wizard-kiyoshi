@@ -210,7 +210,7 @@ Being.prototype.choose_direction = function() {
 
 Being.prototype.judge_square = function(square) {
     var value = 0;
-    if (square.items.length) {
+    if (square.items.length && this.inventory.vacancy(square.items[0])) {
         value += 1;
     }
     if (square.beings.length) {
