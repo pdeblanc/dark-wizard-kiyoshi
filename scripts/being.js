@@ -118,6 +118,14 @@ Being.prototype.act = function(callback, retry) {
         });
     }
     else {
+        // choose direction
+        if ('direction' in this.thoughts) {
+          this.thoughts.direction[0] = (this.thoughts.direction[0] + Math.random() * 0.1 - 0.05) * 0.9;
+          this.thoughts.direction[1] = (this.thoughts.direction[1] + Math.random() * 0.1 - 0.05) * 0.9;
+        }
+        else {
+          this.thoughts.direction = [0, 0];
+        }
         // wield weapons
         if (this.hands) {
             var quality = this.weapon_quality(this);
@@ -216,6 +224,7 @@ Being.prototype.judge_square = function(square) {
     if (square.beings.length) {
         value += 1;
     }
+    value += square.coordinate.x * this.thoughts.direction[0] + square.coordinate.y * this.thoughts.direction[1];
     return value;
 };
 
