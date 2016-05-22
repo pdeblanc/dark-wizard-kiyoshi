@@ -37,3 +37,33 @@ InventoryPlane.prototype.items = function() {
 InventoryPlane.prototype.serialize_items = function() {
     return this.items().map(function(item) { return item.serialize(); });
 };
+
+InventoryPlane.prototype.attempt_take = function(item) {
+    var square;
+    var coordinate = new Coordinate({x: 0, y: 0});
+    // first see if the item can be merged into an existing stack
+    if (item.stackable) {
+        for (coordinate.y = 0; coordinate.y < this.height; coordinate.y++) {
+            for (coordinate.x = 0; coordinate.x < this.width; coordinate.x++) {
+                square = this.square(coordinate);
+                for (var i = 0; i < square.items.length; i++) {
+                    if (item.can_stack_with(square.items[i])) {
+                        item.stack_into(square.items[i]);
+                        return square.items[i];
+                    }
+                }
+            }
+        }
+    }
+    // look for an empty square
+    for (coordinate.y = 0; coordinate.y < this.height; coordinate.y++) {
+        for (coordinate.x = 0; coordinate.x < this.width; coordinate.x++) {
+            square = this.square(coordinate);
+            if (square.permit_entry(item)) {
+                item.moveto(square);
+                return item;
+            }
+        }
+    }
+    return false;
+};

@@ -1,5 +1,6 @@
 Item = WorldObject.variant({}, function(attributes) {
     WorldObject.apply(this, arguments);
+    this.count = 1;
     this.foreground = document.createElement('span');
     if (this.square)
         this.square.enter(this);
@@ -16,9 +17,19 @@ Item.prototype = Object.create(WorldObject.prototype);
 
 Item.prototype.name = 'item';
 
+Item.prototype.stackable = false;
 Item.prototype.fat = 0;
 Item.prototype.drinkable = false;
 Item.prototype.weight = 1;
+
+Item.prototype.can_stack_with = function(other_item) {
+    return this.stackable && Object.getPrototypeOf(this) == Object.getPrototypeOf(other_item);
+};
+
+Item.prototype.stack_into = function(stack) {
+    stack.count += this.count;
+    this.destroy();
+};
 
 Item.prototype.moveto = function(square) {
     if (square.permit_entry(this)) {

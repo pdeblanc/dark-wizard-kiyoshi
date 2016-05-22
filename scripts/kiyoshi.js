@@ -55,7 +55,7 @@ Item
     .kingdom({name: 'potato', symbol: '芋', action: actions.eat, fat: 1, generic: false})
     .kingdom({name: 'book', symbol: '本', action: actions.read, generic: true})
         .phylum({name: 'book of spells', text: "'Power': level 1 spell. Incantation: 'chikara'"})
-    .kingdom({name: 'yen', symbol: '円', bias: -3});
+    .kingdom({name: 'yen', symbol: '円', bias: -3, stackable: true});
 
 Being
     .kingdom({name: 'animal', generic: true, bias: -5, corpse: universe.products.meat})

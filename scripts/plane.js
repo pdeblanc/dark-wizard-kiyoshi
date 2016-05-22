@@ -46,6 +46,7 @@ Plane.prototype.place_randomly = function(hopeful, seed) {
     }
     return false;
 };
+
 Plane.prototype.random_being = function() {
     while (true) {
         var coordinate = new Coordinate({x: Math.floor(Math.random() * this.width), y: Math.floor(Math.random() * this.height)});

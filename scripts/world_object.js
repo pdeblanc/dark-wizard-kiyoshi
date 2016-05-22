@@ -30,6 +30,8 @@ WorldObject.prototype.The = function(observer) {
 };
 
 WorldObject.prototype.toString = WorldObject.prototype.a = function(observer) {
+    if (this.count > 1)
+        return this.count + " " + this.name;
     if (this.continuous || this.name != Object.getPrototypeOf(this).name)
         return this.name;
     if ("aeiouAEIOU".indexOf(this.name.charAt(0)) > -1)

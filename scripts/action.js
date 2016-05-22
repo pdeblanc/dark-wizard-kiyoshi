@@ -133,22 +133,7 @@ actions.rest.execute = function(subject) {
 
 actions.get = new Action({name: 'get'});
 actions.get.execute = function(subject) {
-    var gotten_items, item, vacancy;
-    gotten_items = [];
-    while ((item = subject.square.items[0]) && (vacancy = subject.inventory.vacancy(item))) {
-        item.moveto(vacancy);
-        gotten_items.push(item);
-    }
-    if (gotten_items.length) {
-        subject.tell("You get " + english.list(gotten_items, subject) + ".");
-        subject.square.announce_all_but([subject], subject.The() + " gets " + english.list(gotten_items) + ".");
-        return true;
-    }
-    if (subject.square.items.length)
-        subject.tell("You do not have space for " + english.list(subject.square.items, subject) + ".");
-    else
-        subject.tell("There is nothing to get.");
-    return false;
+    actions.take._execute(subject, subject.square, "get");
 };
 
 actions.take = new Action({name: 'take', dobj: Square});
@@ -162,20 +147,34 @@ actions.take.accept_dobj = function(subject, square) {
     return true;
 };
 actions.take.execute = function(subject, square) {
-    var gotten_items, item, vacancy;
+    actions.take._execute(subject, square, "take");
+};
+actions.take._execute = function(subject, square, verb) {
+    var gotten_items, item, vacancy, stacks, to_get, i, result;
     gotten_items = [];
-    while ((item = square.items[0]) && (vacancy = subject.inventory.vacancy(item))) {
-        item.moveto(vacancy);
-        gotten_items.push(item);
+    stacks = [];
+    to_get = square.items.slice(0);
+    for (i = 0; i < to_get.length; i++) {
+        result = subject.inventory.attempt_take(to_get[i]);
+        if (result) {
+            gotten_items.push(to_get[i]);
+            if (result != to_get[i] && !(stacks.includes(result))) {
+                stacks.push(result);
+            }
+        }
     }
     if (gotten_items.length) {
-        subject.tell("You take " + english.list(gotten_items, subject) + ".");
+        subject.tell("You " + verb + " " + english.list(gotten_items, subject) + ".");
+        subject.square.announce_all_but([subject], subject.The() + " " + verb + "s " + english.list(gotten_items) + ".");
+        if (stacks.length) {
+            subject.tell("You now have " + english.list(stacks, subject) + ".");
+        }
         return true;
     }
     if (square.items.length)
         subject.tell("You do not have space for " + english.list(square.items, subject) + ".");
     else
-        subject.tell("There is nothing to take.");
+        subject.tell("There is nothing to " + verb + ".");
     return false;
 };
 
