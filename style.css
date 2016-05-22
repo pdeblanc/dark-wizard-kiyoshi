@@ -204,6 +204,9 @@ button.action:hover span.key-label {
     width: 100%;
     height: 100%;
 }
+.centralizer-outer.ui-draggable-dragging {
+    z-index: 10;
+}
 
 .centralizer-inner {
     display: table-cell;
