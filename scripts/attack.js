@@ -37,17 +37,20 @@ Attack.set_name = 'attacks';
 
 Attack.prototype.execute = function() {
     var verb = english.verbs[this.damage_type];
-    if (this.damage <= 0)
+    var sound;
+    if (this.damage <= 0) {
         verb = english.verbs.miss;
+        sound = 'miss';
+    }
     var damage_string = "";
     //if (this.damage > 0)
     //    damage_string = " for " + this.damage + " damage"
     if (!this.weapon) {
-        this.attacker.tell("You " + verb + " " + this.target.the() + damage_string + ".");
+        this.attacker.tell("You " + verb + " " + this.target.the() + damage_string + ".", sound);
         this.target.tell(this.attacker.The() + " " + verb.s + " you" + damage_string + ".");
         this.attacker.square.announce_all_but([this.target, this.attacker], this.attacker.The() + ' ' + verb.s + ' ' + this.target.the() + damage_string + ".");
     } else {
-        this.attacker.tell("You " + verb + " " + this.target.the() + " with " + this.weapon.the(this.attacker) + damage_string + ".");
+        this.attacker.tell("You " + verb + " " + this.target.the() + " with " + this.weapon.the(this.attacker) + damage_string + ".", sound);
         this.target.tell(this.attacker.The() + " " + verb.s + " you with " + this.weapon.a(this.target) + damage_string + ".");
         this.attacker.square.announce_all_but([this.target, this.attacker], this.attacker.The() + ' ' + verb.s + ' ' + this.target.the() + ' with ' + this.weapon.a() + damage_string + ".");
     }
