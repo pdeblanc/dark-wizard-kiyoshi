@@ -211,10 +211,22 @@ actions.eat.accept_dobj = function(subject, item) {
     return (item.fat > 0);
 };
 actions.eat.execute = function(subject, item) {
-    subject.tell("You eat " + item.the(subject) + ".", "eat");
-    subject.square.announce_all_but([subject], subject.The() + ' eats ' + item.the() + '.');
-    subject.body_fat += item.fat;
-    item.destroy();
+    if (item.count == 1) {
+        subject.tell("You eat " + item.the(subject) + ".", "eat");
+        subject.square.announce_all_but([subject], subject.The() + ' eats ' + item.the() + '.');
+        subject.body_fat += item.fat;
+        item.destroy();
+    }
+    else {
+        var bite_size = Math.min(Math.ceil(subject.lean_weight * 0.02), item.count);
+        subject.tell("You eat " + bite_size + " " + item.name + ".", "eat");
+        subject.square.announce_all_but([subject], subject.The() + " eats " + bite_size + " " + item.name + ".");
+        subject.body_fat += item.fat * bite_size;
+        if (item.count > bite_size)
+            item.count -= bite_size;
+        else
+            item.destroy();
+    }
     return true;
 };
 

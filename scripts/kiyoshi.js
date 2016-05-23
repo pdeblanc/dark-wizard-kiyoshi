@@ -32,7 +32,7 @@ Item
     .kingdom({name: 'sword', symbol: '剣', action: actions.toggle_wield, attacks: [universe.attacks.cut, universe.attacks.stab], sharpness: 5, generic: true, level: 3})
         .phylum({name: 'longsword', symbol: '剣'})
         .phylum({name: 'rapier', symbol: '剣'})
-    .kingdom({name: 'meat', symbol: '肉', fat: 1, action: actions.eat, attacks: [universe.attacks.slap]})
+    .kingdom({name: 'meat', symbol: '肉', stackable: true, fat: 1, action: actions.eat, attacks: [universe.attacks.slap]})
     .kingdom({name: 'ash', symbol: '灰', bias: -10})
     .kingdom({name: 'iron', symbol: '鉄', bias: -10})
     .kingdom({name: 'tea', symbol: '茶', action: actions.drink, drinkable: true, generic: true, random_effects: [effects.healing, effects.empowerment, effects.poison, effects.acceleration, effects.invigoration, effects.xray_vision]})

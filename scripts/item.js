@@ -1,6 +1,5 @@
 Item = WorldObject.variant({}, function(attributes) {
     WorldObject.apply(this, arguments);
-    this.count = 1;
     this.foreground = document.createElement('span');
     if (this.square)
         this.square.enter(this);
@@ -18,6 +17,7 @@ Item.prototype = Object.create(WorldObject.prototype);
 
 Item.prototype.name = 'item';
 
+Item.prototype.count = 1;
 Item.prototype.stackable = false;
 Item.prototype.fat = 0;
 Item.prototype.drinkable = false;

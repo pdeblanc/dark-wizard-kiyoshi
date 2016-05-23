@@ -260,8 +260,14 @@ Being.prototype.die = function() {
     var items = this.inventory.items();
     for (var i = 0; i < items.length; i++)
         actions.drop.execute(this, items[i]);
-    if (this.corpse)
-        this.corpse.create({square: this.square, fat: this.corpse.prototype.fat * (this.body_fat + this.lean_weight * 0.2)});
+    if (this.corpse) {
+        if (this.corpse.prototype.stackable) {
+            this.corpse.create({square: this.square, count: Math.ceil((this.body_fat + this.lean_weight) * 0.2)});
+        }
+        else {
+            this.corpse.create({square: this.square, fat: this.corpse.prototype.fat * (this.body_fat + this.lean_weight * 0.2)});
+        }
+    }
     this.square.exit(this);
     this.dead = 1;
     this.notify();
