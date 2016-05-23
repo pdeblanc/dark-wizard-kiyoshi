@@ -8,6 +8,7 @@ Item = WorldObject.variant({}, function(attributes) {
     this.foreground.textContent = this.symbol;
     this.foreground = centralizer(this.foreground).addClass('item');
     this.foreground[0].item = this;
+    this.wield_sound = 'wield';
     $(this.foreground).draggable({opacity: 0.7, helper: "clone", zIndex: 1000});
 });
 

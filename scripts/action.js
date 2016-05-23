@@ -306,7 +306,7 @@ actions.wield.execute = function(subject, item) {
         subject.wielding.wielded_by = false;
     subject.wielding = item;
     item.wielded_by = subject;
-    subject.tell('You wield ' + item.the(subject) + '.');
+    subject.tell('You wield ' + item.the(subject) + '.', item.wield_sound);
     subject.square.announce_all_but([subject], subject.The() + ' wields ' + item.the() + '.');
     return true;
 };
