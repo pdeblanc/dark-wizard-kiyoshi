@@ -211,7 +211,7 @@ actions.eat.accept_dobj = function(subject, item) {
     return (item.fat > 0);
 };
 actions.eat.execute = function(subject, item) {
-    subject.tell("You eat " + item.the(subject) + ".");
+    subject.tell("You eat " + item.the(subject) + ".", "eat");
     subject.square.announce_all_but([subject], subject.The() + ' eats ' + item.the() + '.');
     subject.body_fat += item.fat;
     item.destroy();

@@ -275,7 +275,7 @@ Being.prototype.die = function() {
 };
 
 Being.prototype.tell = function(message, sound) {
-    if (this.viewports) {
+    if (this.viewports && this.viewports.length > 0) {
         this.viewports.forEach(function(viewport) {
             viewport.tell(message);
         });
