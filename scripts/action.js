@@ -332,7 +332,10 @@ actions.magic.execute = function(subject, incantation) {
     for (var key in incantations) {
         var spell = incantations[key];
         if (spell.match(incantation)) {
-            return spell.execute(subject);
+            var result = spell.execute(subject);
+            if (!result)
+                subject.energy += 1 / subject.magic;
+            return result;
         }
     }
     return incantation.execute(subject);

@@ -8,6 +8,7 @@ Incantation.prototype.match = function(other) {
     return false;
 };
 
+// returns false if the user has canceled the spell and should receive an energy refund
 Incantation.prototype.execute = function(subject) {
     subject.tell("Nothing happens.");
     return true;
