@@ -36,11 +36,15 @@ Attack.prototype.to_hit_bonus = 0; // only set by constructor -- situational
 Attack.set_name = 'attacks';
 
 Attack.prototype.execute = function() {
+    console.log(this, this.sound, Object.getPrototypeOf(this));
     var verb = english.verbs[this.damage_type];
     var sound;
     if (this.damage <= 0) {
         verb = english.verbs.miss;
         sound = 'miss';
+    }
+    else {
+        sound = this.sound;
     }
     var damage_string = "";
     //if (this.damage > 0)
