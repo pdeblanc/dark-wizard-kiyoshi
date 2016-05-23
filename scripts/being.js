@@ -274,11 +274,14 @@ Being.prototype.die = function() {
     }
 };
 
-Being.prototype.tell = function(message) {
+Being.prototype.tell = function(message, sound) {
     if (this.viewports) {
         this.viewports.forEach(function(viewport) {
             viewport.tell(message);
         });
+        if (sound) {
+            Sound.play(sound);
+        }
     }
 };
 
@@ -320,7 +323,7 @@ Being.prototype.gain_experience = function(exp) {
         if (new_level < this.level)
             this.tell("You have regressed to level " + new_level + ".");
         else
-            this.tell("You have reached level " + new_level + "!");
+            this.tell("You have reached level " + new_level + "!", "levelup");
         this.set_level(new_level);
     }
 };
