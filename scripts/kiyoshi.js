@@ -17,7 +17,7 @@ Attack
     .kingdom({name: 'claw', damage_type: 'claw'})
     .kingdom({name: 'bite', damage_type: 'bite'})
     .kingdom({name: 'slap', damage_type: 'slap'})
-    .kingdom({name: 'stab', damage_type: 'stab', sharpness_dependence: 1})
+    .kingdom({name: 'stab', damage_type: 'stab', sharpness_dependence: 1, sound: 'stab'})
     .kingdom({name: 'burn', damage_type: 'burn', damage_base: 0.3})
     .kingdom({name: 'choke', damage_type: 'choke', damage_base: 0.3})
     .kingdom({name: 'peck', damage_type: 'peck'})
