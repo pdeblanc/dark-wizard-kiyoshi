@@ -223,7 +223,7 @@ actions.drink.accept_dobj = function(subject, item) {
     return (item.drinkable === true);
 };
 actions.drink.execute = function(subject, item) {
-    subject.tell("You drink " + item.the(subject) + ".");
+    subject.tell("You drink " + item.the(subject) + ".", "drink");
     if (item.effect) {
         var discovery = item.effect.execute(subject);
         if (discovery && !subject.knowledge[item.class_id]) {
