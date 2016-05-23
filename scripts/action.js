@@ -345,7 +345,7 @@ actions.read.accept_dobj = function(subject, dobj) {
 actions.read.execute = function(subject, item) {
     top.thing = item;
     var lines = item.text.split("\n");
-    subject.tell("You begin reading " + item.the() + ".");
+    subject.tell("You begin reading " + item.the() + ".", "turn-page");
     for (var i = 0; i < lines.length; i++) {
         subject.tell("\xA0" + lines[i]);
     }
