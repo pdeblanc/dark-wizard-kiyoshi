@@ -213,7 +213,6 @@ Square.prototype.flash = function() {
     var counter, cell;
     function step() {
         counter += 1;
-        console.log(counter);
         if (counter < 10) {
             shadow_string = "0px 0px " + counter + "px rgba(255, 255, 255, " + ((10 - counter) / 10)  + ")";
             cell.style.textShadow = shadow_string + "," + shadow_string + "," + shadow_string + "," + shadow_string;
