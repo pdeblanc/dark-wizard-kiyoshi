@@ -355,3 +355,16 @@ actions.read.execute = function(subject, item) {
     subject.tell("You have finished reading " + item.the() + ".");
     return true;
 };
+
+actions.teleport = new Action({name: 'teleport', dobj: Square});
+actions.teleport.execute = function(subject, square) {
+    if (square.permit_entry(subject)) {
+        subject.tell("You teleport to " + square.the() + ".");
+        subject.moveto(square);
+        return true;
+    }
+    else {
+        subject.tell("You cannot teleport there.");
+        return false;
+    }
+};
