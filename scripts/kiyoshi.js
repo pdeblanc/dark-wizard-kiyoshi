@@ -11,7 +11,7 @@ Attack
     .kingdom({name: 'hit', damage_type: 'hit'})
     .kingdom({name: 'buffet', damage_type: 'buffet'})
     .kingdom({name: 'bokutō_hit', damage_type: 'hit', damage_base: 0.2})
-    .kingdom({name: 'punch', damage_type: 'punch'})
+    .kingdom({name: 'punch', damage_type: 'punch', sound: 'punch'})
     .kingdom({name: 'kick', damage_type: 'kick'})
     .kingdom({name: 'cut', damage_type: 'cut', sharpness_dependence: 1, sound: 'cut'})
     .kingdom({name: 'claw', damage_type: 'claw'})
