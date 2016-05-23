@@ -1,5 +1,6 @@
 Square = WorldObject.variant({}, function(attributes) {
     WorldObject.apply(this, arguments);
+    this.cell = undefined;
     this.square = this;
     this.background = document.createElement('div');
     this.background.className = 'square-background ' + this.className;
@@ -169,6 +170,13 @@ Square.prototype.reveal = function(being, visibility) {
 };
 // render this within cell as it would appear to being 
 Square.prototype.blit = function(being, cell) {
+    // associate cell and square
+    if (cell[0].square && cell[0].square != this) {
+        cell[0].square.cell = undefined;
+    }
+    cell[0].square = this;
+    this.cell = cell[0];
+    // render stuff
     var shader = $('<div />').addClass('square-shading').css('opacity', 1 - being.visibility(this));
     var highlight = $('<div />').addClass('square-highlight');
     cell.removeClass('wielded');
@@ -183,7 +191,6 @@ Square.prototype.blit = function(being, cell) {
             cell.empty().append(this.background).append(item.foreground).append(shader).append(highlight);
     } else
         cell.empty().append(this.background).append(this.foreground).append(shader).append(highlight);
-    cell[0].square = this;
 };
 
 Square.prototype.neighbors = function() {
@@ -200,4 +207,25 @@ Square.prototype.state_changed = function() {
         return L.map(function(item) { return item.id; }).join(", ");
     }
     return (map_ids(this.items) != map_ids(this.starting_items) || map_ids(this.beings) != map_ids(this.starting_beings));
+};
+
+Square.prototype.flash = function() {
+    var counter, cell;
+    function step() {
+        counter += 1;
+        console.log(counter);
+        if (counter < 10) {
+            shadow_string = "0px 0px " + counter + "px rgba(255, 255, 255, " + ((10 - counter) / 10)  + ")";
+            cell.style.textShadow = shadow_string + "," + shadow_string + "," + shadow_string + "," + shadow_string;
+            setTimeout(step, 60);
+        }
+        else {
+            cell.style.textShadow = "";
+        }
+    }
+    if (this.cell) {
+        cell = this.cell;
+        counter = 0;
+        step();
+    }
 };

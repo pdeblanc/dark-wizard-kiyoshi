@@ -153,6 +153,7 @@ actions.take._execute = function(subject, square, verb) {
     var gotten_items, item, vacancy, stacks, to_get, i, result;
     gotten_items = [];
     stacks = [];
+    squares = [];
     to_get = square.items.slice(0);
     for (i = 0; i < to_get.length; i++) {
         result = subject.inventory.attempt_take(to_get[i]);
@@ -160,6 +161,12 @@ actions.take._execute = function(subject, square, verb) {
             gotten_items.push(to_get[i]);
             if (result != to_get[i] && !(stacks.includes(result))) {
                 stacks.push(result);
+                if (!(squares.includes(result.square)))
+                    squares.push(result.square);
+            }
+            else {
+                if (!(squares.includes(to_get[i].square)))
+                    squares.push(to_get[i].square);
             }
         }
     }
@@ -168,6 +175,9 @@ actions.take._execute = function(subject, square, verb) {
         subject.square.announce_all_but([subject], subject.The() + " " + verb + "s " + english.list(gotten_items) + ".");
         if (stacks.length) {
             subject.tell("You now have " + english.list(stacks, subject) + ".");
+        }
+        for (i = 0; i < squares.length; i++) {
+            squares[i].flash();
         }
         return true;
     }
