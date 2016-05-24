@@ -23,7 +23,7 @@ Attack
     .kingdom({name: 'peck', damage_type: 'peck'})
     .kingdom({name: 'trample', damage_type: 'trample'})
     .kingdom({name: 'ram', damage_type: 'ram'})
-    .kingdom({name: 'zap', damage_type: 'zap', damage_base: 4, power_dependence: 0});
+    .kingdom({name: 'zap', damage_type: 'zap', damage_base: 4, power_dependence: 0, sound: 'zap'});
 
 Item.prototype.attacks = [universe.attacks.hit];
 Item
