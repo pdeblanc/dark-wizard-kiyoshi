@@ -8,6 +8,6 @@ Sound.play = function(class_name, volume) {
         audio = audios[Math.floor(Math.random() * audios.length)];
         audio.currentTime = 0;
         audio.volume = volume;
-        audio.play();
+        audio.cloneNode().play();
     }
 };
