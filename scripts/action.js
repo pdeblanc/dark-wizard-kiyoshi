@@ -159,10 +159,12 @@ actions.take._execute = function(subject, square, verb) {
         result = subject.inventory.attempt_take(to_get[i]);
         if (result) {
             gotten_items.push(to_get[i]);
-            if (result != to_get[i] && !(stacks.includes(result))) {
-                stacks.push(result);
-                if (!(squares.includes(result.square)))
-                    squares.push(result.square);
+            if (result != to_get[i]) {
+                if (!(stacks.includes(result))) {
+                    stacks.push(result);
+                    if (!(squares.includes(result.square)))
+                        squares.push(result.square);
+                }
             }
             else {
                 if (!(squares.includes(to_get[i].square)))
