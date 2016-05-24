@@ -22,6 +22,7 @@ Item.prototype.stackable = false;
 Item.prototype.fat = 0;
 Item.prototype.drinkable = false;
 Item.prototype.weight = 1;
+Item.prototype.hands = 1; // how many hands needed to wield
 
 Item.prototype.can_stack_with = function(other_item) {
     return this.stackable && Object.getPrototypeOf(this) == Object.getPrototypeOf(other_item);
@@ -47,7 +48,7 @@ Item.prototype.moveto = function(square) {
 Item.prototype.destroy = function() {
     this.square.exit(this);
     if (this.wielded_by)
-        this.wielded_by.wielding = false;
+        this.wielded_by.wielding.splice(this.wielded_by.wielding.indexOf(this), 1);
 };
 
 Item.prototype.default_action = function() {

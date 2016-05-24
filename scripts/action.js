@@ -271,9 +271,10 @@ actions.attack.execute = function(subject, target_square) {
         for (var j = 0; j < subject.attacks.length; j++) {
             attacks.push(subject.attacks[j].create({attacker: subject, target: being, to_hit_bonus: to_hit_bonus, damage_bonus: damage_bonus}));
         }
-        if (subject.wielding) {
-            for (var k = 0; k < subject.wielding.attacks.length; k++) {
-                attacks.push(subject.wielding.attacks[k].create({attacker: subject, target: being, weapon: subject.wielding, to_hit_bonus: to_hit_bonus, damage_bonus: damage_bonus}));
+        for (var w = 0; w < subject.wielding.length; w++) {
+            var weapon = subject.wielding[w];
+            for (var k = 0; k < weapon.attacks.length; k++) {
+                attacks.push(weapon.attacks[k].create({attacker: subject, target: being, weapon: weapon, to_hit_bonus: to_hit_bonus, damage_bonus: damage_bonus}));
             }
         }
         var best_attack = false;
@@ -297,7 +298,7 @@ actions.attack.execute = function(subject, target_square) {
 
 actions.toggle_wield = new Action({name: 'toggle_wield', dobj: Item});
 actions.toggle_wield.execute = function(subject, item) {
-    if (subject.wielding == item)
+    if (subject.wielding.includes(item))
         return actions.unwield.execute(subject, item);
     else
         return actions.wield.execute(subject, item);
@@ -305,6 +306,10 @@ actions.toggle_wield.execute = function(subject, item) {
 
 actions.wield = new Action({name: 'wield', dobj: Item});
 actions.wield.execute = function(subject, item) {
+    if (subject.wielding.includes(item)) {
+        subject.tell("You are already wielding " + item.the() + ".");
+        return false;
+    }
     if (!subject.hands) {
         subject.tell("You cannot wield anything because you do not have hands.");
         return false;
@@ -316,20 +321,21 @@ actions.wield.execute = function(subject, item) {
             return false;
         }
     }
-    if (subject.wielding)
-        subject.wielding.wielded_by = false;
-    subject.wielding = item;
+    if (!subject.can_wield(item)) {
+        subject.tell("You do not have enough hands free.");
+        return false;
+    }
+    subject.wielding.push(item);
     item.wielded_by = subject;
-    subject.tell('You wield ' + item.the(subject) + '.', item.wield_sound);
-    subject.square.announce_all_but([subject], subject.The() + ' wields ' + item.the() + '.');
+    subject.tell("You wield " + item.the(subject) + ".", item.wield_sound);
+    subject.square.announce_all_but([subject], subject.The() + " wields " + item.the() + ".");
     return true;
 };
 
 actions.unwield = new Action({name: 'unwield', dobj: Item});
 actions.unwield.execute = function(subject, item) {
-    if (subject.wielding)
-        subject.wielding.wielded_by = false;
-    subject.wielding = false;
+    subject.wielding.splice(subject.wielding.indexOf(item), 1);
+    item.wielded_by = undefined;
     subject.tell('No longer wielding ' + item.the(subject) + '.');
     return true;
 };

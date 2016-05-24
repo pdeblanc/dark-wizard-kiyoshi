@@ -32,7 +32,7 @@ Being = WorldObject.variant({}, function(attributes) {
     this.health = this.health || 1;
     this.energy = 1;
     this.body_fat = this.lean_weight * 0.3;
-    this.wielding = false;
+    this.wielding = [];
     this.hibernating = false;
     this.level = Math.ceil(this.level);
     this.experience = this.experience_for_level(this.level);
@@ -127,10 +127,8 @@ Being.prototype.act = function(callback, retry) {
           this.thoughts.direction = [0, 0];
         }
         // wield weapons
-        if (this.hands) {
+        if (this.hands && this.wielding.length === 0) {
             var quality = this.weapon_quality(this);
-            if (this.wielding)
-                quality = this.wielding.weapon_quality(this);
             var possible_weapons = this.reachable_items();
             for (i = 0; i < possible_weapons.length; i++) {
                 if (possible_weapons[i].weapon_quality(this) > quality) {
@@ -418,8 +416,9 @@ Being.prototype.check_conditions = function() {
 };
 
 Being.prototype.serialize = function() {
+    var i;
     var output = WorldObject.prototype.serialize.apply(this, arguments);
-    for (var i = 0; i < this.scalar_attributes.length; i++) {
+    for (i = 0; i < this.scalar_attributes.length; i++) {
         var attribute = this.scalar_attributes[i];
         if (this[attribute].base != Object.getPrototypeOf(this)[attribute])
             output[attribute] = this[attribute].base;
@@ -431,8 +430,11 @@ Being.prototype.serialize = function() {
     if (this.energy != 1)
         output.energy = this.energy;
     output.body_fat = this.body_fat;
-    if (this.wielding)
-        output.wielding = this.wielding.id;
+    if (this.wielding.length > 0)
+        output.wielding = [];
+        for (i = 0; i < this.wielding.length; i++) {
+            output.wielding.push(this.wielding[i].id);
+        }
     if (this.knowledge.length > 0)
         output.knowledge = this.knowledge;
     if (this.conditions.length > 0) {
@@ -447,4 +449,13 @@ Being.prototype.serialize = function() {
     if (!this.hibernating && this.next_action_time)
         output.next_action_time = this.next_action_time;
     return output;
+};
+
+Being.prototype.can_wield = function(weapon) {
+    var hands_free = this.hands;
+    for (var i = 0; i < this.wielding.length; i++) {
+        hands_free -= this.wielding[i].hands;
+    }
+    hands_free -= weapon.hands;
+    return hands_free >= 0;
 };
