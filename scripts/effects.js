@@ -20,7 +20,7 @@ effects.healing.execute = function(being) {
     return true;
 };
 
-effects.poison = new Effect({name: 'poison'});
+effects.poison = new Effect({name: 'poison', level: 1});
 effects.poison.execute = function(being) {
     being.receive_damage(2);
     being.tell("You don't feel so good.");

@@ -71,7 +71,8 @@ Item.variant = function(attributes, f) {
     var F = WorldObject.variant.apply(this, arguments);
     var proto = F.prototype;
     if (proto.random_effects && proto.random_effects.length && !proto.generic) {
-        proto.effect = Probability.sample(proto.random_effects.map(function(effect) { return [effect, 1]; }), universe.seed + this.prototype.name);
+        var i = Math.floor(Probability.srandom(universe.seed + this.prototype.name) * proto.random_effects.length);
+        proto.effect = proto.random_effects[i];
         proto.level += proto.effect.level;
         proto.random_effects.splice(i, 1);
     }
