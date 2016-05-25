@@ -314,6 +314,10 @@ actions.wield.execute = function(subject, item) {
         subject.tell("You cannot wield anything because you do not have hands.");
         return false;
     }
+    if (!subject.could_wield(item)) {
+        subject.tell("You cannot wield " + item.the() + " because you do not have enough hands.");
+        return false;
+    }
     if (!subject.is_holding(item)) {
         var vacancy = subject.inventory.vacancy(item);
         if (!(vacancy && item.moveto(vacancy))) {
@@ -321,9 +325,8 @@ actions.wield.execute = function(subject, item) {
             return false;
         }
     }
-    if (!subject.can_wield(item)) {
-        subject.tell("You do not have enough hands free.");
-        return false;
+    while (!subject.can_wield(item)) {
+        actions.unwield.execute(subject, subject.wielding[0]);
     }
     subject.wielding.push(item);
     item.wielded_by = subject;

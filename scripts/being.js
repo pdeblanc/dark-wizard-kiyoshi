@@ -451,6 +451,7 @@ Being.prototype.serialize = function() {
     return output;
 };
 
+// can currently wield
 Being.prototype.can_wield = function(weapon) {
     var hands_free = this.hands;
     for (var i = 0; i < this.wielding.length; i++) {
@@ -459,3 +460,8 @@ Being.prototype.can_wield = function(weapon) {
     hands_free -= weapon.hands;
     return hands_free >= 0;
 };
+
+// could wield if hands were free
+Being.prototype.could_wield = function(weapon) {
+    return this.hands >= weapon.hands;
+}
