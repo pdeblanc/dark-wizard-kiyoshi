@@ -88,7 +88,7 @@ Square.prototype.sample_contents = function(index) {
             probability_array.push([object_class, p]);
         }
     }
-    var thingClass = Probability.sample(probability_array, this.coordinate.seed() + 'square_contents' + this.plane.seed);
+    var thingClass = Probability.sample(probability_array, this.coordinate.seed() + 'square_contents' + this.plane.seed + '_' + universe.seed);
     if (thingClass)
         return [thingClass.create({square: this, id: this.id + '_' + thingClass.prototype.name})];
     return [];

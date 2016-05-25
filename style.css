@@ -35,7 +35,7 @@ div#help b {
     text-align: center;
 }
 
-input#character-name {
+input#character-name, input#world-name {
     color: silver;
     background-color: #202020;
     outline: 0;

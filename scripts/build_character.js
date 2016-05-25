@@ -11,22 +11,29 @@ function BuildCharacter(container, callback) {
     }
 
     function getName(next) {
-        var name_input;
+        var name_input, world_name_input;
+        function advance() {
+            attributes.name = name_input.val();
+            if (attributes.name == '茅場晶彦')
+                attributes.cheater = true;
+            universe.seed = world_name_input.val();
+            next();
+        }
         container
             .append($('<h1 />').text('Enter your name'))
             .append(name_input = $('<input />').attr('id', 'character-name').keydown(function(event) {
                 if (event.keyCode == 13) { // return key
-                    attributes.name = name_input.val();
-                    if (attributes.name == '茅場晶彦')
-                        attributes.cheater = true;
-                    next();
+                    advance();
+                }
+            }))
+            .append($('<h2 />').text('World name (random seed)'))
+            .append(world_name_input = $('<input />').attr('id', 'world-name').val("chikyū-" + Math.floor(Math.random() * 1000)).keydown(function(event) {
+                if (event.keyCode == 13) { // return key
+                    advance();
                 }
             }))
             .append($('<button />').addClass('continue').text('continue').click(function(event) {
-                attributes.name = name_input.val();
-                if (attributes.name == '茅場晶彦')
-                    attributes.cheater = true;
-                next();
+                advance();
             }));
         name_input.focus();
     }
