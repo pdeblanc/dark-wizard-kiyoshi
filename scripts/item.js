@@ -1,6 +1,8 @@
 Item = WorldObject.variant({}, function(attributes) {
     WorldObject.apply(this, arguments);
     this.foreground = document.createElement('span');
+    if (this.stackable)
+        this.count = this.random_count();
     if (this.square)
         this.square.enter(this);
     this.foreground.className = this.className;
@@ -80,3 +82,12 @@ Item.variant = function(attributes, f) {
     return F;
 };
 
+Item.prototype.seed = function() {
+    return Math.random();
+};
+
+Item.prototype.random_count = function() {
+    var normal = Probability.gauss(this.seed());
+    normal *= this.count_oom_variance * Math.log(10);
+    return Math.ceil(Math.exp(normal) * this.count_mean);
+};

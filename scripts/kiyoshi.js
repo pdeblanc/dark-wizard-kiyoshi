@@ -32,7 +32,7 @@ Item
     .kingdom({name: 'sword', symbol: '剣', action: actions.toggle_wield, attacks: [universe.attacks.cut, universe.attacks.stab], sharpness: 5, generic: true, level: 3})
         .phylum({name: 'longsword', symbol: '剣', hands: 2})
         .phylum({name: 'rapier', symbol: '剣'})
-    .kingdom({name: 'meat', symbol: '肉', stackable: true, fat: 1, action: actions.eat, attacks: [universe.attacks.slap]})
+    .kingdom({name: 'meat', symbol: '肉', stackable: true, count_mean: 3, count_oom_variance: 0.2, fat: 1, action: actions.eat, attacks: [universe.attacks.slap]})
     .kingdom({name: 'ash', symbol: '灰', bias: -10})
     .kingdom({name: 'iron', symbol: '鉄', bias: -10})
     .kingdom({name: 'tea', symbol: '茶', action: actions.drink, drinkable: true, generic: true, random_effects: [effects.healing, effects.empowerment, effects.poison, effects.acceleration, effects.invigoration, effects.xray_vision]})
@@ -55,7 +55,7 @@ Item
     .kingdom({name: 'potato', symbol: '芋', action: actions.eat, fat: 1, generic: false})
     .kingdom({name: 'book', symbol: '本', action: actions.read, generic: true})
         .phylum({name: 'book of spells', text: "'Power': level 1 spell. Incantation: 'chikara'"})
-    .kingdom({name: 'yen', symbol: '円', bias: -3, stackable: true});
+    .kingdom({name: 'yen', symbol: '円', bias: -3, stackable: true, count_mean: 10, count_oom_variance: 0.5});
 
 Being
     .kingdom({name: 'animal', generic: true, bias: -5, corpse: universe.products.meat})
