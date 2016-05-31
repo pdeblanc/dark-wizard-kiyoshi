@@ -65,7 +65,7 @@ Square.prototype.light = function() {
     var coordinate = this.coordinate;
     var sources = this.plane.light_sources.search([coordinate.x - radius, coordinate.y - radius, coordinate.x + radius, coordinate.y + radius]);
     for (var i = 0; i < sources.length; i++) {
-        light += sources[i].brightness / Math.pow(sources[i].square.coordinate.euclidean_distance(this.coordinate, 0.5), 2);
+        light += sources[i].sums.luminosity / Math.pow(sources[i].coordinate.euclidean_distance(this.coordinate, 0.5), 2);
     }
     return Math.max(0, Math.min(1, light));
 };
@@ -116,8 +116,8 @@ Square.prototype.exit = function(departee) {
         array.splice(index, 1);
     if (departee instanceof Being)
         this.plane.tree.remove(departee);
-    if (departee.brightness)
-        this.plane.light_sources.remove(departee);
+    if (departee.sums.luminosity)
+        this.propagate_sum('luminosity');
 };
 Square.prototype.enter = function(newcomer) {
     var array = (newcomer instanceof Being) ? this.beings : this.items;
@@ -130,8 +130,8 @@ Square.prototype.enter = function(newcomer) {
             new this.attacks[i]({attacker: this, target: newcomer}).execute();
         }
     }
-    if (newcomer.brightness)
-        this.plane.light_sources.insert(newcomer);
+    if (newcomer.sums.luminosity)
+        this.propagate_sum('luminosity');
 };
 Square.prototype.permit_entry = function(hopeful) {
     if (hopeful instanceof Being && this.beings.length < this.max_beings)
@@ -207,6 +207,14 @@ Square.prototype.state_changed = function() {
         return L.map(function(item) { return item.id; }).join(", ");
     }
     return (map_ids(this.items) != map_ids(this.starting_items) || map_ids(this.beings) != map_ids(this.starting_beings));
+};
+
+Square.prototype.container = function() {
+    return this.plane.being;
+};
+
+Square.prototype.contents = function() {
+    return this.beings.concat(this.items);
 };
 
 Square.prototype.flash = function() {

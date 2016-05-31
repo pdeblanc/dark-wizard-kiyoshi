@@ -464,4 +464,19 @@ Being.prototype.can_wield = function(weapon) {
 // could wield if hands were free
 Being.prototype.could_wield = function(weapon) {
     return this.hands >= weapon.hands;
-}
+};
+
+Being.prototype.container = function() {
+    return this.square;
+};
+
+Being.prototype.contents = function() {
+    var coordinate = new Coordinate({x: 0, y: 0});
+    result = [];
+    for (coordinate.y = 0; coordinate.y < this.inventory.height; coordinate.y++) {
+        for (coordinate.x = 0; coordinate.x < this.inventory.width; coordinate.x++) {
+            result.push(this.inventory.square(coordinate));
+        }
+    }
+    return result;
+};

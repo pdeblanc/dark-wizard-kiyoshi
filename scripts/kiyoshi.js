@@ -55,7 +55,8 @@ Item
     .kingdom({name: 'potato', symbol: '芋', action: actions.eat, fat: 1, generic: false})
     .kingdom({name: 'book', symbol: '本', action: actions.read, generic: true})
         .phylum({name: 'book of spells', text: "'Power': level 1 spell. Incantation: 'chikara'"})
-    .kingdom({name: 'yen', symbol: '円', bias: -3, stackable: true, count_mean: 10, count_oom_variance: 0.5});
+    .kingdom({name: 'yen', symbol: '円', bias: -3, stackable: true, count_mean: 10, count_oom_variance: 0.5})
+    .kingdom({name: 'torch', symbol: '灯', level: 1, luminosity: 10, attacks: [universe.attacks.burn]});
 
 Being
     .kingdom({name: 'animal', generic: true, bias: -5, corpse: universe.products.meat})
@@ -84,7 +85,7 @@ Being
                 .order({name: 'great white shark', lean_weight: 6400, vigor: 80, power: 80, level: 32})
                 .order({name: 'megalodon', lean_weight: 90000, vigor: 300, power: 300, level: 450})
         .phylum({name: 'battleship', symbol: '艦', lean_weight: 20000000, vigor: 4472, power: 4472, attacks: [universe.attacks.burn], can_walk: false, can_swim: true, level: 67080, inventory: {width: 4, height: 9}, corpse: universe.products.iron})
-        .phylum({name: 'fire being', symbol: '火', brightness: 2, lean_weight: 100, speed: 15, attacks: [universe.attacks.burn], level: 2.25, corpse: universe.products.ash})
+        .phylum({name: 'fire being', symbol: '火', luminosity: 2, lean_weight: 100, speed: 15, attacks: [universe.attacks.burn], level: 2.25, corpse: universe.products.ash})
         .phylum({name: 'cloud being', symbol: '雲', lean_weight: 100, speed: 15, attacks: [universe.attacks.choke], level: 2.25, can_fly: true, corpse: universe.products.ash})
         .phylum({name: 'wind being', symbol: '風', lean_weight: 100, speed: 25, attacks: [universe.attacks.buffet], level: 2.25, can_fly: true, corpse: universe.products.ash})
         .phylum({name: 'elephant', symbol: '象', lean_weight: 10000, vigor: 100, power: 100, attacks: [universe.attacks.trample], level: 50})
@@ -137,7 +138,7 @@ universe.friends('woods', 'tree');
 universe.friends('forest', 'tree');
 universe.friends('town', 'town');
 
-universe.add_plane({tags: {woods: 1, town: -1}});
+universe.add_plane({light: 0.5, tags: {woods: 1, town: -1}});
 universe.add_plane({tags: {grass: 1, town: -1}});
 universe.add_plane({});
 universe.add_plane({tags: {water: 0.25}});

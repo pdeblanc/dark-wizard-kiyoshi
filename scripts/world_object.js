@@ -3,12 +3,15 @@ generate_id = function() {
 };
 
 function WorldObject(attributes) {
+    // this.sums[key] == sum(x.sums[key] for x in this.contents())
+    this.sums = {};
     this.id = generate_id();
     if (attributes)
         for (var key in attributes)
             this[key] = attributes[key];
     if (attributes)
         this.init_attributes = attributes;
+    this.sums.luminosity = this.luminosity || 0;
 }
 
 WorldObject.prototype.name = 'object';
@@ -75,6 +78,28 @@ WorldObject.prototype.serialize = function() {
 };
 
 WorldObject.prototype.tell = function(message) {
+};
+
+WorldObject.prototype.propagate_sum = function(key) {
+    var old_value = this.sums[key] || 0;
+    this.sums[key] = this[key] || 0;
+    var contents = this.contents();
+    for (var i = 0; i < contents.length; i++) {
+        this.sums[key] += (contents[i].sums[key] || 0);
+    }
+    var new_value = this.sums[key];
+    if (key == 'luminosity' && this instanceof Square) {
+        if (old_value && !new_value) {
+            this.plane.light_sources.remove(this);
+        }
+        if (new_value && !old_value) {
+            this.plane.light_sources.insert(this);
+        }
+    }
+    var container = this.container();
+    if (container && old_value != new_value) {
+        container.propagate_sum(key);
+    }
 };
 
 WorldObject.weird_heritable_stuff = ['weird_heritable_stuff', 'specificity', 'set_name', 'variant', 'create', 'variant_of_given_specificity', 'kingdom', 'phylum', 'clazz', 'order', 'family', 'genus', 'species'];
@@ -152,4 +177,3 @@ WorldObject.species = function(attributes, f) {
 WorldObject.create = function(attributes) {
     return new this(attributes);
 };
-

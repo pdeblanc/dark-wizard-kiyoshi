@@ -91,3 +91,11 @@ Item.prototype.random_count = function() {
     normal *= this.count_oom_variance * Math.log(10);
     return Math.ceil(Math.exp(normal) * this.count_mean);
 };
+
+Item.prototype.container = function() {
+    return this.square;
+};
+
+Item.prototype.contents = function() {
+    return [];
+};
