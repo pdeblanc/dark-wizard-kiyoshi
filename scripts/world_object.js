@@ -39,7 +39,7 @@ WorldObject.prototype.toString = WorldObject.prototype.a = function(observer) {
     }
     if (this.count > 1)
         return this.count + " " + name;
-    if (this.continuous || name != Object.getPrototypeOf(this).name)
+    if (this.continuous || this.name != Object.getPrototypeOf(this).name)
         return name;
     if ("aeiouAEIOU".indexOf(name.charAt(0)) > -1)
         return "an " + name + this.suffix(observer);
