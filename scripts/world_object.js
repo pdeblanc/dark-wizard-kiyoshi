@@ -33,19 +33,27 @@ WorldObject.prototype.The = function(observer) {
 };
 
 WorldObject.prototype.toString = WorldObject.prototype.a = function(observer) {
+    var name = this.name;
+    if (Setting.look.show_symbols) {
+        name = name + " (" + this.symbol + ")";
+    }
     if (this.count > 1)
-        return this.count + " " + this.name;
-    if (this.continuous || this.name != Object.getPrototypeOf(this).name)
-        return this.name;
-    if ("aeiouAEIOU".indexOf(this.name.charAt(0)) > -1)
-        return "an " + this.name + this.suffix(observer);
-    return "a " + this.name + this.suffix(observer);
+        return this.count + " " + name;
+    if (this.continuous || name != Object.getPrototypeOf(this).name)
+        return name;
+    if ("aeiouAEIOU".indexOf(name.charAt(0)) > -1)
+        return "an " + name + this.suffix(observer);
+    return "a " + name + this.suffix(observer);
 };
 
 WorldObject.prototype.the = function(observer) {
+    var name = this.name;
+    if (Setting.look.show_symbols) {
+        name = name + " (" + this.symbol + ")";
+    }
     if (this.name != Object.getPrototypeOf(this).name)
-        return this.name;
-    return "the " + this.name + this.suffix(observer);
+        return name;
+    return "the " + name + this.suffix(observer);
 };
 
 WorldObject.prototype.suffix = function(observer) {

@@ -5,4 +5,3 @@ Condition = WorldObject.variant({}, function(attributes) {
 });
 
 Condition.set_name = 'conditions';
-
