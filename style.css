@@ -12,6 +12,14 @@ h1 {
     font-family: monospace;
 }
 
+a {
+    color: skyblue;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
 div#help {
     background-color: #202020;
     width: 80%;
